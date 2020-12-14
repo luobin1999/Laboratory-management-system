@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -33,24 +34,24 @@
         </div>
         <h3>欢迎使用 单片机实验管理系统</h3>
 
-        <form class="m-t" role="form" action="/user/do_login">
+        <form class="m-t" role="form" name="loginForm" id="loginForm" method="post">
             <div class="form-group">
-                <input type="text" name="number" class="form-control" placeholder="账号" required="">
+                <input type="text" name="number" id="number" class="form-control" placeholder="账号" required="">
             </div>
             <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="密码" required="">
+                <input type="password" name="password" id="password" class="form-control" placeholder="密码" required="">
             </div>
             <div class="form-group">
-                <select name="power" class="form-control">
+                <select name="power" id="power" class="form-control">
                     <option value="1" selected class="form-control">学生</option>
                     <option value="2" class="form-control">老师</option>
                     <option value="3" class="form-control">管理员</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+            <button type="button" onclick="doLogin()" class="btn btn-primary block full-width m-b">登 录</button>
 
 
-            <a href="/user/register">注册一个新账号</a>
+            <a href="/register">注册一个新账号</a>
             </p>
 
         </form>
@@ -61,9 +62,54 @@
 <script src="/js/jquery.min.js?v=2.1.4"></script>
 <script src="/js/bootstrap.min.js?v=3.3.6"></script>
 
-
-
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- md5.js -->
+<script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<!-- layer
+<script type="text/javascript" src="/layer/layer.js"></script>
+&lt;!&ndash; md5.js &ndash;&gt;
+<script type="text/javascript" src="/js/md5.min.js"></script>
+&lt;!&ndash; common.js &ndash;&gt;
+<script type="text/javascript" src="/js/common.js"></script>-->
 
 </body>
+
+<script>
+    function doLogin(){
+        g_showLoading();
+
+        var inputPass = $("#password").val();
+        var salt = g_passsword_salt;
+        var str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(4) + salt.charAt(6);
+        var password = md5(str);
+
+        $.ajax({
+            url: "/do_login",
+            type: "post",
+            async: false,
+            data:{
+                number:$("#number").val(),
+                password: password,
+                power:$("#power").val()
+            },
+            dataType:"json",
+            success:function(data){
+                layer.closeAll();
+                if(data.code == 0){
+                    layer.msg("登录成功！");
+                    window.location.href="/index";
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(){
+                layer.closeAll();
+            }
+        });
+    }
+</script>
 
 </html>

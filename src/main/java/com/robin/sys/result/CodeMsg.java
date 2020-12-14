@@ -13,7 +13,13 @@ public class CodeMsg {
     //登录注册
     public static CodeMsg PASSWORD_DEFFER = new CodeMsg(500201, "两次密码不一致");
     public static CodeMsg REGISTER_ERROR = new CodeMsg(500202, "注册失败");
-    public static CodeMsg USER_NOT_FOUND = new CodeMsg(500202, "用户不存在");
+    public static CodeMsg USER_NOT_FOUND = new CodeMsg(500203, "用户不存在");
+    public static CodeMsg NAME_EMPTY = new CodeMsg(500204, "姓名不能为空");
+    public static CodeMsg CLAZZ_EMPTY = new CodeMsg(500205, "班级不能为空");
+    public static CodeMsg EMAIL_EMPTY = new CodeMsg(500206, "EMAIL不能为空");
+    public static CodeMsg NUMBER_EMPTY = new CodeMsg(500207, "账号不能为空");
+    public static CodeMsg SEX_EMPTY = new CodeMsg(500208, "性别不能为空");
+    public static CodeMsg POWER_EMPTY = new CodeMsg(500209, "权限不能为空");
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "登录密码不能为空");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
 

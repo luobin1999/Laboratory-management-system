@@ -25,4 +25,10 @@ public class MD5Util {
         String dbPass = formPassToDBPass(formPass);
         return dbPass;
     }
+
+    public static void main(String[] args) {
+        String str = "123456";
+        String password = inputPassToDBPass(str);
+        System.out.println(password);
+    }
 }
