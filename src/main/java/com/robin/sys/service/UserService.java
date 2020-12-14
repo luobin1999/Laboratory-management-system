@@ -38,7 +38,7 @@ public class UserService {
         if (number == null || number == "" || password == null || password == "" || power == 0){
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
         }
-        User user = userDao.getByNumber(number);
+        User user = userDao.getByNumber(number, power);
         if(user == null){
             throw new GlobalException(CodeMsg.USER_NOT_FOUND);
         }
