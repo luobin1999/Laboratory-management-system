@@ -15,4 +15,8 @@ public interface UserDao {
     void updatePwdById(User user);
     @Update("update user set password = #{password} where number = #{number}")
     void updatePwdByNumber(User user);
+    @Update("update user set last_login_date = #{lastLoginDate} where id = #{id}")
+    void updateLastLoginDateById(User user);
+    @Update("update user set last_login_date = #{lastLoginDate} where number = #{number}")
+    void updateLastLoginDateByNumber(User user);
 }

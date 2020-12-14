@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
-@RequestMapping("/user")
 @Controller
 public class UserController {
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -32,10 +32,11 @@ public class UserController {
 
     @RequestMapping("/do_login")
     @ResponseBody
-    public Result doLogin(HttpServletResponse response, LoginVO loginVO){
+    public Result doLogin(HttpServletResponse response, @Valid LoginVO loginVO){
         logger.info(loginVO.toString());
         userService.login(response, loginVO);
-        return Result.success("success");
+        logger.info("登录成功");
+        return Result.success(true);
     }
 
     @RequestMapping("/do_register")
@@ -43,7 +44,7 @@ public class UserController {
     public Result doRegister(RegisterVO registerVO){
         logger.info(registerVO.toString());
         userService.register(registerVO);
-        return Result.success("success");
+        return Result.success(true);
     }
     /*@RequestMapping("/addTest")
     @ResponseBody

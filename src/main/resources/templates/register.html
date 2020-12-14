@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -26,43 +26,43 @@
     <div>
         <h3>欢迎注册</h3>
         <p>创建一个新账户</p>
-        <form class="m-t" role="form" action="/user/do_register">
+        <form class="m-t" role="form" name="registerForm" id="registerForm">
             <div class="form-group">
                 <select class="form-control selected" name="power" id="power">
-                    <option selected value="1">学生</option>
-                    <option value="2">老师</option>
-                    <option value="3">管理员</option>
+                    <option selected value="1" id="student">学生</option>
+                    <option value="2" id="teacher">老师</option>
+                    <option value="3" id="admin">管理员</option>
                 </select>
             </div>
             <div class="form-group">
-                <input id="student" type="text" name="number" class="form-control" placeholder="请输入账号" required="">
+                <input type="text" name="number" id="number" class="form-control" placeholder="请输入账号" required="">
             </div>
             <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="请输入密码" required="">
+                <input type="password" name="password" id="password" class="form-control" placeholder="请输入密码" required="">
             </div>
             <div class="form-group">
-                <input type="password" name="password1" class="form-control" placeholder="请再次输入密码" required="">
+                <input type="password" name="password1" id="password1" class="form-control" placeholder="请再次输入密码" required="">
             </div>
             <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="请输入姓名" required="">
+                <input type="text" name="name" id="name" class="form-control" placeholder="请输入姓名" required="">
             </div>
 
             <div class="form-group">
-                <select name="sex" class="form-control selected">
+                <select name="sex" id="sex" class="form-control selected">
                     <option selected value="男">男</option>
                     <option value="女">女</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <input type="email" name="email" class="form-control" placeholder="请输入电子邮件" required="">
+                <input type="email" name="email" id="email" class="form-control" placeholder="请输入电子邮件" required="">
             </div>
-            <div class="form-group">
-                <input type="text" name="clazz" class="form-control" placeholder="请输入班级" required="">
+            <div class="form-group" id="div_clazz">
+                <input type="text" name="clazz" id="clazz" class="form-control" placeholder="请输入班级(非学生用户不用填写)" required="">
             </div>
-            <button type="submit" class="btn btn-primary block full-width m-b">注 册</button>
+            <button type="button" onclick="doRegister()" class="btn btn-primary block full-width m-b">注 册</button>
 
-            <p class="text-muted text-center"><small>已经有账户了？</small><a href="/user/login">点此登录</a>
+            <p class="text-muted text-center"><small>已经有账户了？</small><a href="/login">点此登录</a>
             </p>
 
         </form>
@@ -74,6 +74,12 @@
 <script src="/js/bootstrap.min.js?v=3.3.6"></script>
 <!-- iCheck -->
 <script src="/js/plugins/iCheck/icheck.min.js"></script>
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- md5.js -->
+<script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script>
     $(document).ready(function () {
         $('.i-checks').iCheck({
@@ -81,10 +87,55 @@
             radioClass: 'iradio_square-green',
         });
     });
+    function doRegister(){
+        g_showLoading();
+
+        var inputPass = $("#password").val();
+        var salt = g_passsword_salt;
+        var str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(4) + salt.charAt(6);
+        var password = md5(str);
+        var inputPass1 = $("#password1").val();
+        var str1 = "" + salt.charAt(0) + salt.charAt(2) + inputPass1 + salt.charAt(4) + salt.charAt(6);
+        var password1 = md5(str1);
+        var sex = $("#sex").val();
+        var email = $("#email").val();
+        var clazz = $("#clazz").val();
+        var name = $("#name").val();
+        var power = $("#power").val();
+        var number = $("#number").val();
+        if (power == "2" || power == "3"){
+            clazz = null
+        }
+
+        $.ajax({
+            url: "/do_register",
+            type: "post",
+            async: false,
+            data:{
+                number:number,
+                password: password,
+                password1:password1,
+                power:power,
+                name:name,
+                email:email,
+                clazz:clazz,
+                sex:sex
+            },
+            dataType:"json",
+            success:function(data){
+                layer.closeAll();
+                if(data.code == 0){
+                    layer.msg("注册成功！");
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(){
+                layer.closeAll();
+            }
+        });
+    }
 </script>
-
-
-
 
 </body>
 

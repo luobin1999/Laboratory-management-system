@@ -46,6 +46,8 @@ public class UserService {
         if(!pwd.equals(user.getPassword())){
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
+        user.setLastLoginDate(new Date());
+        userDao.updateLastLoginDateById(user);
         //生成cookie
         String token = UUIDUtil.uuid();
         addCookie(response, token, user);
@@ -69,23 +71,40 @@ public class UserService {
         if (!pwd1.equals(pwd2)){
             throw new GlobalException(CodeMsg.PASSWORD_DEFFER);
         }
-        try {
-            User user = new User();
-            user.setNumber(registerVO.getNumber());
-            user.setSalt(Constant.SALT);
-            user.setSex(registerVO.getSex());
-            user.setRegisterDate(new Date());
-            user.setEmail(registerVO.getEmail());
-            user.setClazz(registerVO.getClazz());
-            user.setPower(registerVO.getPower());
-            user.setName(registerVO.getName());
-            String password = MD5Util.formPassToDBPass(registerVO.getPassword());
-            user.setPassword(password);
-            userDao.insertUser(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new GlobalException(CodeMsg.REGISTER_ERROR);
+        User user = new User();
+        user.setNumber(registerVO.getNumber());
+        user.setSalt(Constant.SALT);
+        user.setSex(registerVO.getSex());
+        user.setRegisterDate(new Date());
+        user.setEmail(registerVO.getEmail());
+        user.setClazz(registerVO.getClazz());
+        user.setPower(registerVO.getPower());
+        user.setName(registerVO.getName());
+        String password = MD5Util.formPassToDBPass(registerVO.getPassword());
+        user.setPassword(password);
+        if (user.getNumber() == null || user.getNumber().length() < 1){
+            throw new GlobalException(CodeMsg.NUMBER_EMPTY);
         }
+        if (user.getName() == null || user.getName().length() < 1){
+            throw new GlobalException(CodeMsg.NAME_EMPTY);
+        }
+        if (user.getPower() == null || user.getPower() == 0){
+            throw new GlobalException(CodeMsg.POWER_EMPTY);
+        }
+        if (user.getPower() == 1 && (user.getClazz() == null || user.getClazz().length() < 1)){
+            throw new GlobalException(CodeMsg.CLAZZ_EMPTY);
+        }
+        if (user.getSex() == null || user.getSex().length() < 1){
+            throw new GlobalException(CodeMsg.SEX_EMPTY);
+        }
+        if (user.getPassword() == null || user.getPassword().length() < 1){
+            throw new GlobalException(CodeMsg.PASSWORD_EMPTY);
+        }
+        if (user.getEmail() == null || user.getEmail().length() < 1){
+            throw new GlobalException(CodeMsg.EMAIL_EMPTY);
+        }
+        userDao.insertUser(user);
+
         logger.info(registerVO+"----注册成功！");
     }
 
