@@ -11,6 +11,7 @@ import com.robin.sys.redis.UserKey;
 import com.robin.sys.result.CodeMsg;
 import com.robin.sys.util.MD5Util;
 import com.robin.sys.util.UUIDUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,17 @@ public class UserService {
         userDao.insertUser(user);
 
         logger.info(registerVO+"----注册成功！");
+    }
+
+    public User getUserByToken(HttpServletResponse response, String token){
+        if (StringUtils.isEmpty(token)){
+            return null;
+        }
+        User user = redisService.get(UserKey.token, token, User.class);
+        if (user != null) {
+            addCookie(response, token, user);
+        }
+        return user;
     }
 
     /*public int addTest(){
