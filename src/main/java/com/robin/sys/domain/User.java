@@ -1,9 +1,5 @@
 package com.robin.sys.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.Date;
 
 public class User {

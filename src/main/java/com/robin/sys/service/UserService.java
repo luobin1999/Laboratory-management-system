@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
@@ -61,6 +62,20 @@ public class UserService {
         cookie.setMaxAge(UserKey.token.expireSeconds());
         cookie.setPath("/");
         response.addCookie(cookie);
+    }
+
+    public void logout(HttpServletRequest request){
+        String paramToken = request.getParameter(Constant.COOKIE_NAME_TOKEN);
+        String cookieToken = getCookieValue(request, Constant.COOKIE_NAME_TOKEN);
+        if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        String token=StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
+        boolean exist = redisService.exist(UserKey.token, token);
+        if (!exist) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        redisService.delete(UserKey.token, token);
     }
 
     public void register(RegisterVO registerVO){
@@ -118,6 +133,19 @@ public class UserService {
             addCookie(response, token, user);
         }
         return user;
+    }
+
+    private String getCookieValue(HttpServletRequest request,String cookiename){
+        Cookie[] cookies=request.getCookies();
+        if(cookies == null || cookies.length <= 0){
+            return null;
+        }
+        for (Cookie cookie:cookies){
+            if(cookie.getName().equals(cookiename)){
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 
     /*public int addTest(){

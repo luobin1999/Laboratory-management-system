@@ -3,6 +3,8 @@ package com.robin.sys.access;
 import com.alibaba.fastjson.JSON;
 import com.robin.sys.constant.Constant;
 import com.robin.sys.domain.User;
+import com.robin.sys.redis.LoginKey;
+import com.robin.sys.redis.RedisService;
 import com.robin.sys.result.CodeMsg;
 import com.robin.sys.result.Result;
 import com.robin.sys.service.UserService;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.spring4.context.SpringWebContext;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +24,7 @@ import java.io.OutputStream;
 @Service
 public class LoginInterceptor implements HandlerInterceptor {
     @Autowired
-    public UserService userService;
-
+    private UserService userService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod){

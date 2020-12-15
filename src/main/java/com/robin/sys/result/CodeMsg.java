@@ -20,7 +20,7 @@ public class CodeMsg {
     public static CodeMsg NUMBER_EMPTY = new CodeMsg(500207, "账号不能为空");
     public static CodeMsg SEX_EMPTY = new CodeMsg(500208, "性别不能为空");
     public static CodeMsg POWER_EMPTY = new CodeMsg(500209, "权限不能为空");
-    public static CodeMsg SESSION_ERROR = new CodeMsg(500210, "Session不存在或者已经失效");
+    public static CodeMsg SESSION_ERROR = new CodeMsg(500210, "身份验证已过期，请重新登录");
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "登录密码不能为空");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
 
