@@ -23,6 +23,10 @@ public class CodeMsg {
     public static CodeMsg SESSION_ERROR = new CodeMsg(500210, "身份验证已过期，请重新登录");
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "登录密码不能为空");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
+    //班级管理
+    public static CodeMsg GRADE_EMPTY = new CodeMsg(500301, "年级字段不能为空");
+    public static CodeMsg CLAZZ_CLAZZ_EMPTY = new CodeMsg(500302, "班级字段不能为空");
+    public static CodeMsg REPEAT_ADD = new CodeMsg(500303, "不能重复添加");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;
