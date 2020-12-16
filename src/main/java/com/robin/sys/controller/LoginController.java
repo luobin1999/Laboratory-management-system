@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
-public class UserController {
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+public class LoginController {
+    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private UserService userService;
 

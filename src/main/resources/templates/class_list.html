@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 数据表格</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>班级列表</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#">选项1</a>
+                            </li>
+                            <li><a href="#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered table-hover " id="editable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>年级</th>
+                            <th>班级</th>
+                            <th>人数</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th th:if="${user.power eq 2 || user.power eq 3}">管理</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="clazz : ${clazzes}" class="gradeA">
+                            <td th:text="${clazz.getId()}"></td>
+                            <td th:text="${clazz.getGrade()}"></td>
+                            <td th:text="${clazz.getClazz()}"></td>
+                            <td th:text="${clazz.getCount()}"></td>
+                            <td th:text="${clazz.getCreateDate()}"></td>
+                            <td th:text="${clazz.getUpdateDate()}"></td>
+                            <td th:if="${user.power eq 2 || user.power eq 3}">
+                                <form method="post" action="/update/clazz" style="display: inline-block">
+                                    <input type="hidden" name="id" th:value="${clazz.getId()}">
+                                    <button class="bg-info" type="submit">修改</button>
+                                </form>
+                                <button name="delete" id="delete" class="bg-danger" th:value="${clazz.getId()}" onclick="deleteClazz()">删除</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+<script src="/js/plugins/jeditable/jquery.jeditable.js"></script>
+
+<!-- Data Tables -->
+<script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+<!-- 自定义js -->
+<script src="/js/content.js?v=1.0.0"></script>
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+
+<!-- Page-Level Scripts -->
+<script>
+    function deleteClazz(){
+        g_showLoading();
+        var id = $("#delete").val();
+
+        layer.confirm("确定删除吗？", {btn:["确定","取消"]},
+            function(){
+                $.ajax({
+                    url: "/delete/clazz",
+                    type: "post",
+                    async: false,
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        layer.closeAll();
+                        if(data.code == 0){
+                            layer.msg("删除成功！");
+                            window.location.href="/list/clazz";
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(){
+                        layer.closeAll();
+                    }
+                });
+            },
+            function(){
+                layer.closeAll();
+            });
+    }
+</script>
+
+
+
+
+</body>
+
+</html>

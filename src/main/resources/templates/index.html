@@ -54,21 +54,7 @@
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="">实验列表</a>
                         </li>
-                        <li><a class="J_menuItem" href="">添加实验</a>
-                        </li>
-                        <li>
-                            <a href="#">文件上传 <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li><a class="J_menuItem" href="">百度WebUploader</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">编辑器 <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li><a class="J_menuItem" href="">富文本编辑器</a>
-                                </li>
-                            </ul>
+                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="">添加实验</a>
                         </li>
                     </ul>
                 </li>
@@ -77,7 +63,7 @@
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="">设备列表</a>
                         </li>
-                        <li><a class="J_menuItem" href="">添加设备</a>
+                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="">添加设备</a>
                         </li>
                         <li><a class="J_menuItem" href="">设备使用记录</a>
                         </li>
@@ -92,13 +78,13 @@
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="">实验室列表</a>
                         </li>
-                        <li><a class="J_menuItem" href="">添加实验室</a>
+                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="">添加实验室</a>
                         </li>
                         <li><a class="J_menuItem" href="">实验室使用记录</a>
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li th:if="${user.power eq 2 || user.power eq 3}">
                     <a href="#"><i class="fa fa-folder"></i> <span class="nav-label">文件管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="">文件列表</a>
@@ -108,9 +94,9 @@
                 <li>
                     <a href="#"><i class="fa fa-table"></i> <span class="nav-label">班级管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="">班级列表</a>
+                        <li><a class="J_menuItem" href="/list/clazz">班级列表</a>
                         </li>
-                        <li><a class="J_menuItem" href="">添加班级</a>
+                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="/add/clazz">添加班级</a>
                         </li>
                     </ul>
                 </li>
@@ -135,7 +121,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li th:if="${user.power eq 2 || user.power eq 3}">
                     <a href="#">
                         <i class="fa fa fa-bar-chart-o"></i>
                         <span class="nav-label">考勤管理</span>
@@ -147,7 +133,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li th:if="${user.power eq 2 || user.power eq 3}">
                     <a href="#"><i class="fa fa-behance"></i> <span class="nav-label">成绩管理 </span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="">xxx1701班</a>
@@ -162,7 +148,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li th:if="${user.power eq 3}">
                     <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">用户信息 </span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="">用户信息列表</a>
@@ -205,7 +191,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="m-t-xs">
+                            <li class="m-t-xs" th:if="${user.power eq 1}">
                                 <div class="dropdown-messages-box">
                                     <div class="media-body">
                                         <a href="" class="pull-left">个人实验信息</a>
@@ -239,9 +225,9 @@
                 </ul>
             </nav>
         </div>
-        <!--<div class="row J_mainContent" id="content-main">
-            <iframe id="J_iframe" width="100%" height="100%" src="index_v1.html?v=4.0" frameborder="0" data-id="index_v1.html" seamless></iframe>
-        </div>-->
+        <div class="row J_mainContent" id="content-main">
+            <iframe id="J_iframe" width="100%" height="100%" src="" frameborder="0" data-id="index_v1.html" seamless>欢迎登陆实验管理系统</iframe>
+        </div>
     </div>
     <!--右侧部分结束-->
 </div>
