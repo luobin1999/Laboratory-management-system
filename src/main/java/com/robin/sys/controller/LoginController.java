@@ -1,26 +1,32 @@
 package com.robin.sys.controller;
 
+import com.robin.sys.VO.ClazzVO;
 import com.robin.sys.VO.LoginVO;
 import com.robin.sys.VO.RegisterVO;
 import com.robin.sys.domain.User;
 import com.robin.sys.result.Result;
+import com.robin.sys.service.ClazzService;
 import com.robin.sys.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class LoginController {
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private UserService userService;
+    @Autowired
+    private ClazzService clazzService;
 
     @RequestMapping("/login")
     public String toLogin(){
@@ -28,7 +34,9 @@ public class LoginController {
     }
 
     @RequestMapping("/register")
-    public String toRegister(){
+    public String toRegister(Model model){
+        List<ClazzVO> classes = clazzService.listClazz();
+        model.addAttribute("classes", classes);
         return "register";
     }
 

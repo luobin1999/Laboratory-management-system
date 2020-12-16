@@ -58,7 +58,11 @@
                 <input type="email" name="email" id="email" class="form-control" placeholder="请输入电子邮件" required="">
             </div>
             <div class="form-group" id="div_clazz">
-                <input type="text" name="clazz" id="clazz" class="form-control" placeholder="请输入班级(非学生用户不用填写)" required="">
+                <select class="form-control" name="clazz" id="clazz">
+                    <option value="" selected> </option>
+                    <option th:each="class : ${classes}" th:value="${class.getClazz()}" th:text="${class.getClazz()}"></option>
+                </select>
+                <span class="help-block m-b-none">非学生用户不用填写</span>
             </div>
             <button type="button" onclick="doRegister()" class="btn btn-primary block full-width m-b">注 册</button>
 
