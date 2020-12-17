@@ -7,6 +7,7 @@ public class CodeMsg {
     //通用异常
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
+    public static CodeMsg CLIENT_ERROR = new CodeMsg(500101, "客户端异常");
     public static CodeMsg REQUEST_ILLEGAL = new CodeMsg(500102, "请求非法");
     public static CodeMsg ACCESS_LIMIT_REACHED = new CodeMsg(500103, "请求太频繁");
     public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
@@ -27,6 +28,8 @@ public class CodeMsg {
     public static CodeMsg GRADE_EMPTY = new CodeMsg(500301, "年级字段不能为空");
     public static CodeMsg CLAZZ_CLAZZ_EMPTY = new CodeMsg(500302, "班级字段不能为空");
     public static CodeMsg REPEAT_ADD = new CodeMsg(500303, "不能重复添加");
+    //更改密码
+    public static CodeMsg PASSWORD_DIFFER = new CodeMsg(500400, "两次密码不一致");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

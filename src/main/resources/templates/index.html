@@ -156,6 +156,15 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="#"><i class="fa fa-info-circle"></i> <span class="nav-label">个人信息</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="/user/info">个人信息</a>
+                        </li>
+                        <li><a class="J_menuItem" href="/user/pwd/change">更改密码</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href=""><i class="fa fa-envelope"></i> <span class="nav-label">信箱 </span><span class="label label-warning pull-right">16</span></a>
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="">收件箱</a>
@@ -187,39 +196,10 @@
                             <li class="m-t-xs">
                                 <div class="dropdown-messages-box">
                                     <div class="media-body">
-                                        <a href="" class="pull-left">个人信息</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="m-t-xs" th:if="${user.power eq 1}">
-                                <div class="dropdown-messages-box">
-                                    <div class="media-body">
-                                        <a href="" class="pull-left">个人实验信息</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="m-t-xs">
-                                <div class="dropdown-messages-box">
-                                    <div class="media-body">
-                                        <a href="" class="pull-left">更改密码</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="m-t-xs">
-                                <div class="dropdown-messages-box">
-                                    <div class="media-body">
                                         <a href="/logout" class="pull-left">退出登录</a>
                                     </div>
                                 </div>
                             </li>
-                           <!-- <li class="divider"></li>
-                            <li>
-                                <div class="text-center link-block">
-                                    <a class="J_menuItem" href="mailbox.html">
-                                        <i class="fa fa-envelope"></i> <strong> 查看所有消息</strong>
-                                    </a>
-                                </div>
-                            </li>-->
                         </ul>
                     </li>
                 </ul>

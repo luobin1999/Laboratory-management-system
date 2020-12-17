@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>个人信息</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>个人信息</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">选项1</a>
+                        </li>
+                        <li><a href="#">选项2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <form class="form-horizontal">
+                    <input type="hidden" id="id" th:value="${user.getId()}" name="id" >
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">账号：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="number" id="number" th:value="${user.getNumber()}" th:readonly="${user.getNumber()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">姓名：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="name" id="name" th:value="${user.getName()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">性别：</label>
+
+                        <div class="col-sm-8">
+                            <select th:field="${user.sex}" th:value="${user.sex}" name="sex" id="sex" class="form-control">
+                                <option th:selected="${user.sex == '男'}" value="男">男</option>
+                                <option th:selected="${user.sex == '女'}" value="女">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Email：</label>
+
+                        <div class="col-sm-8">
+                            <input type="email" name="email" id="email" th:value="${user.getEmail()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" th:if="${user.getPower() eq 1}">
+                        <label class="col-sm-3 control-label">班级：</label>
+
+                        <div class="col-sm-8">
+                            <select th:field="${user.clazz}" th:value="${user.clazz}" name="clazz" id="clazz" class="form-control">
+                                <option th:each="class:${classes}" th:selected="${user.clazz eq class.clazz}" th:value="${class.clazz}" th:text="${class.clazz}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-8">
+                            <button class="btn btn-sm btn-info" type="button" onclick="updateUserInfo()">确认修改</button>
+                            <span class="help-block m-b-none">修改完成，重新登录后生效</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<!-- 全局js -->
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+<!-- 自定义js -->
+<script src="/js/content.js?v=1.0.0"></script>
+
+<!-- iCheck -->
+<script src="/js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script>
+    function updateUserInfo(){
+        g_showLoading();
+
+        var id = $("#id").val();
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var sex = $("#sex").val();
+        var clazz = $("#clazz").val();
+
+        $.ajax({
+            url: "/user/info/update",
+            type: "post",
+            async: false,
+            data:{
+                id:id,
+                name:name,
+                email:email,
+                sex:sex,
+                clazz:clazz
+            },
+            dataType:"json",
+            success:function(data){
+                layer.closeAll();
+                if(data.code == 0){
+                    layer.msg("修改成功！");
+                    window.location.href="/user/info";
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(){
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+
+</body>
+
+</html>
