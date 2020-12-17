@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
     //主键ID
-    private Long id;
+    private int id;
     //姓名
     private String name;
     //性别
@@ -26,7 +26,7 @@ public class User {
     //权限，1学生，2老师，3管理员
     private Integer power;
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -70,7 +70,7 @@ public class User {
         this.power = power;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -112,5 +112,22 @@ public class User {
 
     public Integer getPower() {
         return power;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", email='" + email + '\'' +
+                ", clazz='" + clazz + '\'' +
+                ", number='" + number + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", registerDate=" + registerDate +
+                ", lastLoginDate=" + lastLoginDate +
+                ", power=" + power +
+                '}';
     }
 }

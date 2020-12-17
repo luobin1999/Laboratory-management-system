@@ -1,7 +1,10 @@
 package com.robin.sys.service;
 
 import com.robin.sys.VO.LoginVO;
+import com.robin.sys.VO.PasswordVO;
 import com.robin.sys.VO.RegisterVO;
+import com.robin.sys.VO.UserVO;
+import com.robin.sys.access.UserContext;
 import com.robin.sys.constant.Constant;
 import com.robin.sys.dao.UserDao;
 import com.robin.sys.domain.User;
@@ -146,6 +149,57 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    public void  updateUserInfo(UserVO userVO) {
+        int id = userVO.getId();
+        String name = userVO.getName();
+        String clazz = userVO.getClazz();
+        String email = userVO.getEmail();
+        String sex = userVO.getSex();
+        if (StringUtils.isEmpty(name)){
+            throw new GlobalException(CodeMsg.NAME_EMPTY);
+        }
+        if (StringUtils.isEmpty(email)) {
+            throw new GlobalException(CodeMsg.EMAIL_EMPTY);
+        }
+        if (StringUtils.isEmpty(sex)) {
+            throw new GlobalException(CodeMsg.SEX_EMPTY);
+        }
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setClazz(clazz);
+        user.setEmail(email);
+        user.setSex(sex);
+        userDao.updateUserInfoById(user);
+        user = userDao.getByIdWithOutPower(user.getId());
+        UserContext.setUser(user);
+    }
+
+    public void changePassword(PasswordVO passwordVO) {
+        if (passwordVO == null) {
+            throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
+        }
+        int id = passwordVO.getId();
+        String password1 = passwordVO.getPassword1();
+        String password2 = passwordVO.getPassword2();
+        if (id <= 0) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        if (password1 == null || password1.length() <1){
+            throw new GlobalException(CodeMsg.PASSWORD_EMPTY);
+        }
+        if (password2 == null || password2.length() <1){
+            throw new GlobalException(CodeMsg.PASSWORD_EMPTY);
+        }
+        if (!password1.equals(password2)) {
+            throw new GlobalException(CodeMsg.PASSWORD_DIFFER);
+        }
+        User user = new User();
+        user.setId(id);
+        user.setPassword(MD5Util.formPassToDBPass(password1));
+        userDao.changePasswordById(user);
     }
 
     /*public int addTest(){

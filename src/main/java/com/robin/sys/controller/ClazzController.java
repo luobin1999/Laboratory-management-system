@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 public class ClazzController {
-    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static Logger logger = LoggerFactory.getLogger(ClazzController.class);
     @Autowired
     private ClazzService clazzService;
 
