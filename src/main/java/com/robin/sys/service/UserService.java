@@ -24,6 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -200,6 +201,22 @@ public class UserService {
         user.setId(id);
         user.setPassword(MD5Util.formPassToDBPass(password1));
         userDao.changePasswordById(user);
+    }
+
+    public List<User> listAdmin(){
+        return userDao.listAdmin();
+    }
+
+    public List<User> listTeacher(){
+        return userDao.listTeacher();
+    }
+
+    public List<User> listStudent(){
+        return userDao.listStudent();
+    }
+
+    public int deleteUser(int id) {
+        return userDao.deleteUserById(id);
     }
 
     /*public int addTest(){

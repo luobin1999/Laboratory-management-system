@@ -30,6 +30,8 @@ public class CodeMsg {
     public static CodeMsg REPEAT_ADD = new CodeMsg(500303, "不能重复添加");
     //更改密码
     public static CodeMsg PASSWORD_DIFFER = new CodeMsg(500400, "两次密码不一致");
+    //权限管理
+    public static CodeMsg POWER_LOW = new CodeMsg(500500, "权限不足");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

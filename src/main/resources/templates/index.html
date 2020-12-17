@@ -151,7 +151,7 @@
                 <li th:if="${user.power eq 3}">
                     <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">用户信息 </span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="">用户信息列表</a>
+                        <li><a class="J_menuItem" href="/list/user">用户信息列表</a>
                         </li>
                     </ul>
                 </li>
@@ -188,19 +188,15 @@
                     </form>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <i class="fa fa-info-circle"></i> <span>欢迎回来，亲爱的 </span><span th:text="${user.name}" style="color: #0000cc"></span>
+                    <li>
+
+                        <strong><i class="fa fa-info-circle"></i><span>欢迎回来，亲爱的 </span><span th:text="${user.name}" style="color: #0000cc"></span></strong>
+
+                    </li>
+                    <li>
+                        <a  href="/logout">
+                            <i class="fa fa-sign-out"></i><small><span style="color: red">退出登录</span></small>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li class="m-t-xs">
-                                <div class="dropdown-messages-box">
-                                    <div class="media-body">
-                                        <a href="/logout" class="pull-left">退出登录</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </nav>

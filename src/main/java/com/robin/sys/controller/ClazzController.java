@@ -4,6 +4,7 @@ import com.robin.sys.VO.ClazzVO;
 import com.robin.sys.VO.PreClazzVO;
 import com.robin.sys.domain.Clazz;
 import com.robin.sys.domain.User;
+import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
 import com.robin.sys.result.Result;
 import com.robin.sys.service.ClazzService;
@@ -40,6 +41,9 @@ public class ClazzController {
         if (user == null) {
             return "login";
         }
+        if (user.getPower() != 3 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
+        }
         model.addAttribute("user", user);
         return "class_add";
     }
@@ -48,6 +52,9 @@ public class ClazzController {
     public String clazzUpdate(Model model, @Param("id") int id, User user) {
         if (user == null) {
             return "login";
+        }
+        if (user.getPower() != 3 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
         }
         model.addAttribute("user", user);
         if (id <= 0) {
@@ -65,6 +72,9 @@ public class ClazzController {
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }
+        if (user.getPower() != 3 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
+        }
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 修改班级ID为"+preClazzVO.getId()+"的班级信息为"+preClazzVO);
         clazzService.updateClazz(preClazzVO);
         return Result.success("修改成功！");
@@ -76,6 +86,9 @@ public class ClazzController {
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }
+        if (user.getPower() != 3 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
+        }
         clazzService.addClazz(preClazzVO);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 添加班级信息："+preClazzVO);
         return Result.success("添加成功！");
@@ -86,6 +99,9 @@ public class ClazzController {
     public Result deleteClazz(@Param("id") int id, User user) {
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 3 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
         }
         clazzService.deleteClazzById(id);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 成功删除班级信息"+id);
