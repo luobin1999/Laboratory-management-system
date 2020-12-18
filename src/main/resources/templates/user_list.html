@@ -60,14 +60,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="admin : ${admins}" class="gradeA">
+                        <tr th:each="admin,adminStat : ${admins}" class="gradeA">
                             <td th:text="${admin.getId()}"></td>
                             <td th:text="${admin.getNumber()}"></td>
                             <td th:text="${admin.getName()}"></td>
                             <td th:text="${admin.getSex()}"></td>
                             <td th:text="${admin.getEmail()}"></td>
                             <td th:if="${user.power eq 3}">
-                                <button name="delete" id="deleteAdmin" class="bg-danger" th:value="${admin.getId()}" onclick="deleteAdmin()">删除</button>
+                                <button name="delete" th:id="'deleteAdmin'+${adminStat.count}" class="bg-danger" th:onclick="|deleteAdmin(${adminStat.count})|" th:value="${admin.getId()}">删除</button>
                             </td>
                         </tr>
                         </tbody>
@@ -113,14 +113,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="teacher : ${teachers}" class="gradeA">
+                        <tr th:each="teacher,teacherStat : ${teachers}" class="gradeA">
                             <td th:text="${teacher.getId()}"></td>
                             <td th:text="${teacher.getNumber()}"></td>
                             <td th:text="${teacher.getName()}"></td>
                             <td th:text="${teacher.getSex()}"></td>
                             <td th:text="${teacher.getEmail()}"></td>
                             <td th:if="${user.power eq 3}">
-                                <button name="delete" id="deleteTeacher" class="bg-danger" th:value="${teacher.getId()}" onclick="deleteTeacher()">删除</button>
+                                <button name="delete" th:id="'deleteTeacher'+${teacherStat.count}" class="bg-danger" th:onclick="|deleteTeacher(${teacherStat.count})|" th:value="${teacher.getId()}">删除</button>
                             </td>
                         </tr>
                         </tbody>
@@ -167,7 +167,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="student : ${students}" class="gradeA">
+                        <tr th:each="student,studentStat : ${students}" class="gradeA">
                             <td th:text="${student.getId()}"></td>
                             <td th:text="${student.getNumber()}"></td>
                             <td th:text="${student.getName()}"></td>
@@ -175,7 +175,7 @@
                             <td th:text="${student.getEmail()}"></td>
                             <td th:text="${student.getClazz()}"></td>
                             <td th:if="${user.power eq 3}">
-                                <button name="delete" id="deleteStudent" class="bg-danger" th:value="${student.getId()}" onclick="deleteStudent()">删除</button>
+                                <button name="delete" th:id="'deleteStudent'+${studentStat.count}" class="bg-danger" th:onclick="|deleteStudent(${studentStat.count})|" th:value="${student.getId()}">删除</button>
                             </td>
                         </tr>
                         </tbody>
@@ -208,9 +208,11 @@
 
 <!-- Page-Level Scripts -->
 <script>
-    function deleteAdmin(){
+    function deleteAdmin(count){
         g_showLoading();
-        var id = $("#deleteAdmin").val();
+        var tmp = "deleteAdmin"+count;
+        var button = document.getElementById(tmp);
+        var id = $(button).val();
 
         layer.confirm("确定删除吗？", {btn:["确定","取消"]},
             function(){
@@ -240,9 +242,11 @@
                 layer.closeAll();
             });
     }
-    function deleteTeacher(){
+    function deleteTeacher(count){
         g_showLoading();
-        var id = $("#deleteTeacher").val();
+        var tmp = "deleteTeacher"+count;
+        var button = document.getElementById(tmp);
+        var id = $(button).val();
 
         layer.confirm("确定删除吗？", {btn:["确定","取消"]},
             function(){
@@ -272,9 +276,12 @@
                 layer.closeAll();
             });
     }
-    function deleteStudent(){
+    function deleteStudent(count){
         g_showLoading();
-        var id = $("#deleteStudent").val();
+
+        var tmp = "deleteStudent"+count;
+        var button = document.getElementById(tmp);
+        var id = $(button).val();
 
         layer.confirm("确定删除吗？", {btn:["确定","取消"]},
             function(){

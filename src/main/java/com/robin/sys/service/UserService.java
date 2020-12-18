@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ public class UserService {
     @Autowired
     private RedisService redisService;
 
+    @Transactional
     public boolean login(HttpServletResponse response, LoginVO loginVO){
         if (loginVO == null) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
@@ -152,6 +154,7 @@ public class UserService {
         return null;
     }
 
+    @Transactional
     public void  updateUserInfo(UserVO userVO) {
         int id = userVO.getId();
         String name = userVO.getName();
@@ -178,6 +181,7 @@ public class UserService {
         UserContext.setUser(user);
     }
 
+    @Transactional
     public void changePassword(PasswordVO passwordVO) {
         if (passwordVO == null) {
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
@@ -215,6 +219,7 @@ public class UserService {
         return userDao.listStudent();
     }
 
+    @Transactional
     public int deleteUser(int id) {
         return userDao.deleteUserById(id);
     }

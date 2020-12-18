@@ -9,6 +9,7 @@ import com.robin.sys.result.CodeMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class ClazzService {
     @Autowired
     private ClazzDao clazzDao;
 
+    @Transactional
     public List<ClazzVO> listClazz(){
         List<Clazz> list = clazzDao.listClazz();
         List<ClazzVO> clazzVoList = new ArrayList<>();
@@ -49,6 +51,7 @@ public class ClazzService {
         return clazzDao.getClassById(id);
     }
 
+    @Transactional
     public void addClazz(PreClazzVO preClazzVO) {
         if (preClazzVO == null) {
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
@@ -72,6 +75,7 @@ public class ClazzService {
         clazzDao.insertClass(clazz);
     }
 
+    @Transactional
     public void updateClazz(PreClazzVO preClazzVO) {
         if (preClazzVO == null) {
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
@@ -96,6 +100,7 @@ public class ClazzService {
         clazzDao.updateClassById(clazz);
     }
 
+    @Transactional
     public void deleteClazzById(int id) {
         if (id <= 0) {
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
