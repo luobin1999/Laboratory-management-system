@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>班级列表</title>
+    <title>实验室列表</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -28,7 +28,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>班级列表</h5>
+                    <h5>实验室列表</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -52,28 +52,36 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>年级</th>
-                            <th>班级</th>
-                            <th>人数</th>
+                            <th>名称</th>
+                            <th>所在校区</th>
+                            <th>负责人</th>
+                            <th>负责人账号</th>
+                            <th>简介</th>
                             <th>创建时间</th>
                             <th>修改时间</th>
-                            <th th:if="${user.power eq 2 || user.power eq 3}">管理</th>
+                            <th>是否空闲</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="clazz,clazzStat : ${clazzes}" class="gradeA">
-                            <td th:text="${clazz.getId()}"></td>
-                            <td th:text="${clazz.getGrade()}"></td>
-                            <td th:text="${clazz.getClazz()}"></td>
-                            <td th:text="${clazz.getCount()}"></td>
-                            <td th:text="${clazz.getCreateDate()}"></td>
-                            <td th:text="${clazz.getUpdateDate()}"></td>
+                        <tr th:each="laboratory,laboratoryStat : ${laboratories}" class="gradeA">
+                            <td th:text="${laboratory.getId()}"></td>
+                            <td th:text="${laboratory.getName()}"></td>
+                            <td th:text="${laboratory.getCampus()}"></td>
+                            <td th:text="${laboratory.getAdmin()}"></td>
+                            <td th:text="${laboratory.getAdminNumber()}"></td>
+                            <td th:text="${laboratory.getContent()}"></td>
+                            <td th:text="${laboratory.getCreateDate()}"></td>
+                            <td th:text="${laboratory.getUpdateDate()}"></td>
+                            <td th:if="${laboratory.getIsFree() eq 0}" style="color: green">空闲中</td>
+                            <td th:if="${laboratory.getIsFree() eq 1}" style="color: orangered">使用中</td>
                             <td th:if="${user.power eq 2 || user.power eq 3}">
-                                <form method="post" action="/update/clazz" style="display: inline-block">
-                                    <input type="hidden" name="id" th:value="${clazz.getId()}">
+                                <button th:if="${user.power eq 1 || user.power eq 2}" name="borrow" id="borrow" class="bg-primary" th:value="${laboratory.getId()}" onclick="borrowLaboratory()">预约</button>
+                                <form method="post" action="/update/laboratory" style="display: inline-block" th:if="${user.power eq 2 || user.power eq 3}">
+                                    <input type="hidden" name="id" th:value="${laboratory.getId()}">
                                     <button class="bg-info" type="submit">修改</button>
                                 </form>
-                                <button name="delete" th:id="'delete'+${clazzStat.count}" class="bg-danger" th:onclick="|deleteClazz(${clazzStat.count})|" th:value="${clazz.getId()}" onclick="deleteClazz()">删除</button>
+                                <button th:if="${user.power eq 3}" name="delete" th:id="'delete'+${laboratoryStat.count}" th:onclick="|deleteLaboratory(${laboratoryStat.count})|" class="bg-danger" th:value="${laboratory.getId()}" >删除</button>
                             </td>
                         </tr>
                         </tbody>
@@ -107,7 +115,7 @@
 
 <!-- Page-Level Scripts -->
 <script>
-    function deleteClazz(count){
+    function deleteLaboratory(count){
         g_showLoading();
         var tmp = "delete"+count;
         var button = document.getElementById(tmp);
@@ -116,7 +124,7 @@
         layer.confirm("确定删除吗？", {btn:["确定","取消"]},
             function(){
                 $.ajax({
-                    url: "/delete/clazz",
+                    url: "/delete/laboratory",
                     type: "post",
                     async: false,
                     data:{
@@ -127,7 +135,7 @@
                         layer.closeAll();
                         if(data.code == 0){
                             layer.msg("删除成功！");
-                            window.location.href="/list/clazz";
+                            window.location.href="/list/laboratory";
                         }else{
                             layer.msg(data.msg);
                         }

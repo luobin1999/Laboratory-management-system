@@ -30,6 +30,11 @@ public class CodeMsg {
     public static CodeMsg REPEAT_ADD = new CodeMsg(500303, "不能重复添加");
     //更改密码
     public static CodeMsg PASSWORD_DIFFER = new CodeMsg(500400, "两次密码不一致");
+    //权限管理
+    public static CodeMsg POWER_LOW = new CodeMsg(500500, "权限不足");
+    //实验室管理
+    public static CodeMsg LABORATORY_NAME_EMPTY = new CodeMsg(500601, "实验室名称不能为空");
+    public static CodeMsg LABORATORY_CAMPUS_EMPTY = new CodeMsg(500601, "所在校区不能为空");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

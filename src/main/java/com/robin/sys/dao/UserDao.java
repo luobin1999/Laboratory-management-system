@@ -3,6 +3,8 @@ package com.robin.sys.dao;
 import com.robin.sys.domain.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface UserDao {
     @Select("select * from user where id = #{id} and power = #{power}")
@@ -25,4 +27,12 @@ public interface UserDao {
     void updateUserInfoById(User user);
     @Update("update user set password = #{password} where id = #{id}")
     void changePasswordById(User user);
+    @Select("select * from user where power = 3")
+    List<User> listAdmin();
+    @Select("select * from user where power = 2")
+    List<User> listTeacher();
+    @Select("select * from user where power = 1")
+    List<User> listStudent();
+    @Delete("delete from user where id = #{id}")
+    int deleteUserById(int id);
 }

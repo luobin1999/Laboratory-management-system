@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>班级管理</title>
+    <title>添加实验室</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>添加班级信息</h5>
+                <h5>添加实验室信息</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -46,24 +46,45 @@
             <div class="ibox-content">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">年级：</label>
+                        <label class="col-sm-3 control-label">名称/编号：</label>
 
                         <div class="col-sm-8">
-                            <input type="text" name="grade" id="grade" placeholder="请输入所在年级" class="form-control">
-                            <span class="help-block m-b-none">如：2017级</span>
+                            <input type="text" name="name" id="name" placeholder="请输入实验室名称/编号" class="form-control">
+                            <span class="help-block m-b-none">如：17-303</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">班级：</label>
+                        <label class="col-sm-3 control-label">所在校区：</label>
 
                         <div class="col-sm-8">
-                            <input type="text" name="clazz" id="clazz" placeholder="请输入所在班级" class="form-control">
-                            <span class="help-block m-b-none">如：自动化1703班</span>
+                            <input type="text" name="campus" id="campus" placeholder="请输入实验室所在校区" class="form-control">
+                            <span class="help-block m-b-none">如：骊山校区</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">负责人：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="admin" id="admin" placeholder="请输入实验室负责人" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">负责人账号：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="adminNumber" id="adminNumber" placeholder="请输入实验室负责人账号" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">实验室描述：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="content" id="content" placeholder="请输入实验室简介" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8">
-                            <button class="btn btn-sm btn-info" type="button" onclick="addClazz()">确认添加</button>
+                            <button class="btn btn-sm btn-info" type="button" onclick="addLaboratory()">确认添加</button>
                         </div>
                     </div>
                 </form>
@@ -88,26 +109,32 @@
 <!-- common.js -->
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script>
-     function addClazz(){
+    function addLaboratory(){
         g_showLoading();
 
-       var grade = $("#grade").val();
-       var clazz = $("#clazz").val();
+        var name = $("#name").val();
+        var campus = $("#campus").val();
+        var admin = $("#admin").val();
+        var adminNumber = $("#adminNumber").val();
+        var content = $("#content").val();
 
         $.ajax({
-            url: "/add/clazz/add",
+            url: "/add/laboratory/add",
             type: "post",
             async: false,
             data:{
-                grade:grade,
-                clazz:clazz
+                name:name,
+                campus:campus,
+                admin:admin,
+                adminNumber:adminNumber,
+                content:content
             },
             dataType:"json",
             success:function(data){
                 layer.closeAll();
                 if(data.code == 0){
                     layer.msg("添加成功！");
-                    window.location.href="/list/clazz";
+                    window.location.href="/list/laboratory";
                 }else{
                     layer.msg(data.msg);
                 }

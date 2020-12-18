@@ -19,11 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -33,6 +35,7 @@ public class UserService {
     @Autowired
     private RedisService redisService;
 
+    @Transactional
     public boolean login(HttpServletResponse response, LoginVO loginVO){
         if (loginVO == null) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
@@ -151,6 +154,7 @@ public class UserService {
         return null;
     }
 
+    @Transactional
     public void  updateUserInfo(UserVO userVO) {
         int id = userVO.getId();
         String name = userVO.getName();
@@ -177,6 +181,7 @@ public class UserService {
         UserContext.setUser(user);
     }
 
+    @Transactional
     public void changePassword(PasswordVO passwordVO) {
         if (passwordVO == null) {
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
@@ -200,6 +205,23 @@ public class UserService {
         user.setId(id);
         user.setPassword(MD5Util.formPassToDBPass(password1));
         userDao.changePasswordById(user);
+    }
+
+    public List<User> listAdmin(){
+        return userDao.listAdmin();
+    }
+
+    public List<User> listTeacher(){
+        return userDao.listTeacher();
+    }
+
+    public List<User> listStudent(){
+        return userDao.listStudent();
+    }
+
+    @Transactional
+    public int deleteUser(int id) {
+        return userDao.deleteUserById(id);
     }
 
     /*public int addTest(){
