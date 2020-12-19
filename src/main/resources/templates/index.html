@@ -52,24 +52,20 @@
                 <li>
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">实验管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="">实验列表</a>
+                        <li><a class="J_menuItem" href="/list/test">实验列表</a>
                         </li>
-                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="">添加实验</a>
+                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="/add/test">添加实验</a>
                         </li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">设备管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="">设备列表</a>
+                        <li><a class="J_menuItem" href="/list/device">设备列表</a>
                         </li>
-                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="">添加设备</a>
+                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="/add/device">添加设备</a>
                         </li>
-                        <li><a class="J_menuItem" href="">设备使用记录</a>
-                        </li>
-                        <li><a class="J_menuItem" href="">报修设备列表</a>
-                        </li>
-                        <li><a class="J_menuItem" href="">损坏设备列表</a>
+                        <li><a class="J_menuItem" href="/list/device/usage_recode">设备使用记录</a>
                         </li>
                     </ul>
                 </li>
@@ -87,7 +83,7 @@
                 <li th:if="${user.power eq 3}">
                     <a href="#"><i class="fa fa-folder"></i> <span class="nav-label">文件管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="">文件列表</a>
+                        <li><a class="J_menuItem" href="/list/file">文件列表</a>
                         </li>
                     </ul>
                 </li>
@@ -169,9 +165,9 @@
                 <li th:if="${user.power eq 3 || user.power eq 2}">
                     <a href="#"><i class="fa fa-book"></i> <span class="nav-label">审核管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="">待审核列表</a>
+                        <li><a class="J_menuItem" href="/list/review">待审核列表</a>
                         </li>
-                        <li><a class="J_menuItem" href="">已处理列表</a>
+                        <li><a class="J_menuItem" href="/list/handle">已处理列表</a>
                         </li>
                     </ul>
                 </li>
