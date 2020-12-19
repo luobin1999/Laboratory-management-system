@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>设备列表</title>
+    <title>设备总览</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -28,7 +28,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>设备列表</h5>
+                    <h5>设备总览</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -51,44 +51,30 @@
                     <table class="table table-striped table-bordered table-hover " id="editable">
                         <thead>
                         <tr>
-                            <th>#</th>
                             <th>设备名称</th>
                             <th>设备型号</th>
-                            <th>设备编号</th>
-                            <th>购买日期</th>
-                            <th>创建时间</th>
-                            <th>修改时间</th>
+                            <th style="color: green">正常使用</th>
+                            <th style="color: orangered">等待维修</th>
+                            <th style="color: blue">维修完成</th>
+                            <th style="color: red">报废</th>
+                            <th style="color: green">空闲中</th>
+                            <th style="color: orangered">使用中</th>
                             <th>检查时间</th>
-                            <th>设备状态</th>
-                            <th>使用状态</th>
-                            <th>操作</th>
+                            <th>负责人</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="device,deviceStat : ${devices}" class="gradeA">
-                            <td th:text="${device.getId()}"></td>
+                        <tr th:each="device,deviceStat : ${deviceOverviews}" class="gradeA">
                             <td th:text="${device.getName()}"></td>
                             <td th:text="${device.getModel()}"></td>
-                            <td th:text="${device.getNumber()}"></td>
-                            <td th:text="${device.getBuyDate()}"></td>
-                            <td th:text="${device.getCreateDate()}"></td>
-                            <td th:text="${device.getUpdateDate()}"></td>
+                            <td th:text="${device.getNormalCount()}" style="color: green"></td>
+                            <td th:text="${device.getWaitRepairCount()}" style="color: orangered"></td>
+                            <td th:text="${device.getAlreadyRepairCount()}" style="color: blue"></td>
+                            <td th:text="${device.getScrapCount()}" style="color: red"></td>
+                            <td th:text="${device.getFreeCount()}" style="color: green"></td>
+                            <td th:text="${device.getUsageCount()}" style="color: orangered"></td>
                             <td th:text="${device.getCheckDate()}"></td>
-                            <td th:if="${device.getDeviceStatus() eq 0}" style="color: green">正常使用</td>
-                            <td th:if="${device.getDeviceStatus() eq 1}" style="color: orangered">等待维修</td>
-                            <td th:if="${device.getDeviceStatus() eq 2}" style="color: blue">维修完毕</td>
-                            <td th:if="${device.getDeviceStatus() eq 3}" style="color: red">已报废</td>
-                            <td th:if="${device.getUsageStatus() eq 0}" style="color: green">空闲中</td>
-                            <td th:if="${device.getUsageStatus() eq 1}" style="color: orangered">使用中</td>
-                            <td th:if="${user.power eq 2 || user.power eq 3}">
-                                <button th:if="${user.power eq 1 || user.power eq 2}" name="borrow" th:id="'borrow'+${deviceStat.count}" class="bg-primary" th:value="${device.getId()}" th:onclick="|borrowDevice(${deviceStat.count})|">预约</button>
-                                <button th:if="${user.power eq 3}" name="check" th:id="'check'+${deviceStat.count}" th:onclick="|checkDevice(${deviceStat.count})|" class="bg-warning" th:value="${device.getId()}" >检查</button>
-                                <form method="post" action="/update/device" style="display: inline-block" th:if="${user.power eq 2 || user.power eq 3}">
-                                    <input type="hidden" name="id" th:value="${device.getId()}">
-                                    <button class="bg-info" type="submit">修改</button>
-                                </form>
-                                <button th:if="${user.power eq 3}" name="delete" th:id="'delete'+${deviceStat.count}" th:onclick="|deleteDevice(${deviceStat.count})|" class="bg-danger" th:value="${device.getId()}" >删除</button>
-                            </td>
+                            <td th:text="${device.getAdmin()}"></td>
                         </tr>
                         </tbody>
                     </table>

@@ -35,6 +35,11 @@ public class CodeMsg {
     //实验室管理
     public static CodeMsg LABORATORY_NAME_EMPTY = new CodeMsg(500601, "实验室名称不能为空");
     public static CodeMsg LABORATORY_CAMPUS_EMPTY = new CodeMsg(500601, "所在校区不能为空");
+    //设备管理
+    public static CodeMsg DEVICE_NAME_EMPTY = new CodeMsg(500701, "设备名称不能为空");
+    public static CodeMsg DEVICE_MODEL_EMPTY = new CodeMsg(500702, "设备型号不能为空");
+    public static CodeMsg DEVICE_NUMBER_EMPTY = new CodeMsg(500703, "设备编号不能为空");
+    public static CodeMsg DEVICE_BUY_DATE_EMPTY = new CodeMsg(500704, "设备购买日期不能为空");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

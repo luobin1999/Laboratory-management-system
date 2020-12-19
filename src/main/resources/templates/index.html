@@ -61,6 +61,8 @@
                 <li>
                     <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">设备管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="/list/device/overview">设备总览</a>
+                        </li>
                         <li><a class="J_menuItem" href="/list/device">设备列表</a>
                         </li>
                         <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="/add/device">添加设备</a>
