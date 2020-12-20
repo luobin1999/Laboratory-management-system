@@ -21,7 +21,7 @@ public class LaboratoryUsageRecord {
     private String target;
     //申请创建时间
     private Date createDate;
-    //审核状态
+    //审核状态；1审核中，2使用中，3审核不通过，4已完成
     private int status;
     //审核人姓名
     private String reviewerName;
