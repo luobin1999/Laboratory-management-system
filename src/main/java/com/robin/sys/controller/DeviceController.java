@@ -30,7 +30,6 @@ public class DeviceController {
             return "login";
         }
         model.addAttribute("user", user);
-        logger.info("用户："+user.getName()+" 权限："+user.getPower());
         List<DeviceVO> devices = deviceService.listDevice();
         model.addAttribute("devices",devices);
         return "device_list";
@@ -102,7 +101,7 @@ public class DeviceController {
         return "device_add";
     }
 
-    @RequestMapping("/list/device/usage_recode")
+    @RequestMapping("/list/device/usage_record")
     public String listDeviceUsageRecode(Model model, User user){
         if (user == null) {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
@@ -153,5 +152,33 @@ public class DeviceController {
         deviceService.checkDevice(preDeviceVO);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 检查设备信息为："+preDeviceVO);
         return Result.success("检查完成");
+    }
+
+    @RequestMapping("/borrow/device")
+    public String laboratoryBorrow(@Param("id") int id, Model model, User user){
+        if (user == null) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        Device device = deviceService.getDevice(id);
+        model.addAttribute("user", user);
+        model.addAttribute("device", device);
+        return "device_borrow";
+    }
+
+    @RequestMapping("/borrow/device/borrow")
+    @ResponseBody
+    public Result borrowDevice(DeviceUsageRecordVO deviceUsageRecordVO, User user) {
+        if (user == null) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        deviceService.borrowDevice(deviceUsageRecordVO);
+        logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 提交了一个设备预约申请："+deviceUsageRecordVO);
+        return Result.success("提交预约成功");
     }
 }
