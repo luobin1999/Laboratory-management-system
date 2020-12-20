@@ -1,8 +1,6 @@
 package com.robin.sys.controller;
 
-import com.robin.sys.VO.DeviceOverviewVO;
-import com.robin.sys.VO.DeviceVO;
-import com.robin.sys.VO.PreDeviceVO;
+import com.robin.sys.VO.*;
 import com.robin.sys.domain.Device;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
@@ -32,6 +30,7 @@ public class DeviceController {
             return "login";
         }
         model.addAttribute("user", user);
+        logger.info("用户："+user.getName()+" 权限："+user.getPower());
         List<DeviceVO> devices = deviceService.listDevice();
         model.addAttribute("devices",devices);
         return "device_list";
@@ -109,6 +108,50 @@ public class DeviceController {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
         }
         model.addAttribute("user", user);
+        List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecord();
+        model.addAttribute("durvos", durvos);
         return "device_usage_record";
+    }
+
+    @RequestMapping("/delete/device")
+    @ResponseBody
+    public Result deleteDevice(@Param("id") int id, User user){
+        if (user == null) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 3) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
+        }
+        deviceService.deleteDevice(id);
+        logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 删除设备信息："+id);
+        return Result.success("删除成功");
+    }
+
+    @RequestMapping("/check/device")
+    public String deviceCheck(@Param("id") int id, Model model, User user){
+        if (user == null) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 3) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
+        }
+        Device device = deviceService.getDevice(id);
+        model.addAttribute("user", user);
+        model.addAttribute("device", device);
+        return "device_check";
+    }
+
+    @RequestMapping("/check/device/check")
+    @ResponseBody
+    public Result checkDevice(PreDeviceVO preDeviceVO, User user) {
+        if (user == null) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 3) {
+            throw new GlobalException(CodeMsg.POWER_LOW);
+        }
+        deviceService.checkDevice(preDeviceVO);
+        logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 检查设备信息为："+preDeviceVO);
+        return Result.success("检查完成");
     }
 }

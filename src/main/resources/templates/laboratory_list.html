@@ -75,7 +75,7 @@
                             <td th:text="${laboratory.getUpdateDate()}"></td>
                             <td th:if="${laboratory.getIsFree() eq 0}" style="color: green">空闲中</td>
                             <td th:if="${laboratory.getIsFree() eq 1}" style="color: orangered">使用中</td>
-                            <td th:if="${user.power eq 2 || user.power eq 3}">
+                            <td>
                                 <button th:if="${user.power eq 1 || user.power eq 2}" name="borrow" id="borrow" class="bg-primary" th:value="${laboratory.getId()}" onclick="borrowLaboratory()">预约</button>
                                 <form method="post" action="/update/laboratory" style="display: inline-block" th:if="${user.power eq 2 || user.power eq 3}">
                                     <input type="hidden" name="id" th:value="${laboratory.getId()}">

@@ -7,6 +7,8 @@ public class DeviceOverviewVO {
     private String name;
     //设备型号
     private String model;
+    //设备总数
+    private int count;
     //正常设备的数量
     private int normalCount;
     //等待维修设备的数量
@@ -23,6 +25,14 @@ public class DeviceOverviewVO {
     private String checkDate;
     //设备负责人
     private String admin;
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getCount() {
+        return count;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -118,6 +128,7 @@ public class DeviceOverviewVO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", model='" + model + '\'' +
+                ", count=" + count +
                 ", normalCount=" + normalCount +
                 ", waitRepairCount=" + waitRepairCount +
                 ", alreadyRepairCount=" + alreadyRepairCount +

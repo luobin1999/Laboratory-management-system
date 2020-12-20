@@ -80,9 +80,12 @@
                             <td th:if="${device.getDeviceStatus() eq 3}" style="color: red">已报废</td>
                             <td th:if="${device.getUsageStatus() eq 0}" style="color: green">空闲中</td>
                             <td th:if="${device.getUsageStatus() eq 1}" style="color: orangered">使用中</td>
-                            <td th:if="${user.power eq 2 || user.power eq 3}">
-                                <button th:if="${user.power eq 1 || user.power eq 2}" name="borrow" th:id="'borrow'+${deviceStat.count}" class="bg-primary" th:value="${device.getId()}" th:onclick="|borrowDevice(${deviceStat.count})|">预约</button>
-                                <button th:if="${user.power eq 3}" name="check" th:id="'check'+${deviceStat.count}" th:onclick="|checkDevice(${deviceStat.count})|" class="bg-warning" th:value="${device.getId()}" >检查</button>
+                            <td>
+                                <button th:if="${user.getPower() eq 1 || user.getPower() eq 2}" name="borrow" th:id="'borrow'+${deviceStat.count}" class="bg-primary" th:value="${device.getId()}" th:onclick="|borrowDevice(${deviceStat.count})|">预约</button>
+                                <form method="post" action="/check/device" style="display: inline-block" th:if="${user.power eq 3}">
+                                    <input type="hidden" name="id" th:value="${device.getId()}">
+                                    <button class="bg-warning" type="submit">检查</button>
+                                </form>
                                 <form method="post" action="/update/device" style="display: inline-block" th:if="${user.power eq 2 || user.power eq 3}">
                                     <input type="hidden" name="id" th:value="${device.getId()}">
                                     <button class="bg-info" type="submit">修改</button>
@@ -121,7 +124,7 @@
 
 <!-- Page-Level Scripts -->
 <script>
-    function deleteLaboratory(count){
+    function deleteDevice(count){
         g_showLoading();
         var tmp = "delete"+count;
         var button = document.getElementById(tmp);
@@ -130,7 +133,7 @@
         layer.confirm("确定删除吗？", {btn:["确定","取消"]},
             function(){
                 $.ajax({
-                    url: "/delete/laboratory",
+                    url: "/delete/device",
                     type: "post",
                     async: false,
                     data:{
@@ -141,7 +144,7 @@
                         layer.closeAll();
                         if(data.code == 0){
                             layer.msg("删除成功！");
-                            window.location.href="/list/laboratory";
+                            window.location.href="/list/device";
                         }else{
                             layer.msg(data.msg);
                         }

@@ -84,6 +84,7 @@
                             <td th:if="${lur.getStatus() eq 1}" style="color: blue">审核中</td>
                             <td th:if="${lur.getStatus() eq 2}" style="color: green">使用中</td>
                             <td th:if="${lur.getStatus() eq 3}" style="color: red">不通过</td>
+                            <td th:if="${lur.getStatus() eq 4}">已完成</td>
                             <td th:text="${lur.getReviewerName()}"></td>
                             <td th:text="${lur.getReviewerNumber()}"></td>
                         </tr>
