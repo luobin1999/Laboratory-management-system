@@ -2,21 +2,23 @@ package com.robin.sys.service;
 
 import com.robin.sys.VO.LaboratoryUsageRecordVO;
 import com.robin.sys.VO.LaboratoryVO;
+import com.robin.sys.VO.PreLaboratoryRecordVO;
 import com.robin.sys.VO.PreLaboratoryVO;
 import com.robin.sys.dao.LaboratoryDao;
 import com.robin.sys.dao.LaboratoryUsageRecordDao;
 import com.robin.sys.domain.Laboratory;
+import com.robin.sys.domain.LaboratoryRecord;
 import com.robin.sys.domain.LaboratoryUsageRecord;
-import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -144,6 +146,7 @@ public class LaboratoryService {
                 LaboratoryUsageRecordVO lurVO = new LaboratoryUsageRecordVO();
                 lurVO.setId(lur.getId());
                 lurVO.setLaboratoryName(lur.getLaboratoryName());
+                lurVO.setCampus(lur.getCampus());
                 lurVO.setUserName(lur.getUserName());
                 lurVO.setLaboratoryStatus(lur.getLaboratoryStatus());
                 lurVO.setPower(lur.getPower());
@@ -163,5 +166,74 @@ public class LaboratoryService {
             }
         }
         return lurVOS;
+    }
+
+    @Transactional
+    public void borrowLaboratory(PreLaboratoryRecordVO laboratoryRecordVO) {
+        if (laboratoryRecordVO == null) {
+            throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
+        }
+        int laboratoryId = laboratoryRecordVO.getLaboratoryId();
+        int userId = laboratoryRecordVO.getUserId();
+        String start_date = laboratoryRecordVO.getStartDate().replace("T", " ");
+        String end_date = laboratoryRecordVO.getEndDate().replace("T", " ");
+        Date startDate = null;
+        Date endDate = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            startDate = sdf.parse(start_date);
+            endDate = sdf.parse(end_date);
+        } catch (ParseException e) {
+            throw new GlobalException(CodeMsg.TIME_FORMAT_ERROR);
+        }
+        String target = laboratoryRecordVO.getTarget();
+        if (startDate == null || endDate == null) {
+            throw new GlobalException(CodeMsg.START_END_DATE_EMPTY);
+        }
+        if (startDate.getTime() >= endDate.getTime()) {
+            throw new GlobalException(CodeMsg.START_END_DATE_ERROR);
+        }
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE,7);
+        if (endDate.getTime() >= cal.getTimeInMillis()) {
+            throw new GlobalException(CodeMsg.OVER_BORROW_DATE);
+        }
+        cal.setTime(startDate);
+        cal.add(Calendar.DATE, 1);
+        if (endDate.getTime() > cal.getTimeInMillis()) {
+            throw new GlobalException(CodeMsg.OVER_BORROW_PAR_DATE);
+        }
+        if (laboratoryId <= 0 || userId <= 0) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        if (target == null || target.length() < 1) {
+            throw new GlobalException(CodeMsg.TARGET_EMPTY);
+        }
+        LaboratoryRecord laboratoryRecord = new LaboratoryRecord();
+        laboratoryRecord.setCreateDate(new Date());
+        laboratoryRecord.setLaboratoryId(laboratoryId);
+        laboratoryRecord.setUserId(userId);
+        laboratoryRecord.setStatus(1);
+        laboratoryRecord.setStartDate(startDate);
+        laboratoryRecord.setEndDate(endDate);
+        laboratoryRecord.setTarget(target);
+        List<LaboratoryRecord> records = laboratoryUsageRecordDao.listLaboratoryUsageRecordByLaboratoryId(laboratoryId);
+        if (records == null) {
+            laboratoryUsageRecordDao.insertLaboratoryUsageRecord(laboratoryRecord);
+        }
+        boolean flag = true;
+        for (int i = 0; i < records.size(); i++) {
+            LaboratoryRecord record = records.get(i);
+            if (startDate.getTime() <= record.getStartDate().getTime() && endDate.getTime() >= record.getStartDate().getTime()) {
+                flag = false;
+                break;
+            }
+        }
+        if (!flag) {
+            throw new GlobalException(CodeMsg.BORROW_TIME_CLASH);
+        }
+        laboratoryUsageRecordDao.insertLaboratoryUsageRecord(laboratoryRecord);
     }
 }

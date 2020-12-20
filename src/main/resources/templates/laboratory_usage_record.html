@@ -53,6 +53,7 @@
                         <tr>
                             <th>#</th>
                             <th>实验室名称</th>
+                            <th>所在校区</th>
                             <th>实验室状态</th>
                             <th>预约人</th>
                             <th>预约人账号</th>
@@ -70,6 +71,7 @@
                         <tr th:each="lur : ${lurVOS}" class="gradeA">
                             <td th:text="${lur.getId()}"></td>
                             <td th:text="${lur.getLaboratoryName()}"></td>
+                            <td th:text="${lur.getCampus()}"></td>
                             <td th:if="${lur.getLaboratoryStatus() eq 0}" style="color: green">空闲中</td>
                             <td th:if="${lur.getLaboratoryStatus() eq 1}" style="color: orangered">使用中</td>
                             <td th:text="${lur.getUserName()}"></td>

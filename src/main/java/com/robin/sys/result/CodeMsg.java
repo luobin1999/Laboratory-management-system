@@ -32,6 +32,7 @@ public class CodeMsg {
     public static CodeMsg PASSWORD_DIFFER = new CodeMsg(500400, "两次密码不一致");
     //权限管理
     public static CodeMsg POWER_LOW = new CodeMsg(500500, "权限不足");
+    public static CodeMsg POWER_ERROR = new CodeMsg(500500, "权限不匹配");
     //实验室管理
     public static CodeMsg LABORATORY_NAME_EMPTY = new CodeMsg(500601, "实验室名称不能为空");
     public static CodeMsg LABORATORY_CAMPUS_EMPTY = new CodeMsg(500601, "所在校区不能为空");
@@ -40,6 +41,14 @@ public class CodeMsg {
     public static CodeMsg DEVICE_MODEL_EMPTY = new CodeMsg(500702, "设备型号不能为空");
     public static CodeMsg DEVICE_NUMBER_EMPTY = new CodeMsg(500703, "设备编号不能为空");
     public static CodeMsg DEVICE_BUY_DATE_EMPTY = new CodeMsg(500704, "设备购买日期不能为空");
+    //预约管理
+    public static CodeMsg START_END_DATE_EMPTY = new CodeMsg(500801, "开始/结束时间不能为空");
+    public static CodeMsg START_END_DATE_ERROR = new CodeMsg(500802, "开始/结束时间有误");
+    public static CodeMsg TARGET_EMPTY = new CodeMsg(500803, "预约目的不能为空");
+    public static CodeMsg BORROW_TIME_CLASH = new CodeMsg(500804, "这个时段已有其他用户预约");
+    public static CodeMsg TIME_FORMAT_ERROR = new CodeMsg(500805, "时间格式错误");
+    public static CodeMsg OVER_BORROW_DATE = new CodeMsg(500806, "最多可以提前7天预约");
+    public static CodeMsg OVER_BORROW_PAR_DATE = new CodeMsg(500807, "每次预约时间最长1天");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

@@ -5,6 +5,8 @@ public class LaboratoryUsageRecordVO {
     private int id;
     //实验室名称
     private String laboratoryName;
+    //实验室所在校区
+    private String campus;
     //预约人姓名
     private String userName;
     //预约人账号
@@ -27,6 +29,14 @@ public class LaboratoryUsageRecordVO {
     private String reviewerNumber;
     //实验室状态
     private int laboratoryStatus;
+
+    public String getCampus() {
+        return campus;
+    }
+
+    public void setCampus(String campus) {
+        this.campus = campus;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -137,6 +147,7 @@ public class LaboratoryUsageRecordVO {
         return "LaboratoryUsageRecordVO{" +
                 "id=" + id +
                 ", laboratoryName='" + laboratoryName + '\'' +
+                ", campus='" + campus + '\'' +
                 ", userName='" + userName + '\'' +
                 ", userNumber='" + userNumber + '\'' +
                 ", power=" + power +

@@ -67,7 +67,7 @@
                         </li>
                         <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="/add/device">添加设备</a>
                         </li>
-                        <li><a class="J_menuItem" href="/list/device/usage_recode">设备使用记录</a>
+                        <li><a class="J_menuItem" href="/list/device/usage_record">设备使用记录</a>
                         </li>
                     </ul>
                 </li>
@@ -156,20 +156,75 @@
                 <li th:if="${user.power eq 1 || user.power eq 2}">
                     <a href="#"><i class="fa fa-book"></i> <span class="nav-label">预约管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="#">正在审核</a>
+                        <li>
+                            <a href="#">正在审核 <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a class="J_menuItem" href="">设备预约</a>
+                                    </li>
+                                    <li>
+                                        <a class="J_menuItem" href="">实验室预约</a>
+                                    </li>
+                                </ul>
+                            </ul>
                         </li>
-                        <li><a class="J_menuItem" href="#">待归还</a>
+                        <li>
+                            <a href="#">待归还 <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a class="J_menuItem" href="">设备预约</a>
+                                    </li>
+                                    <li>
+                                        <a class="J_menuItem" href="">实验室预约</a>
+                                    </li>
+                                </ul>
+                            </ul>
                         </li>
-                        <li><a class="J_menuItem" href="#">预约记录</a>
+                        <li>
+                            <a href="#">预约记录<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a class="J_menuItem" href="">设备预约</a>
+                                    </li>
+                                    <li>
+                                        <a class="J_menuItem" href="">实验室预约</a>
+                                    </li>
+                                </ul>
+                            </ul>
                         </li>
                     </ul>
                 </li>
                 <li th:if="${user.power eq 3 || user.power eq 2}">
                     <a href="#"><i class="fa fa-book"></i> <span class="nav-label">审核管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="/list/review">待审核列表</a>
+                        <li>
+                            <a href="#">待审核列表 <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a class="J_menuItem" href="">设备预约审核</a>
+                                    </li>
+                                    <li>
+                                        <a class="J_menuItem" href="">实验室预约审核</a>
+                                    </li>
+                                </ul>
+                            </ul>
                         </li>
-                        <li><a class="J_menuItem" href="/list/handle">已处理列表</a>
+                        <li>
+                            <a href="#">已处理列表 <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a class="J_menuItem" href="">设备预约审核</a>
+                                    </li>
+                                    <li>
+                                        <a class="J_menuItem" href="">实验室预约审核</a>
+                                    </li>
+                                </ul>
+                            </ul>
                         </li>
                     </ul>
                 </li>

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -234,5 +235,73 @@ public class DeviceService {
             durvvos.add(durvo);
         }
         return durvvos;
+    }
+
+    public void borrowDevice(DeviceUsageRecordVO deviceUsageRecordVO) {
+        if (deviceUsageRecordVO == null) {
+            throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
+        }
+        int deviceId = deviceUsageRecordVO.getDeviceId();
+        int userId = deviceUsageRecordVO.getUserId();
+        String start_date = deviceUsageRecordVO.getStartDate().replace("T", " ");
+        String end_date = deviceUsageRecordVO.getEndDate().replace("T", " ");
+        Date startDate = null;
+        Date endDate = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            startDate = sdf.parse(start_date);
+            endDate = sdf.parse(end_date);
+        } catch (ParseException e) {
+            throw new GlobalException(CodeMsg.TIME_FORMAT_ERROR);
+        }
+        String target = deviceUsageRecordVO.getTarget();
+        if (startDate == null || endDate == null) {
+            throw new GlobalException(CodeMsg.START_END_DATE_EMPTY);
+        }
+        if (startDate.getTime() >= endDate.getTime()) {
+            throw new GlobalException(CodeMsg.START_END_DATE_ERROR);
+        }
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE,7);
+        if (endDate.getTime() >= cal.getTimeInMillis()) {
+            throw new GlobalException(CodeMsg.OVER_BORROW_DATE);
+        }
+        cal.setTime(startDate);
+        cal.add(Calendar.DATE, 1);
+        if (endDate.getTime() > cal.getTimeInMillis()) {
+            throw new GlobalException(CodeMsg.OVER_BORROW_PAR_DATE);
+        }
+        if (deviceId <= 0 || userId <= 0) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        if (target == null || target.length() < 1) {
+            throw new GlobalException(CodeMsg.TARGET_EMPTY);
+        }
+        DeviceUsageRecord deviceUsageRecord = new DeviceUsageRecord();
+        deviceUsageRecord.setCreateDate(new Date());
+        deviceUsageRecord.setDeviceId(deviceId);
+        deviceUsageRecord.setUserId(userId);
+        deviceUsageRecord.setStatus(1);
+        deviceUsageRecord.setStartDate(startDate);
+        deviceUsageRecord.setEndDate(endDate);
+        deviceUsageRecord.setTarget(target);
+        List<DeviceUsageRecord> records = deviceUsageRecordDao.listDeviceUsageRecordByDeviceId(deviceId);
+        if (records == null) {
+            deviceUsageRecordDao.insertDeviceUsageRecord(deviceUsageRecord);
+        }
+        boolean flag = true;
+        for (int i = 0; i < records.size(); i++) {
+            DeviceUsageRecord record = records.get(i);
+            if (startDate.getTime() <= record.getStartDate().getTime() && endDate.getTime() >= record.getStartDate().getTime()) {
+                flag = false;
+                break;
+            }
+        }
+        if (!flag) {
+            throw new GlobalException(CodeMsg.BORROW_TIME_CLASH);
+        }
+        deviceUsageRecordDao.insertDeviceUsageRecord(deviceUsageRecord);
     }
 }

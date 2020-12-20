@@ -2,8 +2,10 @@ package com.robin.sys.controller;
 
 import com.robin.sys.VO.LaboratoryUsageRecordVO;
 import com.robin.sys.VO.LaboratoryVO;
+import com.robin.sys.VO.PreLaboratoryRecordVO;
 import com.robin.sys.VO.PreLaboratoryVO;
 import com.robin.sys.domain.Laboratory;
+import com.robin.sys.domain.LaboratoryRecord;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
@@ -100,6 +102,34 @@ public class LaboratoryController {
         laboratoryService.deleteLaboratory(id);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 成功删除实验室信息"+id);
         return Result.success("删除成功");
+    }
+
+    @RequestMapping("/borrow/laboratory")
+    public String borrowLaboratory(@Param("id") int id, Model model, User user){
+        if (user == null) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        Laboratory laboratory = laboratoryService.getLaboratoryById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("laboratory", laboratory);
+        return "laboratory_borrow";
+    }
+
+    @RequestMapping("/borrow/laboratory/borrow")
+    @ResponseBody
+    public Result laboratoryBorrow(PreLaboratoryRecordVO laboratoryRecord, User user) {
+        if (user == null) {
+            throw new GlobalException(CodeMsg.SESSION_ERROR);
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        laboratoryService.borrowLaboratory(laboratoryRecord);
+        logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 提交了一个实验室预约申请："+laboratoryRecord);
+        return Result.success("预约已提交");
     }
 
     @RequestMapping("/list/laboratory/usage_record")
