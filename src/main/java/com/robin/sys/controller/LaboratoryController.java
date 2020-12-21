@@ -5,7 +5,6 @@ import com.robin.sys.VO.LaboratoryVO;
 import com.robin.sys.VO.PreLaboratoryRecordVO;
 import com.robin.sys.VO.PreLaboratoryVO;
 import com.robin.sys.domain.Laboratory;
-import com.robin.sys.domain.LaboratoryRecord;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
@@ -139,7 +138,8 @@ public class LaboratoryController {
         }
         List<LaboratoryUsageRecordVO> lurVOS = laboratoryService.listLaboratoryUsageRecord();
         model.addAttribute("user", user);
-        model.addAttribute("lurVOS", lurVOS);
+        model.addAttribute("lurvos", lurVOS);
+        model.addAttribute("type",1);
         return "laboratory_usage_record";
     }
 
@@ -153,7 +153,8 @@ public class LaboratoryController {
         }
         List<LaboratoryUsageRecordVO> lurVOS = laboratoryService.listLaboratoryUsageRecord(user.getNumber());
         model.addAttribute("user", user);
-        model.addAttribute("lurVOS", lurVOS);
+        model.addAttribute("lurvos", lurVOS);
+        model.addAttribute("type", 2);
         return "laboratory_usage_record";
     }
 
@@ -167,21 +168,8 @@ public class LaboratoryController {
         }
         List<LaboratoryUsageRecordVO> lurVOS = laboratoryService.listLaboratoryUsageRecordReviewing(user.getNumber());
         model.addAttribute("user", user);
-        model.addAttribute("lurVOS", lurVOS);
-        return "laboratory_usage_record";
-    }
-
-    @RequestMapping("/list/laboratory/finish")
-    public String listLaboratoryUsageRecordFinish(Model model, User user) {
-        if (user == null) {
-            return "login";
-        }
-        if (user.getPower() != 1 && user.getPower() != 2) {
-            throw new GlobalException(CodeMsg.POWER_ERROR);
-        }
-        List<LaboratoryUsageRecordVO> lurVOS = laboratoryService.listLaboratoryUsageRecordFinish(user.getNumber());
-        model.addAttribute("user", user);
-        model.addAttribute("lurVOS", lurVOS);
+        model.addAttribute("lurvos", lurVOS);
+        model.addAttribute("type", 3);
         return "laboratory_usage_record";
     }
 }
