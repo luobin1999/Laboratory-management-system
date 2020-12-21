@@ -17,8 +17,6 @@ public class LaboratoryVO {
     private String createDate;
     //最后一次修改时间
     private String updateDate;
-    //实验室是否空闲
-    private int isFree;
 
     public void setId(int id) {
         this.id = id;
@@ -50,10 +48,6 @@ public class LaboratoryVO {
 
     public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
-    }
-
-    public void setIsFree(int isFree) {
-        this.isFree = isFree;
     }
 
     public int getId() {
@@ -88,10 +82,6 @@ public class LaboratoryVO {
         return updateDate;
     }
 
-    public int getIsFree() {
-        return isFree;
-    }
-
     @Override
     public String toString() {
         return "LaboratoryVO{" +
@@ -103,7 +93,6 @@ public class LaboratoryVO {
                 ", content='" + content + '\'' +
                 ", createDate='" + createDate + '\'' +
                 ", updateDate='" + updateDate + '\'' +
-                ", isFree=" + isFree +
                 '}';
     }
 }

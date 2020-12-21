@@ -181,4 +181,46 @@ public class DeviceController {
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 提交了一个设备预约申请："+deviceUsageRecordVO);
         return Result.success("提交预约成功");
     }
+
+    @RequestMapping("/list/device/review")
+    public String listDeviceReview(Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecordReviewing(user.getNumber());
+        model.addAttribute("user", user);
+        model.addAttribute("durvos", durvos);
+        return "device_usage_record";
+    }
+
+    @RequestMapping("/list/device/finish")
+    public String listDeviceFinish(Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecordFinish(user.getNumber());
+        model.addAttribute("user", user);
+        model.addAttribute("durvos", durvos);
+        return "device_usage_record";
+    }
+
+    @RequestMapping("/list/device/record")
+    public String listDeviceRecord(Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecord(user.getNumber());
+        model.addAttribute("user", user);
+        model.addAttribute("durvos", durvos);
+        return "device_usage_record";
+    }
 }

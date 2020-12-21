@@ -142,4 +142,46 @@ public class LaboratoryController {
         model.addAttribute("lurVOS", lurVOS);
         return "laboratory_usage_record";
     }
+
+    @RequestMapping("/list/laboratory/record")
+    public String listLaboratoryRecord(Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        List<LaboratoryUsageRecordVO> lurVOS = laboratoryService.listLaboratoryUsageRecord(user.getNumber());
+        model.addAttribute("user", user);
+        model.addAttribute("lurVOS", lurVOS);
+        return "laboratory_usage_record";
+    }
+
+    @RequestMapping("/list/laboratory/review")
+    public String listLaboratoryUsageRecordReview(Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        List<LaboratoryUsageRecordVO> lurVOS = laboratoryService.listLaboratoryUsageRecordReviewing(user.getNumber());
+        model.addAttribute("user", user);
+        model.addAttribute("lurVOS", lurVOS);
+        return "laboratory_usage_record";
+    }
+
+    @RequestMapping("/list/laboratory/finish")
+    public String listLaboratoryUsageRecordFinish(Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        if (user.getPower() != 1 && user.getPower() != 2) {
+            throw new GlobalException(CodeMsg.POWER_ERROR);
+        }
+        List<LaboratoryUsageRecordVO> lurVOS = laboratoryService.listLaboratoryUsageRecordFinish(user.getNumber());
+        model.addAttribute("user", user);
+        model.addAttribute("lurVOS", lurVOS);
+        return "laboratory_usage_record";
+    }
 }

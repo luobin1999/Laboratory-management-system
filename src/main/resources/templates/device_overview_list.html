@@ -58,8 +58,6 @@
                             <th style="color: blue">维修完成</th>
                             <th style="color: red">报废</th>
                             <th>设备总数</th>
-                            <th style="color: green">空闲中</th>
-                            <th style="color: orangered">使用中</th>
                             <th>检查时间</th>
                             <th>负责人</th>
                         </tr>
@@ -73,8 +71,6 @@
                             <td th:text="${device.getAlreadyRepairCount()}" style="color: blue"></td>
                             <td th:text="${device.getScrapCount()}" style="color: red"></td>
                             <td th:text="${device.getCount()}"></td>
-                            <td th:text="${device.getFreeCount()}" style="color: green"></td>
-                            <td th:text="${device.getUsageCount()}" style="color: orangered"></td>
                             <td th:text="${device.getCheckDate()}"></td>
                             <td th:text="${device.getAdmin()}"></td>
                         </tr>

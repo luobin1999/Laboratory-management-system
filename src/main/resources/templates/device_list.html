@@ -60,7 +60,6 @@
                             <th>修改时间</th>
                             <th>检查时间</th>
                             <th>设备状态</th>
-                            <th>使用状态</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -78,8 +77,6 @@
                             <td th:if="${device.getDeviceStatus() eq 1}" style="color: orangered">等待维修</td>
                             <td th:if="${device.getDeviceStatus() eq 2}" style="color: blue">维修完毕</td>
                             <td th:if="${device.getDeviceStatus() eq 3}" style="color: red">已报废</td>
-                            <td th:if="${device.getUsageStatus() eq 0}" style="color: green">空闲中</td>
-                            <td th:if="${device.getUsageStatus() eq 1}" style="color: orangered">使用中</td>
                             <td>
                                 <form method="post" action="/borrow/device" style="display: inline-block" th:if="${user.power eq 1 || user.power eq 2}">
                                     <input type="hidden" name="id" th:value="${device.getId()}">
