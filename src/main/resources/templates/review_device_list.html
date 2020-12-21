@@ -7,11 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title th:if="${type eq 1}">设备使用记录</title>
-    <title th:if="${type eq 2}">设备预约待审核</title>
-    <title th:if="${type eq 3}">待归还设备记录</title>
-    <title th:if="${type eq 4}">设备预约记录</title>
-    <title th:if="${type eq 5}">设备预约审核记录</title>
+    <title>设备预约审核</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -32,11 +28,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5 th:if="${type eq 1}">设备使用记录</h5>
-                    <h5 th:if="${type eq 2}">设备预约待审核</h5>
-                    <h5 th:if="${type eq 3}">待归还设备记录</h5>
-                    <h5 th:if="${type eq 4}">设备预约记录</h5>
-                    <h5 th:if="${type eq 5}">设备预约审核记录</h5>
+                    <h5>设备预约审核</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -74,6 +66,7 @@
                             <th>审核状态</th>
                             <th>审核人</th>
                             <th>审核人账号</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -101,10 +94,13 @@
                             <td th:if="${durvo.getStatus() eq 4}">已完成</td>
                             <td th:text="${durvo.getReviewerName()}"></td>
                             <td th:text="${durvo.getReviewerNumber()}"></td>
+                            <td>
+                                <button name="pass" th:id="'pass'+${durvoStat.count}" th:onclick="|passDevice(${durvoStat.count})|" class="bg-success" th:value="${durvo.getId()}">通过</button>
+                                <button name="noPass" th:id="'noPass'+${durvoStat.count}" th:onclick="|noPassDevice(${durvoStat.count})|" class="bg-danger" th:value="${durvo.getId()}">拒绝</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -125,10 +121,82 @@
 
 <!-- 自定义js -->
 <script src="/js/content.js?v=1.0.0"></script>
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
 
 
 <!-- Page-Level Scripts -->
 <script>
+    function passDevice(count){
+        g_showLoading();
+        var tmp = "pass"+count;
+        var button = document.getElementById(tmp);
+        var id = $(button).val();
+
+        layer.confirm("确定通过吗？", {btn:["确定","取消"]},
+            function(){
+                $.ajax({
+                    url: "/review/device/pass",
+                    type: "post",
+                    async: false,
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        layer.closeAll();
+                        if(data.code == 0){
+                            layer.msg("已通过");
+                            window.location.href="/list/device/wait/review";
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(){
+                        layer.closeAll();
+                    }
+                });
+            },
+            function(){
+                layer.closeAll();
+            });
+    }
+    function noPassDevice(count){
+        g_showLoading();
+        var tmp = "noPass"+count;
+        var button = document.getElementById(tmp);
+        var id = $(button).val();
+
+        layer.confirm("确定不通过吗？", {btn:["确定","取消"]},
+            function(){
+                $.ajax({
+                    url: "/review/device/no_pass",
+                    type: "post",
+                    async: false,
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        layer.closeAll();
+                        if(data.code == 0){
+                            layer.msg("已完成");
+                            window.location.href="/list/device/wait/review";
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(){
+                        layer.closeAll();
+                    }
+                });
+            },
+            function(){
+                layer.closeAll();
+            });
+    }
 </script>
 
 

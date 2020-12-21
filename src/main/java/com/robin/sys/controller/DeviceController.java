@@ -109,6 +109,7 @@ public class DeviceController {
         model.addAttribute("user", user);
         List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecord();
         model.addAttribute("durvos", durvos);
+        model.addAttribute("type", 1);
         return "device_usage_record";
     }
 
@@ -193,6 +194,7 @@ public class DeviceController {
         List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecordReviewing(user.getNumber());
         model.addAttribute("user", user);
         model.addAttribute("durvos", durvos);
+        model.addAttribute("type", 2);
         return "device_usage_record";
     }
 
@@ -207,6 +209,7 @@ public class DeviceController {
         List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecordFinish(user.getNumber());
         model.addAttribute("user", user);
         model.addAttribute("durvos", durvos);
+        model.addAttribute("type", 3);
         return "device_usage_record";
     }
 
@@ -221,6 +224,7 @@ public class DeviceController {
         List<DeviceUsageRecordViewVO> durvos = deviceService.listDeviceUsageRecord(user.getNumber());
         model.addAttribute("user", user);
         model.addAttribute("durvos", durvos);
+        model.addAttribute("type", 4);
         return "device_usage_record";
     }
 }

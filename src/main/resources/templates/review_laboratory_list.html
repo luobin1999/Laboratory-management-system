@@ -7,10 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title th:if="${type eq 1}">实验室使用记录</title>
-    <title th:if="${type eq 2}">实验室预约记录</title>
-    <title th:if="${type eq 3}">实验室预约审核</title>
-    <title th:if="${type eq 4}">实验室预约审核记录</title>
+    <title>实验室预约审核</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -31,10 +28,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5 th:if="${type eq 1}">实验室使用记录</h5>
-                    <h5 th:if="${type eq 2}">实验室预约记录</h5>
-                    <h5 th:if="${type eq 3}">实验室预约待审核</h5>
-                    <h5 th:if="${type eq 4}">实验室预约审核记录</h5>
+                    <h5>实验室预约审核</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -70,10 +64,11 @@
                             <th>审核状态</th>
                             <th>审核人</th>
                             <th>审核人账号</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="lur : ${lurvos}" class="gradeA">
+                        <tr th:each="lur,lurStat : ${lurvos}" class="gradeA">
                             <td th:text="${lur.getId()}"></td>
                             <td th:text="${lur.getLaboratoryName()}"></td>
                             <td th:text="${lur.getCampus()}"></td>
@@ -92,6 +87,10 @@
                             <td th:if="${lur.getStatus() eq 4}" style="color: green">已通过</td>
                             <td th:text="${lur.getReviewerName()}"></td>
                             <td th:text="${lur.getReviewerNumber()}"></td>
+                            <td>
+                                <button name="pass" th:id="'pass'+${lurStat.count}" th:onclick="|passLaboratory(${lurStat.count})|" class="bg-success" th:value="${lur.getId()}">通过</button>
+                                <button name="noPass" th:id="'noPass'+${lurStat.count}" th:onclick="|noPassLaboratory(${lurStat.count})|" class="bg-danger" th:value="${lur.getId()}">拒绝</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -116,14 +115,83 @@
 
 <!-- 自定义js -->
 <script src="/js/content.js?v=1.0.0"></script>
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
 
 
 <!-- Page-Level Scripts -->
 <script>
+    function passLaboratory(count){
+        g_showLoading();
+        var tmp = "pass"+count;
+        var button = document.getElementById(tmp);
+        var id = $(button).val();
+
+        layer.confirm("确定通过吗？", {btn:["确定","取消"]},
+            function(){
+                $.ajax({
+                    url: "/review/laboratory/pass",
+                    type: "post",
+                    async: false,
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        layer.closeAll();
+                        if(data.code == 0){
+                            layer.msg("已通过");
+                            window.location.href="/list/laboratory/wait/review";
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(){
+                        layer.closeAll();
+                    }
+                });
+            },
+            function(){
+                layer.closeAll();
+            });
+    }
+    function noPassLaboratory(count){
+        g_showLoading();
+        var tmp = "noPass"+count;
+        var button = document.getElementById(tmp);
+        var id = $(button).val();
+
+        layer.confirm("确定不通过吗？", {btn:["确定","取消"]},
+            function(){
+                $.ajax({
+                    url: "/review/laboratory/no_pass",
+                    type: "post",
+                    async: false,
+                    data:{
+                        id:id
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        layer.closeAll();
+                        if(data.code == 0){
+                            layer.msg("已完成");
+                            window.location.href="/list/laboratory/wait/review";
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error:function(){
+                        layer.closeAll();
+                    }
+                });
+            },
+            function(){
+                layer.closeAll();
+            });
+    }
 </script>
-
-
-
 
 </body>
 
