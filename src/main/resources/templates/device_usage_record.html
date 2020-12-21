@@ -56,7 +56,6 @@
                             <th>设备型号</th>
                             <th>设备编号</th>
                             <th>设备状态</th>
-                            <th>使用状态</th>
                             <th>预约人</th>
                             <th>预约人账号</th>
                             <th>预约身份</th>
@@ -79,8 +78,6 @@
                             <td th:if="${durvo.getDeviceStatus() eq 1}" style="color: orangered">等待维修</td>
                             <td th:if="${durvo.getDeviceStatus() eq 2}" style="color: blue">维修完毕</td>
                             <td th:if="${durvo.getDeviceStatus() eq 3}" style="color: red">已报废</td>
-                            <td th:if="${durvo.getUsageStatus() eq 0}" style="color: green">空闲中</td>
-                            <td th:if="${durvo.getUsageStatus() eq 1}" style="color: orangered">使用中</td>
                             <td th:text="${durvo.getUserName()}"></td>
                             <td th:text="${durvo.getUserNumber()}"></td>
                             <td th:if="${durvo.getPower() eq 1}">学生</td>

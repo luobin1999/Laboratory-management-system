@@ -19,8 +19,6 @@ public class DeviceVO {
     private String checkDate;
     //设备状态
     private int deviceStatus;
-    //当前使用状态
-    private int usageStatus;
     //设备负责人
     private String admin;
 
@@ -58,10 +56,6 @@ public class DeviceVO {
 
     public void setDeviceStatus(int deviceStatus) {
         this.deviceStatus = deviceStatus;
-    }
-
-    public void setUsageStatus(int usageStatus) {
-        this.usageStatus = usageStatus;
     }
 
     public void setAdmin(String admin) {
@@ -102,10 +96,6 @@ public class DeviceVO {
 
     public int getDeviceStatus() {
         return deviceStatus;
-    }
-
-    public int getUsageStatus() {
-        return usageStatus;
     }
 
     public String getAdmin() {

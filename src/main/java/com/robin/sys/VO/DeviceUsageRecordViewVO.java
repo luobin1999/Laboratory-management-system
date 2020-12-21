@@ -11,8 +11,6 @@ public class DeviceUsageRecordViewVO {
     private String deviceNumber;
     //设备状态
     private int deviceStatus;
-    //使用状态
-    private int usageStatus;
     //用户姓名
     private String userName;
     //用户账号
@@ -52,10 +50,6 @@ public class DeviceUsageRecordViewVO {
 
     public void setDeviceStatus(int deviceStatus) {
         this.deviceStatus = deviceStatus;
-    }
-
-    public void setUsageStatus(int usageStatus) {
-        this.usageStatus = usageStatus;
     }
 
     public void setUserName(String userName) {
@@ -118,10 +112,6 @@ public class DeviceUsageRecordViewVO {
         return deviceStatus;
     }
 
-    public int getUsageStatus() {
-        return usageStatus;
-    }
-
     public String getUserName() {
         return userName;
     }
@@ -170,7 +160,6 @@ public class DeviceUsageRecordViewVO {
                 ", deviceModel='" + deviceModel + '\'' +
                 ", deviceNumber='" + deviceNumber + '\'' +
                 ", deviceStatus=" + deviceStatus +
-                ", usageStatus=" + usageStatus +
                 ", userName='" + userName + '\'' +
                 ", userNumber='" + userNumber + '\'' +
                 ", power=" + power +

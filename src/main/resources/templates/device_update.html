@@ -88,16 +88,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">使用状态：</label>
-
-                        <div class="col-sm-8">
-                            <select th:field="${device.usageStatus}" th:value="${device.usageStatus}" name="usage_status" id="usage_status" class="form-control">
-                                <option th:selected="${device.usageStatus ==  0}" value="0" style="color: green">空闲中</option>
-                                <option th:selected="${device.usageStatus ==  1}" value="1" style="color: orangered">使用中</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8">
                             <button class="btn btn-sm btn-info" type="button" onclick="updateDevice()">确认添加</button>
                         </div>
@@ -133,7 +123,6 @@
         var number = $("#number").val();
         var admin = $("#admin").val();
         var deviceStatus = $("#device_status").val();
-        var usageStatus = $("#usage_status").val();
 
         $.ajax({
             url: "/update/device/update",
@@ -145,8 +134,7 @@
                 model:model,
                 number:number,
                 admin:admin,
-                deviceStatus:deviceStatus,
-                usageStatus:usageStatus
+                deviceStatus:deviceStatus
             },
             dataType:"json",
             success:function(data){

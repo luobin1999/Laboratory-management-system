@@ -27,8 +27,6 @@ public class LaboratoryUsageRecordVO {
     private String reviewerName;
     //审核人账号
     private String reviewerNumber;
-    //实验室状态
-    private int laboratoryStatus;
 
     public String getCampus() {
         return campus;
@@ -86,10 +84,6 @@ public class LaboratoryUsageRecordVO {
         this.reviewerNumber = reviewerNumber;
     }
 
-    public void setLaboratoryStatus(int laboratoryStatus) {
-        this.laboratoryStatus = laboratoryStatus;
-    }
-
     public int getId() {
         return id;
     }
@@ -138,10 +132,6 @@ public class LaboratoryUsageRecordVO {
         return reviewerNumber;
     }
 
-    public int getLaboratoryStatus() {
-        return laboratoryStatus;
-    }
-
     @Override
     public String toString() {
         return "LaboratoryUsageRecordVO{" +
@@ -158,7 +148,6 @@ public class LaboratoryUsageRecordVO {
                 ", status=" + status +
                 ", reviewerName='" + reviewerName + '\'' +
                 ", reviewerNumber='" + reviewerNumber + '\'' +
-                ", laboratoryStatus=" + laboratoryStatus +
                 '}';
     }
 }

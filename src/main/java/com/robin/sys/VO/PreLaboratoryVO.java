@@ -7,15 +7,6 @@ public class PreLaboratoryVO {
     private String admin;
     private String adminNumber;
     private String content;
-    private int isFree;
-
-    public void setIsFree(int isFree) {
-        this.isFree = isFree;
-    }
-
-    public int getIsFree() {
-        return isFree;
-    }
 
     @Override
     public String toString() {
@@ -26,7 +17,6 @@ public class PreLaboratoryVO {
                 ", admin='" + admin + '\'' +
                 ", adminNumber='" + adminNumber + '\'' +
                 ", content='" + content + '\'' +
-                ", isFree=" + isFree +
                 '}';
     }
 

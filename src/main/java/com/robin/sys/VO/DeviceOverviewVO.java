@@ -17,10 +17,6 @@ public class DeviceOverviewVO {
     private int alreadyRepairCount;
     //报废设备的数量
     private int scrapCount;
-    //空闲中的设备数量
-    private int freeCount;
-    //使用中的设备数量
-    private int usageCount;
     //最近一次检查的日期
     private String checkDate;
     //设备负责人
@@ -62,14 +58,6 @@ public class DeviceOverviewVO {
         this.scrapCount = scrapCount;
     }
 
-    public void setFreeCount(int freeCount) {
-        this.freeCount = freeCount;
-    }
-
-    public void setUsageCount(int usageCount) {
-        this.usageCount = usageCount;
-    }
-
     public void setCheckDate(String checkDate) {
         this.checkDate = checkDate;
     }
@@ -106,14 +94,6 @@ public class DeviceOverviewVO {
         return scrapCount;
     }
 
-    public int getFreeCount() {
-        return freeCount;
-    }
-
-    public int getUsageCount() {
-        return usageCount;
-    }
-
     public String getCheckDate() {
         return checkDate;
     }
@@ -133,8 +113,6 @@ public class DeviceOverviewVO {
                 ", waitRepairCount=" + waitRepairCount +
                 ", alreadyRepairCount=" + alreadyRepairCount +
                 ", scrapCount=" + scrapCount +
-                ", freeCount=" + freeCount +
-                ", usageCount=" + usageCount +
                 ", checkDate='" + checkDate + '\'' +
                 ", admin='" + admin + '\'' +
                 '}';

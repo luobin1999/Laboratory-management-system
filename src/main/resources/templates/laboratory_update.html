@@ -84,16 +84,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">实验室状态：</label>
-
-                        <div class="col-sm-8">
-                            <select th:field="${laboratory.isFree}" th:value="${laboratory.isFree}" name="isFree" id="isFree" class="form-control">
-                                <option th:selected="${user.sex == 0}" value="0" style="color: green">空闲中</option>
-                                <option th:selected="${user.sex == 1}" value="1" style="color: orangered">使用中</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8">
                             <button class="btn btn-sm btn-info" type="button" onclick="updateLaboratory()">确认修改</button>
                         </div>
@@ -129,7 +119,6 @@
         var admin = $("#admin").val();
         var adminNumber = $("#adminNumber").val();
         var content = $("#content").val();
-        var isFree = $("#isFree").val();
 
         $.ajax({
             url: "/update/laboratory/update",
@@ -141,8 +130,7 @@
                 campus:campus,
                 admin:admin,
                 adminNumber:adminNumber,
-                content:content,
-                isFree:isFree
+                content:content
             },
             dataType:"json",
             success:function(data){

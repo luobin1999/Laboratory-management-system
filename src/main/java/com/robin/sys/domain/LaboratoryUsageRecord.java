@@ -29,8 +29,6 @@ public class LaboratoryUsageRecord {
     private String reviewerName;
     //审核人账号
     private String reviewerNumber;
-    //实验室状态
-    private int laboratoryStatus;
 
     public void setCampus(String campus) {
         this.campus = campus;
@@ -38,14 +36,6 @@ public class LaboratoryUsageRecord {
 
     public String getCampus() {
         return campus;
-    }
-
-    public void setLaboratoryStatus(int laboratoryStatus) {
-        this.laboratoryStatus = laboratoryStatus;
-    }
-
-    public int getLaboratoryStatus() {
-        return laboratoryStatus;
     }
 
     public void setId(int id) {
@@ -86,14 +76,6 @@ public class LaboratoryUsageRecord {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public void setReviewerName(String reviewerName) {
-        this.reviewerName = reviewerName;
-    }
-
-    public void setReviewerNumber(String reviewerNumber) {
-        this.reviewerNumber = reviewerNumber;
     }
 
     public int getId() {

@@ -21,8 +21,6 @@ public class Device {
     private Date checkDate;
     //设备状态
     private int deviceStatus;
-    //当前使用状态
-    private int usageStatus;
     //设备负责人
     private String admin;
 
@@ -60,10 +58,6 @@ public class Device {
 
     public void setDeviceStatus(int deviceStatus) {
         this.deviceStatus = deviceStatus;
-    }
-
-    public void setUsageStatus(int usageStatus) {
-        this.usageStatus = usageStatus;
     }
 
     public void setAdmin(String admin) {
@@ -106,10 +100,6 @@ public class Device {
         return deviceStatus;
     }
 
-    public int getUsageStatus() {
-        return usageStatus;
-    }
-
     public String getAdmin() {
         return admin;
     }
@@ -126,7 +116,6 @@ public class Device {
                 ", updateDate=" + updateDate +
                 ", checkDate=" + checkDate +
                 ", deviceStatus=" + deviceStatus +
-                ", usageStatus=" + usageStatus +
                 ", admin='" + admin + '\'' +
                 '}';
     }

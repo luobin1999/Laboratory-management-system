@@ -47,7 +47,6 @@ public class DeviceService {
             deviceVO.setAdmin(device.getAdmin());
             deviceVO.setModel(device.getModel());
             deviceVO.setDeviceStatus(device.getDeviceStatus());
-            deviceVO.setUsageStatus(device.getUsageStatus());
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
             String createDate = sdf1.format(device.getCreateDate());
@@ -83,10 +82,8 @@ public class DeviceService {
             dov.setAdmin(dow.getAdmin());
             dov.setCount(dow.getCount());
             dov.setAlreadyRepairCount(dow.getAlreadyRepairCount());
-            dov.setFreeCount(dow.getFreeCount());
             dov.setNormalCount(dow.getNormalCount());
             dov.setScrapCount(dow.getScrapCount());
-            dov.setUsageCount(dow.getUsageCount());
             dov.setWaitRepairCount(dow.getWaitRepairCount());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             if (dow.getCheckDate() != null){
@@ -116,7 +113,6 @@ public class DeviceService {
         }
         String admin = preDeviceVO.getAdmin();
         int deviceStatus = preDeviceVO.getDeviceStatus();
-        int usageStatus = preDeviceVO.getUsageStatus();
         if (name == null || name.length() < 1) {
             throw new GlobalException(CodeMsg.DEVICE_NAME_EMPTY);
         }
@@ -136,7 +132,6 @@ public class DeviceService {
         device.setModel(model);
         device.setBuyDate(buyDate);
         device.setDeviceStatus(deviceStatus);
-        device.setUsageStatus(usageStatus);
         device.setCreateDate(new Date());
         deviceDao.insertDevice(device);
     }
@@ -155,7 +150,6 @@ public class DeviceService {
         String number = preDeviceVO.getNumber();
         String admin = preDeviceVO.getAdmin();
         int deviceStatus = preDeviceVO.getDeviceStatus();
-        int usageStatus = preDeviceVO.getUsageStatus();
         if (name == null || name.length() < 1) {
             throw new GlobalException(CodeMsg.DEVICE_NAME_EMPTY);
         }
@@ -172,7 +166,6 @@ public class DeviceService {
         device.setNumber(number);
         device.setModel(model);
         device.setDeviceStatus(deviceStatus);
-        device.setUsageStatus(usageStatus);
         device.setUpdateDate(new Date());
         deviceDao.updateDeviceById(device);
     }
@@ -204,7 +197,7 @@ public class DeviceService {
 
     @Transactional
     public List<DeviceUsageRecordViewVO> listDeviceUsageRecord() {
-        List<DeviceUsageRecordView> durvs = deviceUsageRecordDao.listDeviceUsageRecord();
+        List<DeviceUsageRecordView> durvs = deviceUsageRecordDao.listDeviceUsageRecordPass();
         List<DeviceUsageRecordViewVO> durvvos = new ArrayList<>();
         if (durvs == null) {
             return durvvos;
@@ -217,7 +210,6 @@ public class DeviceService {
             durvo.setDeviceModel(dur.getDeviceModel());
             durvo.setDeviceNumber(dur.getDeviceNumber());
             durvo.setDeviceStatus(dur.getDeviceStatus());
-            durvo.setUsageStatus(dur.getUsageStatus());
             durvo.setPower(dur.getPower());
             durvo.setReviewerName(dur.getReviewerName());
             durvo.setReviewerNumber(dur.getReviewerNumber());
@@ -237,6 +229,109 @@ public class DeviceService {
         return durvvos;
     }
 
+    @Transactional
+    public List<DeviceUsageRecordViewVO> listDeviceUsageRecordReviewing(String userNumber) {
+        List<DeviceUsageRecordView> durvs = deviceUsageRecordDao.listDeviceUsageRecordReviewing(userNumber);
+        List<DeviceUsageRecordViewVO> durvvos = new ArrayList<>();
+        if (durvs == null) {
+            return durvvos;
+        }
+        for (int i = 0; i < durvs.size(); i++) {
+            DeviceUsageRecordView dur = durvs.get(i);
+            DeviceUsageRecordViewVO durvo = new DeviceUsageRecordViewVO();
+            durvo.setId(dur.getId());
+            durvo.setDeviceName(dur.getDeviceName());
+            durvo.setDeviceModel(dur.getDeviceModel());
+            durvo.setDeviceNumber(dur.getDeviceNumber());
+            durvo.setDeviceStatus(dur.getDeviceStatus());
+            durvo.setPower(dur.getPower());
+            durvo.setReviewerName(dur.getReviewerName());
+            durvo.setReviewerNumber(dur.getReviewerNumber());
+            durvo.setStatus(dur.getStatus());
+            durvo.setTarget(dur.getTarget());
+            durvo.setUserName(dur.getUserName());
+            durvo.setUserNumber(dur.getUserNumber());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date createDate = dur.getCreateDate();
+            durvo.setCreateDate(sdf.format(createDate));
+            String startDate = sdf.format(dur.getStartDate());
+            String endDate = sdf.format(dur.getEndDate());
+            durvo.setStartDate(startDate);
+            durvo.setEndDate(endDate);
+            durvvos.add(durvo);
+        }
+        return durvvos;
+    }
+
+    @Transactional
+    public List<DeviceUsageRecordViewVO> listDeviceUsageRecordFinish(String userNumber) {
+        List<DeviceUsageRecordView> durvs = deviceUsageRecordDao.listDeviceUsageRecordFinish(userNumber);
+        List<DeviceUsageRecordViewVO> durvvos = new ArrayList<>();
+        if (durvs == null) {
+            return durvvos;
+        }
+        for (int i = 0; i < durvs.size(); i++) {
+            DeviceUsageRecordView dur = durvs.get(i);
+            DeviceUsageRecordViewVO durvo = new DeviceUsageRecordViewVO();
+            durvo.setId(dur.getId());
+            durvo.setDeviceName(dur.getDeviceName());
+            durvo.setDeviceModel(dur.getDeviceModel());
+            durvo.setDeviceNumber(dur.getDeviceNumber());
+            durvo.setDeviceStatus(dur.getDeviceStatus());
+            durvo.setPower(dur.getPower());
+            durvo.setReviewerName(dur.getReviewerName());
+            durvo.setReviewerNumber(dur.getReviewerNumber());
+            durvo.setStatus(dur.getStatus());
+            durvo.setTarget(dur.getTarget());
+            durvo.setUserName(dur.getUserName());
+            durvo.setUserNumber(dur.getUserNumber());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date createDate = dur.getCreateDate();
+            durvo.setCreateDate(sdf.format(createDate));
+            String startDate = sdf.format(dur.getStartDate());
+            String endDate = sdf.format(dur.getEndDate());
+            durvo.setStartDate(startDate);
+            durvo.setEndDate(endDate);
+            durvvos.add(durvo);
+        }
+        return durvvos;
+    }
+
+    @Transactional
+    public List<DeviceUsageRecordViewVO> listDeviceUsageRecord(String userNumber) {
+        List<DeviceUsageRecordView> durvs = deviceUsageRecordDao.listDeviceUsageRecord(userNumber);
+        List<DeviceUsageRecordViewVO> durvvos = new ArrayList<>();
+        if (durvs == null) {
+            return durvvos;
+        }
+        for (int i = 0; i < durvs.size(); i++) {
+            DeviceUsageRecordView dur = durvs.get(i);
+            DeviceUsageRecordViewVO durvo = new DeviceUsageRecordViewVO();
+            durvo.setId(dur.getId());
+            durvo.setDeviceName(dur.getDeviceName());
+            durvo.setDeviceModel(dur.getDeviceModel());
+            durvo.setDeviceNumber(dur.getDeviceNumber());
+            durvo.setDeviceStatus(dur.getDeviceStatus());
+            durvo.setPower(dur.getPower());
+            durvo.setReviewerName(dur.getReviewerName());
+            durvo.setReviewerNumber(dur.getReviewerNumber());
+            durvo.setStatus(dur.getStatus());
+            durvo.setTarget(dur.getTarget());
+            durvo.setUserName(dur.getUserName());
+            durvo.setUserNumber(dur.getUserNumber());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date createDate = dur.getCreateDate();
+            durvo.setCreateDate(sdf.format(createDate));
+            String startDate = sdf.format(dur.getStartDate());
+            String endDate = sdf.format(dur.getEndDate());
+            durvo.setStartDate(startDate);
+            durvo.setEndDate(endDate);
+            durvvos.add(durvo);
+        }
+        return durvvos;
+    }
+
+    @Transactional
     public void borrowDevice(DeviceUsageRecordVO deviceUsageRecordVO) {
         if (deviceUsageRecordVO == null) {
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);

@@ -59,7 +59,6 @@
                             <th>简介</th>
                             <th>创建时间</th>
                             <th>修改时间</th>
-                            <th>是否空闲</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -73,8 +72,6 @@
                             <td th:text="${laboratory.getContent()}"></td>
                             <td th:text="${laboratory.getCreateDate()}"></td>
                             <td th:text="${laboratory.getUpdateDate()}"></td>
-                            <td th:if="${laboratory.getIsFree() eq 0}" style="color: green">空闲中</td>
-                            <td th:if="${laboratory.getIsFree() eq 1}" style="color: orangered">使用中</td>
                             <td>
                                 <form method="post" action="/borrow/laboratory" style="display: inline-block" th:if="${user.power eq 1 || user.power eq 2}">
                                     <input type="hidden" name="id" th:value="${laboratory.getId()}">

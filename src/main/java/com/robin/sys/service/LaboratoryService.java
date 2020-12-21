@@ -43,7 +43,6 @@ public class LaboratoryService {
                 laboratoryVO.setAdmin(laboratory.getAdmin());
                 laboratoryVO.setAdminNumber(laboratory.getAdminNumber());
                 laboratoryVO.setContent(laboratory.getContent());
-                laboratoryVO.setIsFree(laboratory.getIsFree());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String createDate = sdf.format(laboratory.getCreateDate());
                 if (laboratory.getUpdateDate() != null){
@@ -89,7 +88,6 @@ public class LaboratoryService {
         laboratory.setAdminNumber(adminNumber);
         laboratory.setContent(content);
         laboratory.setCreateDate(new Date());
-        laboratory.setIsFree(0);
         laboratoryDao.insertLaboratory(laboratory);
     }
 
@@ -107,7 +105,6 @@ public class LaboratoryService {
         String admin = preLaboratoryVO.getAdmin();
         String adminNumber = preLaboratoryVO.getAdminNumber();
         String content = preLaboratoryVO.getContent();
-        int isFree = preLaboratoryVO.getIsFree();
         if (name == null || name.length() < 1){
             throw new GlobalException(CodeMsg.LABORATORY_NAME_EMPTY);
         }
@@ -122,7 +119,6 @@ public class LaboratoryService {
         laboratory.setAdminNumber(adminNumber);
         laboratory.setUpdateDate(new Date());
         laboratory.setContent(content);
-        laboratory.setIsFree(isFree);
         laboratoryDao.updateLaboratoryById(laboratory);
     }
 
@@ -138,7 +134,7 @@ public class LaboratoryService {
 
     @Transactional
     public List<LaboratoryUsageRecordVO> listLaboratoryUsageRecord() {
-        List<LaboratoryUsageRecord> lurs = laboratoryUsageRecordDao.listLaboratoryUsageRecord();
+        List<LaboratoryUsageRecord> lurs = laboratoryUsageRecordDao.listLaboratoryUsageRecordPass();
         List<LaboratoryUsageRecordVO> lurVOS = new ArrayList<>();
         if (lurs != null) {
             for (int i = 0; i < lurs.size(); i++) {
@@ -148,7 +144,99 @@ public class LaboratoryService {
                 lurVO.setLaboratoryName(lur.getLaboratoryName());
                 lurVO.setCampus(lur.getCampus());
                 lurVO.setUserName(lur.getUserName());
-                lurVO.setLaboratoryStatus(lur.getLaboratoryStatus());
+                lurVO.setPower(lur.getPower());
+                lurVO.setUserNumber(lur.getUserNumber());
+                lurVO.setTarget(lur.getTarget());
+                lurVO.setStatus(lur.getStatus());
+                lurVO.setReviewerName(lur.getReviewerName());
+                lurVO.setReviewerNumber(lur.getReviewerNumber());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String createDate = sdf.format(lur.getCreateDate());
+                String startDate = sdf.format(lur.getStartDate());
+                String endDate = sdf.format(lur.getEndDate());
+                lurVO.setCreateDate(createDate);
+                lurVO.setStartDate(startDate);
+                lurVO.setEndDate(endDate);
+                lurVOS.add(lurVO);
+            }
+        }
+        return lurVOS;
+    }
+
+    @Transactional
+    public List<LaboratoryUsageRecordVO> listLaboratoryUsageRecordReviewing(String userNumber) {
+        List<LaboratoryUsageRecord> lurs = laboratoryUsageRecordDao.listLaboratoryUsageRecordReviewing(userNumber);
+        List<LaboratoryUsageRecordVO> lurVOS = new ArrayList<>();
+        if (lurs != null) {
+            for (int i = 0; i < lurs.size(); i++) {
+                LaboratoryUsageRecord lur = lurs.get(i);
+                LaboratoryUsageRecordVO lurVO = new LaboratoryUsageRecordVO();
+                lurVO.setId(lur.getId());
+                lurVO.setLaboratoryName(lur.getLaboratoryName());
+                lurVO.setCampus(lur.getCampus());
+                lurVO.setUserName(lur.getUserName());
+                lurVO.setPower(lur.getPower());
+                lurVO.setUserNumber(lur.getUserNumber());
+                lurVO.setTarget(lur.getTarget());
+                lurVO.setStatus(lur.getStatus());
+                lurVO.setReviewerName(lur.getReviewerName());
+                lurVO.setReviewerNumber(lur.getReviewerNumber());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String createDate = sdf.format(lur.getCreateDate());
+                String startDate = sdf.format(lur.getStartDate());
+                String endDate = sdf.format(lur.getEndDate());
+                lurVO.setCreateDate(createDate);
+                lurVO.setStartDate(startDate);
+                lurVO.setEndDate(endDate);
+                lurVOS.add(lurVO);
+            }
+        }
+        return lurVOS;
+    }
+
+    @Transactional
+    public List<LaboratoryUsageRecordVO> listLaboratoryUsageRecordFinish(String userNumber) {
+        List<LaboratoryUsageRecord> lurs = laboratoryUsageRecordDao.listLaboratoryUsageRecordFinish(userNumber);
+        List<LaboratoryUsageRecordVO> lurVOS = new ArrayList<>();
+        if (lurs != null) {
+            for (int i = 0; i < lurs.size(); i++) {
+                LaboratoryUsageRecord lur = lurs.get(i);
+                LaboratoryUsageRecordVO lurVO = new LaboratoryUsageRecordVO();
+                lurVO.setId(lur.getId());
+                lurVO.setLaboratoryName(lur.getLaboratoryName());
+                lurVO.setCampus(lur.getCampus());
+                lurVO.setUserName(lur.getUserName());
+                lurVO.setPower(lur.getPower());
+                lurVO.setUserNumber(lur.getUserNumber());
+                lurVO.setTarget(lur.getTarget());
+                lurVO.setStatus(lur.getStatus());
+                lurVO.setReviewerName(lur.getReviewerName());
+                lurVO.setReviewerNumber(lur.getReviewerNumber());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String createDate = sdf.format(lur.getCreateDate());
+                String startDate = sdf.format(lur.getStartDate());
+                String endDate = sdf.format(lur.getEndDate());
+                lurVO.setCreateDate(createDate);
+                lurVO.setStartDate(startDate);
+                lurVO.setEndDate(endDate);
+                lurVOS.add(lurVO);
+            }
+        }
+        return lurVOS;
+    }
+
+    @Transactional
+    public List<LaboratoryUsageRecordVO> listLaboratoryUsageRecord(String userNumber) {
+        List<LaboratoryUsageRecord> lurs = laboratoryUsageRecordDao.listLaboratoryUsageRecord(userNumber);
+        List<LaboratoryUsageRecordVO> lurVOS = new ArrayList<>();
+        if (lurs != null) {
+            for (int i = 0; i < lurs.size(); i++) {
+                LaboratoryUsageRecord lur = lurs.get(i);
+                LaboratoryUsageRecordVO lurVO = new LaboratoryUsageRecordVO();
+                lurVO.setId(lur.getId());
+                lurVO.setLaboratoryName(lur.getLaboratoryName());
+                lurVO.setCampus(lur.getCampus());
+                lurVO.setUserName(lur.getUserName());
                 lurVO.setPower(lur.getPower());
                 lurVO.setUserNumber(lur.getUserNumber());
                 lurVO.setTarget(lur.getTarget());

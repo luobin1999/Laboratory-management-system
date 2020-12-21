@@ -1,7 +1,5 @@
 package com.robin.sys.VO;
 
-import java.util.Date;
-
 public class PreDeviceVO {
     //主键ID
     private int id;
@@ -17,8 +15,6 @@ public class PreDeviceVO {
     private String admin;
     //设备状态；0正常使用，1等待维修，2维修完成，3已报废
     private int deviceStatus;
-    //使用状态；0空闲中，1使用中
-    private int usageStatus;
 
     public void setId(int id) {
         this.id = id;
@@ -46,10 +42,6 @@ public class PreDeviceVO {
 
     public void setDeviceStatus(int deviceStatus) {
         this.deviceStatus = deviceStatus;
-    }
-
-    public void setUsageStatus(int usageStatus) {
-        this.usageStatus = usageStatus;
     }
 
     public int getId() {
@@ -80,10 +72,6 @@ public class PreDeviceVO {
         return deviceStatus;
     }
 
-    public int getUsageStatus() {
-        return usageStatus;
-    }
-
     @Override
     public String toString() {
         return "PreDeviceVO{" +
@@ -94,7 +82,6 @@ public class PreDeviceVO {
                 ", buyDate=" + buyDate +
                 ", admin='" + admin + '\'' +
                 ", deviceStatus=" + deviceStatus +
-                ", usageStatus=" + usageStatus +
                 '}';
     }
 }
