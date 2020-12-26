@@ -1,4 +1,4 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.login;
 
 public class LoginVO {
     private String number;

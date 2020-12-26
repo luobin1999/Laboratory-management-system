@@ -1,6 +1,6 @@
 package com.robin.sys.service;
 
-import com.robin.sys.VO.*;
+import com.robin.sys.VO.device.*;
 import com.robin.sys.dao.DeviceDao;
 import com.robin.sys.dao.DeviceUsageRecordDao;
 import com.robin.sys.domain.Device;

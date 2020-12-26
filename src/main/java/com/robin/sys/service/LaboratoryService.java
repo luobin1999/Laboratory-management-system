@@ -1,9 +1,9 @@
 package com.robin.sys.service;
 
-import com.robin.sys.VO.LaboratoryUsageRecordVO;
-import com.robin.sys.VO.LaboratoryVO;
-import com.robin.sys.VO.PreLaboratoryRecordVO;
-import com.robin.sys.VO.PreLaboratoryVO;
+import com.robin.sys.VO.laboratory.LaboratoryUsageRecordVO;
+import com.robin.sys.VO.laboratory.LaboratoryVO;
+import com.robin.sys.VO.laboratory.PreLaboratoryRecordVO;
+import com.robin.sys.VO.laboratory.PreLaboratoryVO;
 import com.robin.sys.dao.LaboratoryDao;
 import com.robin.sys.dao.LaboratoryUsageRecordDao;
 import com.robin.sys.domain.Laboratory;

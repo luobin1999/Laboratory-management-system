@@ -1,6 +1,6 @@
 package com.robin.sys.controller;
 
-import com.robin.sys.VO.*;
+import com.robin.sys.VO.device.*;
 import com.robin.sys.domain.Device;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;

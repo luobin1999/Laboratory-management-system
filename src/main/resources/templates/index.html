@@ -52,9 +52,11 @@
                 <li>
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">实验管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="/list/test">实验列表</a>
+                        <li th:if="${user.getPower() eq 2 || user.getPower() eq 3}"><a class="J_menuItem" href="/list/experiment">实验列表</a>
                         </li>
-                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="/add/test">添加实验</a>
+                        <li th:if="${user.getPower() eq 1}"><a class="J_menuItem" href="/list/experiment_record">实验列表</a>
+                        </li>
+                        <li th:if="${user.power eq 2 || user.power eq 3}"><a class="J_menuItem" href="/add/experiment">添加实验</a>
                         </li>
                     </ul>
                 </li>
@@ -82,13 +84,6 @@
                         </li>
                     </ul>
                 </li>
-                <li th:if="${user.power eq 3}">
-                    <a href="#"><i class="fa fa-folder"></i> <span class="nav-label">文件管理</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="/list/file">文件列表</a>
-                        </li>
-                    </ul>
-                </li>
                 <li>
                     <a href="#"><i class="fa fa-table"></i> <span class="nav-label">班级管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -98,7 +93,7 @@
                         </li>
                     </ul>
                 </li>
-                <li th:if="${user.power eq 1 || user.power eq 2}">
+                <li th:if="${user.power eq 2}">
                     <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">作业管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>

@@ -1,4 +1,4 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.device;
 
 public class DeviceOverviewVO {
     //主键ID

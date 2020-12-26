@@ -1,4 +1,4 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.login;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;

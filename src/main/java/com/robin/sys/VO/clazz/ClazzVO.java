@@ -1,4 +1,4 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.clazz;
 
 public class ClazzVO {
     //班级ID

@@ -1,7 +1,7 @@
 package com.robin.sys.controller;
 
-import com.robin.sys.VO.ClazzVO;
-import com.robin.sys.VO.PreClazzVO;
+import com.robin.sys.VO.clazz.ClazzVO;
+import com.robin.sys.VO.clazz.PreClazzVO;
 import com.robin.sys.domain.Clazz;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
