@@ -1,9 +1,9 @@
 package com.robin.sys.service;
 
-import com.robin.sys.VO.LoginVO;
-import com.robin.sys.VO.PasswordVO;
-import com.robin.sys.VO.RegisterVO;
-import com.robin.sys.VO.UserVO;
+import com.robin.sys.VO.login.LoginVO;
+import com.robin.sys.VO.login.PasswordVO;
+import com.robin.sys.VO.login.RegisterVO;
+import com.robin.sys.VO.login.UserVO;
 import com.robin.sys.access.UserContext;
 import com.robin.sys.constant.Constant;
 import com.robin.sys.dao.UserDao;

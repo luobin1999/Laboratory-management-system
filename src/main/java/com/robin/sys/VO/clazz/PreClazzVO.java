@@ -1,4 +1,4 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.clazz;
 
 public class PreClazzVO {
     private int id;

@@ -1,4 +1,4 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.laboratory;
 
 public class LaboratoryUsageRecordVO {
     //审核信息ID

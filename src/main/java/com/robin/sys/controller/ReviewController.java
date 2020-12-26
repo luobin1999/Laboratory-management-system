@@ -1,7 +1,7 @@
 package com.robin.sys.controller;
 
-import com.robin.sys.VO.DeviceUsageRecordViewVO;
-import com.robin.sys.VO.LaboratoryUsageRecordVO;
+import com.robin.sys.VO.device.DeviceUsageRecordViewVO;
+import com.robin.sys.VO.laboratory.LaboratoryUsageRecordVO;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;

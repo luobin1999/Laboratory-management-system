@@ -1,22 +1,31 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.device;
 
-public class PreLaboratoryRecordVO {
+public class DeviceUsageRecordVO {
+    //主键ID
     private int id;
-    private int laboratoryId;
+    //设备ID
+    private int deviceId;
+    //用户ID
     private int userId;
+    //开始时间
     private String startDate;
+    //结束时间
     private String endDate;
+    //目的
     private String target;
+    //审核状态；1审核中，2使用中，3审核不通过，4已完成
     private int status;
+    //审核人ID
     private int reviewerId;
+    //审核提交时间
     private String createDate;
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setLaboratoryId(int laboratoryId) {
-        this.laboratoryId = laboratoryId;
+    public void setDeviceId(int deviceId) {
+        this.deviceId = deviceId;
     }
 
     public void setUserId(int userId) {
@@ -51,8 +60,8 @@ public class PreLaboratoryRecordVO {
         return id;
     }
 
-    public int getLaboratoryId() {
-        return laboratoryId;
+    public int getDeviceId() {
+        return deviceId;
     }
 
     public int getUserId() {
@@ -85,9 +94,9 @@ public class PreLaboratoryRecordVO {
 
     @Override
     public String toString() {
-        return "PreLaboratoryRecordVO{" +
+        return "DeviceUsageRecordVO{" +
                 "id=" + id +
-                ", laboratoryId=" + laboratoryId +
+                ", deviceId=" + deviceId +
                 ", userId=" + userId +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +

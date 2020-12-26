@@ -1,9 +1,9 @@
 package com.robin.sys.controller;
 
-import com.robin.sys.VO.LaboratoryUsageRecordVO;
-import com.robin.sys.VO.LaboratoryVO;
-import com.robin.sys.VO.PreLaboratoryRecordVO;
-import com.robin.sys.VO.PreLaboratoryVO;
+import com.robin.sys.VO.laboratory.LaboratoryUsageRecordVO;
+import com.robin.sys.VO.laboratory.LaboratoryVO;
+import com.robin.sys.VO.laboratory.PreLaboratoryRecordVO;
+import com.robin.sys.VO.laboratory.PreLaboratoryVO;
 import com.robin.sys.domain.Laboratory;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;

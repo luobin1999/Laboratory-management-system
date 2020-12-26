@@ -1,4 +1,4 @@
-package com.robin.sys.VO;
+package com.robin.sys.VO.laboratory;
 
 public class LaboratoryVO {
     //实验室ID

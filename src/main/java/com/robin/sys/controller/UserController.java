@@ -1,8 +1,8 @@
 package com.robin.sys.controller;
 
-import com.robin.sys.VO.ClazzVO;
-import com.robin.sys.VO.PasswordVO;
-import com.robin.sys.VO.UserVO;
+import com.robin.sys.VO.clazz.ClazzVO;
+import com.robin.sys.VO.login.PasswordVO;
+import com.robin.sys.VO.login.UserVO;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;

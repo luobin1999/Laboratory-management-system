@@ -1,7 +1,7 @@
 package com.robin.sys.service;
 
-import com.robin.sys.VO.DeviceUsageRecordViewVO;
-import com.robin.sys.VO.LaboratoryUsageRecordVO;
+import com.robin.sys.VO.device.DeviceUsageRecordViewVO;
+import com.robin.sys.VO.laboratory.LaboratoryUsageRecordVO;
 import com.robin.sys.dao.DeviceUsageRecordDao;
 import com.robin.sys.dao.LaboratoryUsageRecordDao;
 import com.robin.sys.domain.*;

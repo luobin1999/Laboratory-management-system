@@ -5,15 +5,12 @@ public class CodeMsg {
     private String msg;
 
     //通用异常
-    public static CodeMsg SUCCESS = new CodeMsg(0, "success");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
     public static CodeMsg CLIENT_ERROR = new CodeMsg(500101, "客户端异常");
     public static CodeMsg REQUEST_ILLEGAL = new CodeMsg(500102, "请求非法");
-    public static CodeMsg ACCESS_LIMIT_REACHED = new CodeMsg(500103, "请求太频繁");
     public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
     //登录注册
     public static CodeMsg PASSWORD_DEFFER = new CodeMsg(500201, "两次密码不一致");
-    public static CodeMsg REGISTER_ERROR = new CodeMsg(500202, "注册失败");
     public static CodeMsg USER_NOT_FOUND = new CodeMsg(500203, "用户不存在");
     public static CodeMsg NAME_EMPTY = new CodeMsg(500204, "姓名不能为空");
     public static CodeMsg CLAZZ_EMPTY = new CodeMsg(500205, "班级不能为空");
@@ -49,6 +46,15 @@ public class CodeMsg {
     public static CodeMsg TIME_FORMAT_ERROR = new CodeMsg(500805, "时间格式错误");
     public static CodeMsg OVER_BORROW_DATE = new CodeMsg(500806, "最多可以提前7天预约");
     public static CodeMsg OVER_BORROW_PAR_DATE = new CodeMsg(500807, "每次预约时间最长1天");
+    //MinIO异常
+    public static CodeMsg FILE_UPLOAD_ERROR = new CodeMsg(500900, "文件上传出错");
+    public static CodeMsg FILE_DOWNLOAD_ERROR = new CodeMsg(500901, "文件下载出错");
+    public static CodeMsg STREAM_CLOSE_ERROR = new CodeMsg(500902, "文件流关闭出错");
+    public static CodeMsg FILE_EMPTY = new CodeMsg(500903, "文件不能为空");
+    //实验管理模块
+    public static CodeMsg EXPERIMENT_NUMBER_EMPTY = new CodeMsg(600101, "实验编号不能为空");
+    public static CodeMsg EXPERIMENT_NAME_EMPTY = new CodeMsg(600102, "实验名称不能为空");
+    public static CodeMsg EXPERIMENT_CONTENT_EMPTY = new CodeMsg(600103, "实验内容简介不能为空");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

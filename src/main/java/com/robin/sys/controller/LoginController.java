@@ -1,8 +1,8 @@
 package com.robin.sys.controller;
 
-import com.robin.sys.VO.ClazzVO;
-import com.robin.sys.VO.LoginVO;
-import com.robin.sys.VO.RegisterVO;
+import com.robin.sys.VO.clazz.ClazzVO;
+import com.robin.sys.VO.login.LoginVO;
+import com.robin.sys.VO.login.RegisterVO;
 import com.robin.sys.domain.User;
 import com.robin.sys.result.Result;
 import com.robin.sys.service.ClazzService;
