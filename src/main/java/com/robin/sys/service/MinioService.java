@@ -49,6 +49,36 @@ public class MinioService {
         return name;
     }
 
+    @Transactional
+    public String upload(String number, String name, MultipartFile file) {
+        if (file == null) {
+            throw new GlobalException(CodeMsg.FILE_EMPTY);
+        }
+        logger.info("getOriginalFilename:{}", file.getOriginalFilename());
+        logger.info("getSize{}", file.getSize());
+        String suffix = Constant.DEFAULT_SUFFIX;
+        int spot = file.getOriginalFilename().lastIndexOf(".");
+        if (spot > 0) {
+            suffix = file.getOriginalFilename().substring(spot);
+        }
+        String uploadName = UUIDUtil.uuid() + "-" + name + number + suffix;
+        //检查存储桶是否存在
+        try {
+            boolean isExist = minioClient.bucketExists(Constant.FILE_BUCKET);
+            if (isExist) {
+                logger.info("system bucket already exist");
+            } else  {
+                //创建一个存储桶，用于存储文件
+                minioClient.makeBucket(Constant.FILE_BUCKET);
+            }
+            //使用putObject上传一个文件到存储桶中
+            minioClient.putObject(Constant.FILE_BUCKET, uploadName, file.getInputStream(), file.getContentType());
+        } catch (Exception e) {
+            throw new GlobalException(CodeMsg.FILE_UPLOAD_ERROR);
+        }
+        return uploadName;
+    }
+
     public void download(String number, String name, String fileName, HttpServletResponse response) {
         InputStream in = null;
         try {
@@ -61,6 +91,34 @@ public class MinioService {
             in = minioClient.getObject(Constant.FILE_BUCKET, fileName);
             String downloadName = number + name;
             response.setHeader("Content-Disposition",  "attachment;filename=" + new String(downloadName.getBytes("utf-8"),"ISO8859-1") + suffix);
+            response.setContentType(stat.contentType());
+            IOUtils.copy(in, response.getOutputStream());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GlobalException(CodeMsg.FILE_DOWNLOAD_ERROR);
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    throw new GlobalException(CodeMsg.STREAM_CLOSE_ERROR);
+                }
+            }
+        }
+    }
+
+    public void download(String fileName, HttpServletResponse response) {
+        InputStream in = null;
+        try {
+            String suffix = fileName;
+            int spot = fileName.lastIndexOf("-");
+            if (spot > 0) {
+                suffix = fileName.substring(spot+1);
+            }
+            ObjectStat stat = minioClient.statObject(Constant.FILE_BUCKET, fileName);
+            in = minioClient.getObject(Constant.FILE_BUCKET, fileName);
+            String downloadName = suffix;
+            response.setHeader("Content-Disposition",  "attachment;filename=" + new String(downloadName.getBytes("utf-8"),"ISO8859-1"));
             response.setContentType(stat.contentType());
             IOUtils.copy(in, response.getOutputStream());
         } catch (Exception e) {

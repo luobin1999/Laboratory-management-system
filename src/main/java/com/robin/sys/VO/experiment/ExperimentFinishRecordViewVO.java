@@ -5,6 +5,10 @@ public class ExperimentFinishRecordViewVO {
     private int id;
     //实验ID
     private int exprimentId;
+    //学生姓名
+    private String studentName;
+    //学生账号
+    private String studentNumber;
     //实验编号
     private String experimentNumber;
     //实验名称
@@ -19,8 +23,32 @@ public class ExperimentFinishRecordViewVO {
     private String preview;
     //报告作业
     private String report;
+    //预习提交时间
+    private String previewDate;
+    //报告提交时间
+    private String reportDate;
+    //预习成绩
+    private int previewScore;
+    //报告成绩
+    private int reportScore;
     //总成绩
     private int totalScore;
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public String getStudentNumber() {
+        return studentNumber;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -60,6 +88,38 @@ public class ExperimentFinishRecordViewVO {
 
     public void setTotalScore(int totalScore) {
         this.totalScore = totalScore;
+    }
+
+    public void setPreviewDate(String previewDate) {
+        this.previewDate = previewDate;
+    }
+
+    public void setReportDate(String reportDate) {
+        this.reportDate = reportDate;
+    }
+
+    public void setPreviewScore(int previewScore) {
+        this.previewScore = previewScore;
+    }
+
+    public void setReportScore(int reportScore) {
+        this.reportScore = reportScore;
+    }
+
+    public String getPreviewDate() {
+        return previewDate;
+    }
+
+    public String getReportDate() {
+        return reportDate;
+    }
+
+    public int getPreviewScore() {
+        return previewScore;
+    }
+
+    public int getReportScore() {
+        return reportScore;
     }
 
     public int getId() {
@@ -107,6 +167,8 @@ public class ExperimentFinishRecordViewVO {
         return "ExperimentFinishRecordViewVO{" +
                 "id=" + id +
                 ", exprimentId=" + exprimentId +
+                ", studentName='" + studentName + '\'' +
+                ", studentNumber='" + studentNumber + '\'' +
                 ", experimentNumber='" + experimentNumber + '\'' +
                 ", experimentName='" + experimentName + '\'' +
                 ", experimentTask='" + experimentTask + '\'' +
@@ -114,6 +176,10 @@ public class ExperimentFinishRecordViewVO {
                 ", teacherName='" + teacherName + '\'' +
                 ", preview='" + preview + '\'' +
                 ", report='" + report + '\'' +
+                ", previewDate='" + previewDate + '\'' +
+                ", reportDate='" + reportDate + '\'' +
+                ", previewScore=" + previewScore +
+                ", reportScore=" + reportScore +
                 ", totalScore=" + totalScore +
                 '}';
     }

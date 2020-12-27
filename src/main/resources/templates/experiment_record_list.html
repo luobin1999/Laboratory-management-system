@@ -69,16 +69,26 @@
                             <td><a th:href="@{/experiment/task/download(number=${experiment.getExperimentNumber()},name=${experiment.getExperimentName()},fileName=${experiment.getExperimentTask()})}">实验任务书（点击下载）</a></td>
                             <td th:text="${experiment.getCreateDate()}"></td>
                             <td th:text="${experiment.getTeacherName()}"></td>
-                            <td th:if="${experiment.getPreview() != null && experiment.getPreview() != ''}"><a th:href="@{/experiment/task/download(number=${user.getNumber()},name=${user.getName()},fileName=${experiment.getPreview()})}">实验预习（点击下载）</a></td>
-                            <td th:if="${experiment.getPreview() == null || experiment.getPreview() != ''}">未完成</td>
-                            <td th:if="${experiment.getReport() != null && experiment.getReport() != ''}"><a th:href="@{/experiment/task/download(number=${user.getNumber()},name=${user.getName()},fileName=${experiment.getReport()})}">实验预习（点击下载）</a></td>
-                            <td th:if="${experiment.getReport() == null || experiment.getReport() != ''}">未完成</td>
+                            <td th:if="${experiment.getPreview() != null && experiment.getPreview() != ''}"><a th:href="@{/experiment/preview/download(fileName=${experiment.getPreview()})}">实验预习（点击下载）</a></td>
+                            <td th:if="${experiment.getPreview() == null || experiment.getPreview() == ''}">未完成</td>
+                            <td th:if="${experiment.getReport() != null && experiment.getReport() != ''}"><a th:href="@{/experiment/report/download(fileName=${experiment.getReport()})}">实验报告（点击下载）</a></td>
+                            <td th:if="${experiment.getReport() == null || experiment.getReport() == ''}">未完成</td>
                             <td th:text="${experiment.getTotalScore()}"></td>
                             <td>
-                                <form method="post" action="/detail/experiment" style="display: inline-block">
+                                <form method="post" action="/submit/experiment/preview" style="display: inline-block">
                                     <input type="hidden" name="id" th:value="${experiment.getId()}">
-                                    <input type="hidden" name="experiment_id" th:value="${experiment.getExprimentId()}">
-                                    <button class="bg-success" type="submit">查看详情</button>
+                                    <input type="hidden" name="experimentId" th:value="${experiment.getExprimentId()}">
+                                    <button class="bg-success" type="submit">提交预习</button>
+                                </form>
+                                <form method="post" action="/submit/experiment/report" style="display: inline-block">
+                                    <input type="hidden" name="id" th:value="${experiment.getId()}">
+                                    <input type="hidden" name="experimentId" th:value="${experiment.getExprimentId()}">
+                                    <button class="bg-success" type="submit">提交报告</button>
+                                </form>
+                                <form style="display: inline-block">
+                                    <input type="hidden" name="id" th:value="${experiment.getId()}">
+                                    <input type="hidden" name="detailExperimentId" id="detailExperimentId" th:value="${experiment.getExprimentId()}">
+                                    <button class="bg-info" onclick="detailExperiment()" type="button">查看详情</button>
                                 </form>
                             </td>
                         </tr>
@@ -113,39 +123,32 @@
 
 <!-- Page-Level Scripts -->
 <script>
-    function deleteExperiment(count){
+    function detailExperiment(){
         g_showLoading();
-        var tmp = "delete"+count;
-        var button = document.getElementById(tmp);
-        var id = $(button).val();
 
-        layer.confirm("确定删除吗？", {btn:["确定","取消"]},
-            function(){
-                $.ajax({
-                    url: "/delete/experiment",
-                    type: "post",
-                    async: false,
-                    data:{
-                        id:id
-                    },
-                    dataType:"json",
-                    success:function(data){
-                        layer.closeAll();
-                        if(data.code == 0){
-                            layer.msg("删除成功！");
-                            window.location.href="/list/experiment";
-                        }else{
-                            layer.msg(data.msg);
-                        }
-                    },
-                    error:function(){
-                        layer.closeAll();
-                    }
-                });
+        var experimentId = $("#detailExperimentId").val();
+
+        $.ajax({
+            url: "/detail/experiment",
+            type: "post",
+            async: false,
+            data:{
+                experimentId:experimentId
             },
-            function(){
+            dataType:"json",
+            success:function(data){
                 layer.closeAll();
-            });
+                if(data.code == 0){
+                    layer.msg("请求成功");
+                    window.location.href="/experiment/detail?experimentId="+experimentId;
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(){
+                layer.closeAll();
+            }
+        });
     }
 </script>
 
