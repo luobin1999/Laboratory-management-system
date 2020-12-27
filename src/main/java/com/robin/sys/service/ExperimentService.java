@@ -5,9 +5,8 @@ import com.robin.sys.VO.experiment.ExperimentVO;
 import com.robin.sys.VO.experiment.PreExperimentVO;
 import com.robin.sys.dao.ExperimentDao;
 import com.robin.sys.dao.ExperimentFinishRecordDao;
-import com.robin.sys.domain.Experiment;
-import com.robin.sys.domain.ExperimentFinishRecordView;
-import com.robin.sys.domain.User;
+import com.robin.sys.dao.ExperimentRecordDao;
+import com.robin.sys.domain.*;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,8 @@ public class ExperimentService {
     private MinioService minioService;
     @Autowired
     private ExperimentFinishRecordDao finishRecordDao;
+    @Autowired
+    private ExperimentRecordDao experimentRecordDao;
 
     @Transactional
     public List<ExperimentVO> listExperiment() {
@@ -77,6 +78,46 @@ public class ExperimentService {
             experimentVOS.add(experimentVO);
         }
         return experimentVOS;
+    }
+
+    @Transactional
+    public ExperimentFinishRecordViewVO getExperimentFinishRecordByExperiment(int experimentId, User user) {
+        List<ExperimentFinishRecordView> experiments = finishRecordDao.listExperimentFinishRecordViewForStudent(user.getId(), user.getClazz());
+        ExperimentFinishRecordViewVO res = new ExperimentFinishRecordViewVO();
+        if (experiments == null) {
+            return res;
+        }
+        for (int i = 0; i < experiments.size(); i++) {
+            ExperimentFinishRecordView experiment = experiments.get(i);
+            if (experiment.getExprimentId() == experimentId) {
+                res.setId(experiment.getId());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String createDate = sdf.format(experiment.getCreateDate());
+                res.setCreateDate(createDate);
+                Date previewDate = experiment.getPreviewDate();
+                if (previewDate != null) {
+                    res.setPreviewDate(sdf.format(previewDate));
+                }
+                Date reportDate = experiment.getReportDate();
+                if (reportDate != null) {
+                    res.setReportDate(sdf.format(reportDate));
+                }
+                res.setStudentName(experiment.getStudentName());
+                res.setStudentNumber(experiment.getStudentNumber());
+                res.setReportScore(experiment.getReportScore());
+                res.setPreviewScore(res.getPreviewScore());
+                res.setPreview(experiment.getPreview());
+                res.setReport(experiment.getReport());
+                res.setTeacherName(experiment.getTeacherName());
+                res.setTotalScore(experiment.getTotalScore());
+                res.setExperimentName(experiment.getExperimentName());
+                res.setExperimentNumber(experiment.getExperimentNumber());
+                res.setExperimentTask(experiment.getExperimentTask());
+                res.setExprimentId(experiment.getExprimentId());
+                return res;
+            }
+        }
+        return res;
     }
 
     @Transactional
@@ -140,6 +181,7 @@ public class ExperimentService {
         experimentDao.updateExperiment(experiment);
     }
 
+    @Transactional
     public void  updateExperimentWithoutFile(PreExperimentVO preExperimentVO) {
         if (preExperimentVO == null) {
             throw new GlobalException(CodeMsg.REQUEST_ILLEGAL);
@@ -169,6 +211,60 @@ public class ExperimentService {
     }
 
     @Transactional
+    public void submitExperimentPreview(String preview, int experimentId, User user) {
+        if (preview == null || preview.length() < 1) {
+            throw new GlobalException(CodeMsg.SERVER_ERROR);
+        }
+        if (experimentId < 1) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        String clazzName = user.getClazz();
+        int userId = user.getId();
+        ExperimentFinishRecord finishRecord = finishRecordDao.getFinishRecordByExperimentIdAndStudentId(experimentId, userId);
+        if (finishRecord != null) {
+            finishRecord.setPreview(preview);
+            finishRecord.setPreviewDate(new Date());
+            finishRecordDao.updatePreviewById(finishRecord);
+            return;
+        }
+        ExperimentRecord record = experimentRecordDao.getExperimentRecord(experimentId, clazzName);
+        finishRecord = new ExperimentFinishRecord();
+        finishRecord.setExperimentId(experimentId);
+        finishRecord.setStudentId(userId);
+        finishRecord.setExperimentRecordId(record.getId());
+        finishRecord.setPreview(preview);
+        finishRecord.setPreviewDate(new Date());
+        finishRecordDao.insertExperimentFinishRecordPreview(finishRecord);
+    }
+
+    @Transactional
+    public void submitExperimentReport(String report, int experimentId, User user) {
+        if (report == null || report.length() < 1) {
+            throw new GlobalException(CodeMsg.SERVER_ERROR);
+        }
+        if (experimentId < 1) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        String clazzName = user.getClazz();
+        int userId = user.getId();
+        ExperimentFinishRecord finishRecord = finishRecordDao.getFinishRecordByExperimentIdAndStudentId(experimentId, userId);
+        if (finishRecord != null) {
+            finishRecord.setReport(report);
+            finishRecord.setReportDate(new Date());
+            finishRecordDao.updateReportById(finishRecord);
+            return;
+        }
+        ExperimentRecord record = experimentRecordDao.getExperimentRecord(experimentId, clazzName);
+        finishRecord = new ExperimentFinishRecord();
+        finishRecord.setExperimentId(experimentId);
+        finishRecord.setStudentId(userId);
+        finishRecord.setExperimentRecordId(record.getId());
+        finishRecord.setReport(report);
+        finishRecord.setReportDate(new Date());
+        finishRecordDao.insertExperimentFinishRecordReport(finishRecord);
+    }
+
+    @Transactional
     public void deleteExperiment(int id) {
         Experiment experiment = experimentDao.getExperimentById(id);
         minioService.delete(experiment.getTask());
@@ -177,5 +273,10 @@ public class ExperimentService {
 
     public Experiment getExperimentById(int id) {
         return experimentDao.getExperimentById(id);
+    }
+
+    public boolean finishRecordIsExist(int experimentId, int studentId) {
+        ExperimentFinishRecord record = finishRecordDao.getFinishRecordByExperimentIdAndStudentId(experimentId, studentId);
+        return record != null;
     }
 }

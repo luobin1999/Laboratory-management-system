@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>实验详情</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="/favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>实验详情</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">选项1</a>
+                        </li>
+                        <li><a href="#">选项2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="form-horizontal">
+                <!--<form class="form-horizontal">-->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">学生姓名：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="userName" id="userName" th:readonly="${finishRecords.getStudentName()}" th:value="${finishRecords.getStudentName()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">学生学号：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="userNumber" id="userNumber" th:readonly="${finishRecords.getStudentNumber()}" th:value="${finishRecords.getStudentNumber()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">实验编号：</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" name="experimentNumber" id="experimentNumber" th:readonly="${finishRecords.getExperimentNumber()}" th:value="${finishRecords.getExperimentNumber()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">实验名称：</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="experimentName" id="experimentName" th:readonly="${finishRecords.getExperimentName()}" th:value="${finishRecords.getExperimentName()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">实验任务书：</label>
+                        <div class="col-sm-8">
+                            <a class="form-control" th:href="@{/experiment/task/download(number=${finishRecords.getExperimentNumber()},name=${finishRecords.getExperimentName()},fileName=${finishRecords.getExperimentTask()})}">实验任务书（点击下载）</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">实验时间：</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="createDate" id="createDate" th:readonly="${finishRecords.getCreateDate()}" th:value="${finishRecords.getCreateDate()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">指导教师：</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="teacherName" id="teacherName" th:readonly="${finishRecords.getTeacherName()}" th:value="${finishRecords.getTeacherName()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">预习作业：</label>
+                        <div th:if="${finishRecords.getPreview() != null && finishRecords.getPreview() != ''}" class="col-sm-8">
+                            <a class="form-control" th:href="@{/experiment/preview/download(fileName=${finishRecords.getPreview()})}">实验预习（点击下载）</a>
+                        </div>
+                        <div th:if="${finishRecords.getPreview() == null || finishRecords.getPreview() == ''}" class="col-sm-8">
+                            <input type="text" name="preview" id="preview" th:readonly="未提交" th:value="未提交" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">预习提交时间：</label>
+                        <div  th:if="${finishRecords.getPreviewDate() != null && finishRecords.getPreviewDate() != ''}"  class="col-sm-8">
+                            <input type="text" name="previewDate" id="previewDate" th:readonly="${finishRecords.getPreviewDate()}" th:value="${finishRecords.getPreviewDate()}" class="form-control">
+                        </div>
+                        <div  th:if="${finishRecords.getPreviewDate() == null || finishRecords.getPreviewDate() == ''}"  class="col-sm-8">
+                            <input type="text" name="previewDate1" id="previewDate1" th:readonly="未提交" th:value="未提交" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">预习成绩：</label>
+                        <div th:if="${finishRecords.getPreviewScore() != 0}" class="col-sm-8">
+                            <input type="number" name="previewScore" id="previewScore" th:readonly="${finishRecords.getPreviewScore()}" th:value="${finishRecords.getPreviewScore()}" class="form-control">
+                        </div>
+                        <div th:if="${finishRecords.getPreviewScore() == 0}" class="col-sm-8">
+                            <input type="text" name="previewScore" th:readonly="未批阅" th:value="未批阅" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">实验报告：</label>
+                        <div th:if="${finishRecords.getReport() != null && finishRecords.getReport() != ''}" class="col-sm-8">
+                            <a class="form-control" th:href="@{/experiment/report/download(fileName=${finishRecords.getReport()})}">实验报告（点击下载）</a>
+                        </div>
+                        <div th:if="${finishRecords.getReport() == null || finishRecords.getReport() == ''}" class="col-sm-8">
+                            <input type="text" name="report" id="report" th:readonly="未提交" th:value="未提交" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">报告提交时间：</label>
+                        <div th:if="${finishRecords.getReportDate() != null && finishRecords.getReportDate() != ''}" class="col-sm-8">
+                            <input type="text" name="reportDate" id="reportDate" th:readonly="${finishRecords.getReportDate()}" th:value="${finishRecords.getReportDate()}" class="form-control">
+                        </div>
+                        <div th:if="${finishRecords.getReportDate() == null || finishRecords.getReportDate() == ''}" class="col-sm-8">
+                            <input type="text" name="reportDate1" id="reportDate1" th:readonly="未提交" th:value="未提交" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">报告成绩：</label>
+                        <div th:if="${finishRecords.getReportScore() != 0}" class="col-sm-8">
+                            <input type="number" name="reportScore" id="reportScore" th:readonly="${finishRecords.getReportScore()}" th:value="${finishRecords.getReportScore()}" class="form-control">
+                        </div>
+                        <div th:if="${finishRecords.getReportScore() == 0}" class="col-sm-8">
+                            <input type="text" name="reportScore1" id="reportScore1" th:readonly="未批阅" th:value="未批阅" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">总成绩：</label>
+                        <div th:if="${finishRecords.getTotalScore() != 0}"  class="col-sm-8">
+                            <input type="number" name="totalScore" id="totalScore" th:readonly="${finishRecords.getTotalScore()}" th:value="${finishRecords.getTotalScore()}" class="form-control">
+                        </div>
+                        <div th:if="${finishRecords.getTotalScore() == 0}" class="col-sm-8">
+                            <input type="text" name="totalScore" th:readonly="未批阅" th:value="未批阅" class="form-control">
+                        </div>
+                    </div>
+                <!--</form>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<!-- 全局js -->
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+<!-- 自定义js -->
+<script src="/js/content.js?v=1.0.0"></script>
+
+<!-- iCheck -->
+<script src="/js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script>
+
+</script>
+
+
+
+
+</body>
+
+</html>

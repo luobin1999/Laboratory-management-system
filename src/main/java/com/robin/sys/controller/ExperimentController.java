@@ -10,6 +10,7 @@ import com.robin.sys.result.CodeMsg;
 import com.robin.sys.result.Result;
 import com.robin.sys.service.ExperimentService;
 import com.robin.sys.service.MinioService;
+import com.robin.sys.util.PowerUtil;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -120,6 +122,28 @@ public class ExperimentController {
         }
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 修改了实验信息："+preExperimentVO);
         return Result.success("修改成功");
+    }
+
+    @RequestMapping("/detail/experiment")
+    @ResponseBody
+    public Result detailExperiment(@Param("experimentId") int experimentId, Model model, User user) {
+        PowerUtil.PowerCheck1(user);
+        if (experimentService.finishRecordIsExist(experimentId, user.getId())) {
+            return Result.success("信息已找到");
+        }
+        return Result.error(CodeMsg.PLEASE_SUBMIT_TASK_FIRST);
+    }
+
+    @RequestMapping("/experiment/detail")
+    public String detailExperimentInfo(@RequestParam("experimentId") int experimentId, Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        PowerUtil.PowerCheck1(user);
+        model.addAttribute("user", user);
+        ExperimentFinishRecordViewVO recordViewVO = experimentService.getExperimentFinishRecordByExperiment(experimentId, user);
+        model.addAttribute("finishRecords", recordViewVO);
+        return "experiment_detail";
     }
 
     private void powerCheck(User user) {
