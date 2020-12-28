@@ -1,4 +1,4 @@
-package com.robin.sys.domain;
+package com.robin.sys.domain.view;
 
 import java.util.Date;
 

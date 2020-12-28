@@ -74,7 +74,7 @@
                                     <button class="bg-success" type="submit">查看详情</button>
                                 </form>
                                 <form th:if="${user.getPower() eq 2}" method="post" action="/publish/experiment" style="display: inline-block">
-                                    <input type="hidden" name="id" th:value="${experiment.getId()}">
+                                    <input type="hidden" name="experimentId" th:value="${experiment.getId()}">
                                     <button class="bg-success" type="submit">发布</button>
                                 </form>
                                 <form th:if="${user.getPower() eq 2 || user.getPower() eq 3}" method="post" action="/update/experiment" style="display: inline-block">

@@ -1,5 +1,6 @@
 package com.robin.sys.service;
 
+import com.robin.sys.VO.experiment.ExperimentClazzViewVO;
 import com.robin.sys.VO.experiment.ExperimentFinishRecordViewVO;
 import com.robin.sys.VO.experiment.ExperimentVO;
 import com.robin.sys.VO.experiment.PreExperimentVO;
@@ -7,6 +8,9 @@ import com.robin.sys.dao.ExperimentDao;
 import com.robin.sys.dao.ExperimentFinishRecordDao;
 import com.robin.sys.dao.ExperimentRecordDao;
 import com.robin.sys.domain.*;
+import com.robin.sys.domain.view.ExperimentClazzView;
+import com.robin.sys.domain.view.ExperimentFinishRecordView;
+import com.robin.sys.domain.view.ExperimentRecordView;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ExperimentService {
@@ -29,6 +31,8 @@ public class ExperimentService {
     private ExperimentFinishRecordDao finishRecordDao;
     @Autowired
     private ExperimentRecordDao experimentRecordDao;
+    @Autowired
+    private ClazzService clazzService;
 
     @Transactional
     public List<ExperimentVO> listExperiment() {
@@ -264,11 +268,61 @@ public class ExperimentService {
         finishRecordDao.insertExperimentFinishRecordReport(finishRecord);
     }
 
+    public void  publishExperimentForClazz(int experimentId, String clazzName, User user) {
+        if (experimentId <= 0 || clazzName == null || clazzName.length() < 1) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        ExperimentRecord experimentRecord = new ExperimentRecord();
+        experimentRecord.setClazzName(clazzName);
+        experimentRecord.setExperimentId(experimentId);
+        experimentRecord.setTeacherId(user.getId());
+        experimentRecord.setCreateDate(new Date());
+        experimentRecordDao.insertExperimentRecord(experimentRecord);
+    }
+
     @Transactional
     public void deleteExperiment(int id) {
         Experiment experiment = experimentDao.getExperimentById(id);
         minioService.delete(experiment.getTask());
         experimentDao.deleteExperimentById(id);
+    }
+
+    @Transactional
+    public List<ExperimentRecordView> listExperimentRecordView() {
+        List<ExperimentRecordView> experimentRecords = experimentRecordDao.listExperimentRecordView();
+        for (int i = 0; i < experimentRecords.size(); i++) {
+            ExperimentRecordView view = experimentRecords.get(i);
+            view.setViewName(view.getExperimentNumber() + view.getExperimentName());
+        }
+        return experimentRecords;
+    }
+
+    @Transactional
+    public List<ExperimentClazzViewVO> listClazzForExperiment(int experimentId) {
+        if (experimentId <= 0) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        List<ExperimentClazzView> views = experimentRecordDao.listClazzForExperiment(experimentId);
+        List<ExperimentClazzViewVO> viewVOS = new ArrayList<>();
+        if (views == null) {
+            return viewVOS;
+        }
+        for (int i = 0; i < views.size(); i++) {
+            ExperimentClazzView view = views.get(i);
+            ExperimentClazzViewVO viewVO = new ExperimentClazzViewVO();
+            viewVO.setId(view.getId());
+            viewVO.setClazzName(view.getClazzName());
+            viewVO.setCount(view.getCount());
+            viewVO.setExperimentId(view.getExperimentId());
+            viewVO.setExperimentName(view.getExperimentName());
+            viewVO.setExperimentNumber(view.getExperimentNumber());
+            viewVO.setTeacherName(view.getTeacherName());
+            Date createDate = view.getCreateDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            viewVO.setCreateDate(sdf.format(createDate));
+            viewVOS.add(viewVO);
+        }
+        return viewVOS;
     }
 
     public Experiment getExperimentById(int id) {

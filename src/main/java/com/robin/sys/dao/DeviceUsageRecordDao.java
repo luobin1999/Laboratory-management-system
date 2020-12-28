@@ -1,7 +1,7 @@
 package com.robin.sys.dao;
 
 import com.robin.sys.domain.DeviceUsageRecord;
-import com.robin.sys.domain.DeviceUsageRecordView;
+import com.robin.sys.domain.view.DeviceUsageRecordView;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

@@ -97,18 +97,10 @@
                     <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">作业管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">实验预习列表 <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
+                            <a href="#">实验列表 <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" th:each="view,viewStat : ${views}">
                                 <li>
-                                    <a class="J_menuItem" href="">Font Awesome</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">实验报告列表 <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a class="J_menuItem" href="">Font Awesome</a>
+                                    <a class="J_menuItem" style="font-size: 6px" th:href="@{/list/experiment/clazz(experimentId=${view.getExperimentId()})}" th:text="${view.getViewName()}"></a>
                                 </li>
                             </ul>
                         </li>
@@ -123,21 +115,6 @@
                     <ul class="nav nav-second-level">
                         <li>
                             <a class="J_menuItem" href="">发布考勤</a>
-                        </li>
-                    </ul>
-                </li>
-                <li th:if="${user.power eq 2 || user.power eq 3}">
-                    <a href="#"><i class="fa fa-behance"></i> <span class="nav-label">成绩管理 </span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="">xxx1701班</a>
-                        </li>
-                        <li><a class="J_menuItem" href="">xxx1702班</a>
-                        </li>
-                        <li><a class="J_menuItem" href="">xxx1703班</a>
-                        </li>
-                        <li><a class="J_menuItem" href="">xxx1704班</a>
-                        </li>
-                        <li><a class="J_menuItem" href="">xxx1705班</a>
                         </li>
                     </ul>
                 </li>
@@ -156,10 +133,10 @@
                             <ul class="nav nav-third-level">
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a class="J_menuItem" href="/list/device/review">设备预约</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/device/review">设备预约</a>
                                     </li>
                                     <li>
-                                        <a class="J_menuItem" href="/list/laboratory/review">实验室预约</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/laboratory/review">实验室预约</a>
                                     </li>
                                 </ul>
                             </ul>
@@ -169,7 +146,7 @@
                             <ul class="nav nav-third-level">
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a class="J_menuItem" href="/list/device/finish">设备预约</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/device/finish">设备预约</a>
                                     </li>
                                 </ul>
                             </ul>
@@ -179,10 +156,10 @@
                             <ul class="nav nav-third-level">
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a class="J_menuItem" href="/list/device/record">设备预约</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/device/record">设备预约</a>
                                     </li>
                                     <li>
-                                        <a class="J_menuItem" href="/list/laboratory/record">实验室预约</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/laboratory/record">实验室预约</a>
                                     </li>
                                 </ul>
                             </ul>
@@ -197,10 +174,10 @@
                             <ul class="nav nav-third-level">
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a class="J_menuItem" href="/list/device/wait/review">设备预约审核</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/device/wait/review">设备预约审核</a>
                                     </li>
                                     <li>
-                                        <a class="J_menuItem" href="/list/laboratory/wait/review">实验室预约审核</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/laboratory/wait/review">实验室预约审核</a>
                                     </li>
                                 </ul>
                             </ul>
@@ -210,10 +187,10 @@
                             <ul class="nav nav-third-level">
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a class="J_menuItem" href="/list/device/already/handle">设备预约审核</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/device/already/handle">设备预约审核</a>
                                     </li>
                                     <li>
-                                        <a class="J_menuItem" href="/list/laboratory/already/handle">实验室预约审核</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/laboratory/already/handle">实验室预约审核</a>
                                     </li>
                                 </ul>
                             </ul>
@@ -223,7 +200,7 @@
                             <ul class="nav nav-third-level">
                                 <ul class="nav nav-third-level">
                                     <li>
-                                        <a class="J_menuItem" href="/list/device/wait/return">待归还设备</a>
+                                        <a class="J_menuItem" style="font-size: 6px" href="/list/device/wait/return">待归还设备</a>
                                     </li>
                                 </ul>
                             </ul>

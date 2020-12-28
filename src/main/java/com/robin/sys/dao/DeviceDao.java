@@ -1,7 +1,7 @@
 package com.robin.sys.dao;
 
 import com.robin.sys.domain.Device;
-import com.robin.sys.domain.DeviceOverview;
+import com.robin.sys.domain.view.DeviceOverview;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

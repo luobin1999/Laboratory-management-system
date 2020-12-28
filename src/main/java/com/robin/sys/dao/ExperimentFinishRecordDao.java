@@ -1,7 +1,7 @@
 package com.robin.sys.dao;
 
 import com.robin.sys.domain.ExperimentFinishRecord;
-import com.robin.sys.domain.ExperimentFinishRecordView;
+import com.robin.sys.domain.view.ExperimentFinishRecordView;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
