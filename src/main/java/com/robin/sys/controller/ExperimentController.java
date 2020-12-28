@@ -1,13 +1,16 @@
 package com.robin.sys.controller;
 
+import com.robin.sys.VO.clazz.ClazzVO;
 import com.robin.sys.VO.experiment.ExperimentFinishRecordViewVO;
 import com.robin.sys.VO.experiment.ExperimentVO;
 import com.robin.sys.VO.experiment.PreExperimentVO;
+import com.robin.sys.domain.Clazz;
 import com.robin.sys.domain.Experiment;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
 import com.robin.sys.result.Result;
+import com.robin.sys.service.ClazzService;
 import com.robin.sys.service.ExperimentService;
 import com.robin.sys.service.MinioService;
 import com.robin.sys.util.PowerUtil;
@@ -32,6 +35,8 @@ public class ExperimentController {
     private ExperimentService experimentService;
     @Autowired
     private MinioService minioService;
+    @Autowired
+    private ClazzService clazzService;
 
     @RequestMapping("/list/experiment")
     public String listTest(Model model, User user){
@@ -126,7 +131,8 @@ public class ExperimentController {
 
     @RequestMapping("/detail/experiment")
     @ResponseBody
-    public Result detailExperiment(@Param("experimentId") int experimentId, Model model, User user) {
+    public Result detailExperiment(@RequestParam("experimentId") int experimentId, User user) {
+        logger.info("experimentId：" + experimentId);
         PowerUtil.PowerCheck1(user);
         if (experimentService.finishRecordIsExist(experimentId, user.getId())) {
             return Result.success("信息已找到");
@@ -136,6 +142,7 @@ public class ExperimentController {
 
     @RequestMapping("/experiment/detail")
     public String detailExperimentInfo(@RequestParam("experimentId") int experimentId, Model model, User user) {
+        logger.info("experimentId：" + experimentId);
         if (user == null) {
             return "login";
         }
@@ -144,6 +151,29 @@ public class ExperimentController {
         ExperimentFinishRecordViewVO recordViewVO = experimentService.getExperimentFinishRecordByExperiment(experimentId, user);
         model.addAttribute("finishRecords", recordViewVO);
         return "experiment_detail";
+    }
+
+    @RequestMapping("/publish/experiment")
+    public String experimentPublish(@RequestParam("experimentId") int experimentId, Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        PowerUtil.PowerCheck2(user);
+        model.addAttribute(user);
+        List<ClazzVO> clazzes = clazzService.listClazz();
+        model.addAttribute("clazzes", clazzes);
+        Experiment experiment = experimentService.getExperimentById(experimentId);
+        model.addAttribute("experiment", experiment);
+        return "experiment_publish";
+    }
+
+    @RequestMapping("/publish/experiment/publish")
+    @ResponseBody
+    public Result publishExperiment(@RequestParam("experimentId") int experimentId,@RequestParam("clazzName") String clazzName, User user) {
+        PowerUtil.PowerCheck2(user);
+        experimentService.publishExperimentForClazz(experimentId, clazzName, user);
+        logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 给班级："+ clazzName + "发布实验信息："+ experimentId);
+        return Result.success("发布成功");
     }
 
     private void powerCheck(User user) {

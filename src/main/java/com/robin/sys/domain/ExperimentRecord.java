@@ -13,6 +13,16 @@ public class ExperimentRecord {
     private int teacherId;
     //创建时间
     private Date createDate;
+    //是否完成
+    private int isFinish;
+
+    public void setIsFinish(int isFinish) {
+        this.isFinish = isFinish;
+    }
+
+    public int getIsFinish() {
+        return isFinish;
+    }
 
     public void setId(int id) {
         this.id = id;

@@ -1,5 +1,6 @@
 package com.robin.sys.controller;
 
+import com.robin.sys.VO.experiment.ExperimentClazzViewVO;
 import com.robin.sys.domain.Experiment;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 public class TaskController {
@@ -27,6 +29,18 @@ public class TaskController {
     private MinioService minioService;
     @Autowired
     private ExperimentService experimentService;
+
+    @RequestMapping("/list/experiment/clazz")
+    public String listClazzByExperiment(int experimentId, Model model, User user) {
+        if (user == null) {
+            return "login";
+        }
+        PowerUtil.PowerCheck2(user);
+        List<ExperimentClazzViewVO> views = experimentService.listClazzForExperiment(experimentId);
+        model.addAttribute("user", user);
+        model.addAttribute("views", views);
+        return "task_class_list";
+    }
 
     @RequestMapping("/submit/experiment/preview")
     public String previewSubmit(@Param("experimentId") int experimentId, Model model, User user) {

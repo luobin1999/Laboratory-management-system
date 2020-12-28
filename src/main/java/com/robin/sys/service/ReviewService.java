@@ -5,6 +5,7 @@ import com.robin.sys.VO.laboratory.LaboratoryUsageRecordVO;
 import com.robin.sys.dao.DeviceUsageRecordDao;
 import com.robin.sys.dao.LaboratoryUsageRecordDao;
 import com.robin.sys.domain.*;
+import com.robin.sys.domain.view.DeviceUsageRecordView;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
 import org.springframework.beans.factory.annotation.Autowired;
