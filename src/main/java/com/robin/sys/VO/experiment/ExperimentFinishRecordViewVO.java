@@ -4,11 +4,15 @@ public class ExperimentFinishRecordViewVO {
     //实验完成记录ID
     private int id;
     //实验ID
-    private int exprimentId;
+    private int experimentId;
+    //学生ID
+    private int studentId;
     //学生姓名
     private String studentName;
     //学生账号
     private String studentNumber;
+    //班级
+    private String clazzName;
     //实验编号
     private String experimentNumber;
     //实验名称
@@ -34,6 +38,22 @@ public class ExperimentFinishRecordViewVO {
     //总成绩
     private int totalScore;
 
+    public void setClazzName(String clazzName) {
+        this.clazzName = clazzName;
+    }
+
+    public String getClazzName() {
+        return clazzName;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
@@ -52,10 +72,6 @@ public class ExperimentFinishRecordViewVO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setExprimentId(int exprimentId) {
-        this.exprimentId = exprimentId;
     }
 
     public void setExperimentNumber(String experimentNumber) {
@@ -126,10 +142,6 @@ public class ExperimentFinishRecordViewVO {
         return id;
     }
 
-    public int getExprimentId() {
-        return exprimentId;
-    }
-
     public String getExperimentNumber() {
         return experimentNumber;
     }
@@ -162,13 +174,23 @@ public class ExperimentFinishRecordViewVO {
         return totalScore;
     }
 
+    public int getExperimentId() {
+        return experimentId;
+    }
+
+    public void setExperimentId(int experimentId) {
+        this.experimentId = experimentId;
+    }
+
     @Override
     public String toString() {
         return "ExperimentFinishRecordViewVO{" +
                 "id=" + id +
-                ", exprimentId=" + exprimentId +
+                ", experimentId=" + experimentId +
+                ", studentId=" + studentId +
                 ", studentName='" + studentName + '\'' +
                 ", studentNumber='" + studentNumber + '\'' +
+                ", clazzName='" + clazzName + '\'' +
                 ", experimentNumber='" + experimentNumber + '\'' +
                 ", experimentName='" + experimentName + '\'' +
                 ", experimentTask='" + experimentTask + '\'' +

@@ -23,4 +23,14 @@ public interface ExperimentFinishRecordDao {
     void insertExperimentFinishRecordPreview(ExperimentFinishRecord experimentFinishRecord);
     @Insert("insert into experiment_finish_record(experiment_id,student_id,experiment_record_id,report,report_date) values(#{experimentId},#{studentId},#{experimentRecordId},#{report},#{reportDate})")
     void insertExperimentFinishRecordReport(ExperimentFinishRecord experimentFinishRecord);
+    @Select("select f.user_id as student_id,f.user_name as student_name,clazz_name,f.user_number as student_number,f.experiment_id,experiment_name,experiment_number,experiment_task,f.create_date,teacher_name,preview,preview_date,preview_score,report,report_date,report_score,total_score from (select user_id,user_name,user_number,clazz_name,experiment_id,experiment_name,experiment_number,experiment_task,d.create_date,e.name as teacher_name from (select user_id,user_name,user_number,clazz_name,experiment_id,c.name as experiment_name,c.number as experiment_number,c.task as experiment_task,b.create_date,teacher_id from (select user_id,user_name,user_number,clazz_name,experiment_id,create_date,teacher_id from (select user.id as user_id,user.name as user_name,user.number as user_number,user.clazz as clazz_name,x.experiment_id,x.create_date,x.teacher_id from (select id,name,number,clazz from user where clazz = #{clazzName}) user left join experiment_record x on user.clazz = x.clazz_name) a where a.experiment_id = #{experimentId}) b left join experiment c on c.id = b.experiment_id) d left join user e on e.id = d.teacher_id) f left join experiment_finish_record g on f.experiment_id = g.experiment_id and f.user_id = g.student_id order by student_number")
+    List<ExperimentFinishRecordView> listExperimentTaskByClazzName(int experimentId, String clazzName);
+    @Update("update experiment_finish_record set preview_score = #{previewScore},total_score = #{totalScore} where id = #{id}")
+    void updatePreviewScoreById(ExperimentFinishRecord experimentFinishRecord);
+    @Update("update experiment_finish_record set report_score = #{reportScore},total_score = #{totalScore} where id = #{id}")
+    void updateReportScoreById(ExperimentFinishRecord experimentFinishRecord);
+    @Insert("insert into experiment_finish_record(student_id,experiment_id,experiment_record_id,preview_score,total_score) values(#{studentId},#{experimentId},#{experimentRecordId},#{previewScore},#{totalScore})")
+    void insertExperimentFinishRecordPreviewScore(ExperimentFinishRecord experimentFinishRecord);
+    @Insert("insert into experiment_finish_record(student_id,experiment_id,experiment_record_id,report_score,total_score) values(#{studentId},#{experimentId},#{experimentRecordId},#{reportScore},#{totalScore})")
+    void insertExperimentFinishRecordReportScore(ExperimentFinishRecord experimentFinishRecord);
 }

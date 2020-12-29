@@ -77,16 +77,16 @@
                             <td>
                                 <form method="post" action="/submit/experiment/preview" style="display: inline-block">
                                     <input type="hidden" name="id" th:value="${experiment.getId()}">
-                                    <input type="hidden" name="experimentId" th:value="${experiment.getExprimentId()}">
+                                    <input type="hidden" name="experimentId" th:value="${experiment.getExperimentId()}">
                                     <button class="bg-success" type="submit">提交预习</button>
                                 </form>
                                 <form method="post" action="/submit/experiment/report" style="display: inline-block">
                                     <input type="hidden" name="id" th:value="${experiment.getId()}">
-                                    <input type="hidden" name="experimentId" th:value="${experiment.getExprimentId()}">
+                                    <input type="hidden" name="experimentId" th:value="${experiment.getExperimentId()}">
                                     <button class="bg-success" type="submit">提交报告</button>
                                 </form>
                                 <form style="display: inline-block">
-                                    <input type="hidden" name="detailExperimentId" th:id="'detailExperimentId'+${experimentStat.count}" th:value="${experiment.getExprimentId()}">
+                                    <input type="hidden" name="detailExperimentId" th:id="'detailExperimentId'+${experimentStat.count}" th:value="${experiment.getExperimentId()}">
                                     <button class="bg-info" th:id="'detail'+${experimentStat.count}" th:onclick="|detailExperiment(${experimentStat.count})|" type="button">查看详情</button>
                                 </form>
                             </td>

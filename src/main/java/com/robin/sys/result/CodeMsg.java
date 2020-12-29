@@ -57,6 +57,7 @@ public class CodeMsg {
     public static CodeMsg EXPERIMENT_CONTENT_EMPTY = new CodeMsg(600103, "实验内容简介不能为空");
     //作业模块
     public static CodeMsg PLEASE_SUBMIT_TASK_FIRST = new CodeMsg(600201, "请先完成作业");
+    public static CodeMsg SCORE_ERROR = new CodeMsg(600202, "请在0-100之间打分");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

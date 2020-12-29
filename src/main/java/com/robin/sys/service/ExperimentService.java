@@ -4,6 +4,7 @@ import com.robin.sys.VO.experiment.ExperimentClazzViewVO;
 import com.robin.sys.VO.experiment.ExperimentFinishRecordViewVO;
 import com.robin.sys.VO.experiment.ExperimentVO;
 import com.robin.sys.VO.experiment.PreExperimentVO;
+import com.robin.sys.constant.Constant;
 import com.robin.sys.dao.ExperimentDao;
 import com.robin.sys.dao.ExperimentFinishRecordDao;
 import com.robin.sys.dao.ExperimentRecordDao;
@@ -31,8 +32,6 @@ public class ExperimentService {
     private ExperimentFinishRecordDao finishRecordDao;
     @Autowired
     private ExperimentRecordDao experimentRecordDao;
-    @Autowired
-    private ClazzService clazzService;
 
     @Transactional
     public List<ExperimentVO> listExperiment() {
@@ -74,7 +73,7 @@ public class ExperimentService {
             experimentVO.setExperimentName(experiment.getExperimentName());
             experimentVO.setExperimentNumber(experiment.getExperimentNumber());
             experimentVO.setExperimentTask(experiment.getExperimentTask());
-            experimentVO.setExprimentId(experiment.getExprimentId());
+            experimentVO.setExperimentId(experiment.getExperimentId());
             experimentVO.setPreview(experiment.getPreview());
             experimentVO.setReport(experiment.getReport());
             experimentVO.setTeacherName(experiment.getTeacherName());
@@ -93,8 +92,9 @@ public class ExperimentService {
         }
         for (int i = 0; i < experiments.size(); i++) {
             ExperimentFinishRecordView experiment = experiments.get(i);
-            if (experiment.getExprimentId() == experimentId) {
+            if (experiment.getExperimentId() == experimentId) {
                 res.setId(experiment.getId());
+                res.setClazzName(experiment.getClazzName());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String createDate = sdf.format(experiment.getCreateDate());
                 res.setCreateDate(createDate);
@@ -117,11 +117,96 @@ public class ExperimentService {
                 res.setExperimentName(experiment.getExperimentName());
                 res.setExperimentNumber(experiment.getExperimentNumber());
                 res.setExperimentTask(experiment.getExperimentTask());
-                res.setExprimentId(experiment.getExprimentId());
+                res.setExperimentId(experiment.getExperimentId());
                 return res;
             }
         }
         return res;
+    }
+
+    @Transactional
+    public ExperimentFinishRecordViewVO getExperimentFinishRecordByExperiment(int experimentId, int studentId, String clazzName) {
+        List<ExperimentFinishRecordView> views = finishRecordDao.listExperimentTaskByClazzName(experimentId, clazzName);
+        ExperimentFinishRecordViewVO res = new ExperimentFinishRecordViewVO();
+        if (views == null) {
+            return res;
+        }
+        for (int i = 0; i < views.size(); i++) {
+            ExperimentFinishRecordView view = views.get(i);
+            if (view.getStudentId() == studentId) {
+                res.setPreviewScore(view.getPreviewScore());
+                res.setTotalScore(view.getTotalScore());
+                res.setTeacherName(view.getTeacherName());
+                res.setExperimentId(view.getExperimentId());
+                res.setStudentNumber(view.getStudentNumber());
+                res.setStudentName(view.getStudentName());
+                res.setReportScore(view.getReportScore());
+                res.setReport(view.getReport());
+                res.setId(view.getId());
+                res.setClazzName(view.getClazzName());
+                res.setPreview(view.getPreview());
+                res.setExperimentNumber(view.getExperimentNumber());
+                res.setExperimentTask(view.getExperimentTask());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date createDate = view.getCreateDate();
+                res.setCreateDate(sdf.format(createDate));
+                Date previewDate = view.getPreviewDate();
+                if (previewDate != null) {
+                    res.setPreviewDate(sdf.format(previewDate));
+                }
+                res.setStudentId(view.getStudentId());
+                Date reportDate = view.getReportDate();
+                res.setExperimentName(view.getExperimentName());
+                if (reportDate != null) {
+                    res.setReportDate(sdf.format(reportDate));
+                }
+                return res;
+            }
+        }
+        return res;
+    }
+
+    public List<ExperimentFinishRecordViewVO> listExperimentTaskByClazzName(int experimentId, String clazzName) {
+        if (experimentId <= 0 || clazzName == null || clazzName.length() < 1) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        List<ExperimentFinishRecordView> views = finishRecordDao.listExperimentTaskByClazzName(experimentId, clazzName);
+        List<ExperimentFinishRecordViewVO> viewVOS = new ArrayList<>();
+        if (views == null) {
+            return viewVOS;
+        }
+        for (int i = 0; i < views.size(); i++) {
+            ExperimentFinishRecordView view = views.get(i);
+            ExperimentFinishRecordViewVO viewVO = new ExperimentFinishRecordViewVO();
+            viewVO.setStudentNumber(view.getStudentNumber());
+            viewVO.setId(view.getId());
+            viewVO.setClazzName(view.getClazzName());
+            viewVO.setStudentName(view.getStudentName());
+            viewVO.setReportScore(view.getReportScore());
+            viewVO.setReport(view.getReport());
+            viewVO.setPreview(view.getPreview());
+            viewVO.setPreviewScore(view.getPreviewScore());
+            viewVO.setTotalScore(view.getTotalScore());
+            viewVO.setTeacherName(view.getTeacherName());
+            viewVO.setExperimentId(view.getExperimentId());
+            viewVO.setExperimentTask(view.getExperimentTask());
+            viewVO.setExperimentNumber(view.getExperimentNumber());
+            Date createDate = view.getCreateDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            viewVO.setCreateDate(sdf.format(createDate));
+            Date previewDate = view.getPreviewDate();
+            if (previewDate != null) {
+                viewVO.setPreviewDate(sdf.format(previewDate));
+            }
+            viewVO.setExperimentName(view.getExperimentName());
+            viewVO.setStudentId(view.getStudentId());
+            Date reportDate = view.getReportDate();
+            if (reportDate != null) {
+                viewVO.setReportDate(sdf.format(reportDate));
+            }
+            viewVOS.add(viewVO);
+        }
+        return viewVOS;
     }
 
     @Transactional
@@ -323,6 +408,62 @@ public class ExperimentService {
             viewVOS.add(viewVO);
         }
         return viewVOS;
+    }
+
+    @Transactional
+    public void scoringExperimentPrevieTask(int studentId,int experimentId,String clazzName,int previewScore) {
+        if (previewScore < 0 || previewScore >100) {
+            throw new GlobalException(CodeMsg.SCORE_ERROR);
+        }
+        if (studentId <= 0 || experimentId <= 0 || clazzName == null || clazzName.length() < 1) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        ExperimentFinishRecord finishRecord = finishRecordDao.getFinishRecordByExperimentIdAndStudentId(experimentId,studentId);
+        if (finishRecord != null) {
+            int reportScore = finishRecord.getReportScore();
+            int totalScore = (int)Math.ceil(previewScore * Constant.PREVIE_SCORE_PROPORTION + reportScore * Constant.REPORT_SCORE_PROPORTION);
+            finishRecord.setPreviewScore(previewScore);
+            finishRecord.setTotalScore(totalScore);
+            finishRecordDao.updatePreviewScoreById(finishRecord);
+            return;
+        }
+        finishRecord = new ExperimentFinishRecord();
+        ExperimentRecord record = experimentRecordDao.getExperimentRecord(experimentId,clazzName);
+        finishRecord.setStudentId(studentId);
+        finishRecord.setExperimentId(experimentId);
+        finishRecord.setExperimentRecordId(record.getId());
+        finishRecord.setPreviewScore(previewScore);
+        int totalScore = (int)Math.ceil(previewScore * Constant.PREVIE_SCORE_PROPORTION);
+        finishRecord.setTotalScore(totalScore);
+        finishRecordDao.insertExperimentFinishRecordPreviewScore(finishRecord);
+    }
+
+    @Transactional
+    public void scoringExperimentReportTask(int studentId,int experimentId,String clazzName,int reportScore) {
+        if (studentId <= 0 || experimentId <= 0 || clazzName == null || clazzName.length() < 1) {
+            throw new GlobalException(CodeMsg.CLIENT_ERROR);
+        }
+        if (reportScore < 0 || reportScore >100) {
+            throw new GlobalException(CodeMsg.SCORE_ERROR);
+        }
+        ExperimentFinishRecord finishRecord = finishRecordDao.getFinishRecordByExperimentIdAndStudentId(experimentId,studentId);
+        if (finishRecord != null) {
+            int previewScore = finishRecord.getPreviewScore();
+            int totalScore = (int)Math.ceil(previewScore * Constant.PREVIE_SCORE_PROPORTION + reportScore * Constant.REPORT_SCORE_PROPORTION);
+            finishRecord.setReportScore(reportScore);
+            finishRecord.setTotalScore(totalScore);
+            finishRecordDao.updateReportScoreById(finishRecord);
+            return;
+        }
+        finishRecord = new ExperimentFinishRecord();
+        ExperimentRecord record = experimentRecordDao.getExperimentRecord(experimentId,clazzName);
+        finishRecord.setExperimentRecordId(record.getId());
+        finishRecord.setReportScore(reportScore);
+        finishRecord.setStudentId(studentId);
+        finishRecord.setExperimentId(experimentId);
+        int totalScore = (int)Math.ceil(reportScore * Constant.PREVIE_SCORE_PROPORTION);
+        finishRecord.setTotalScore(totalScore);
+        finishRecordDao.insertExperimentFinishRecordReportScore(finishRecord);
     }
 
     public Experiment getExperimentById(int id) {
