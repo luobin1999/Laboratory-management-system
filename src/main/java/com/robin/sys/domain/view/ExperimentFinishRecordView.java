@@ -5,12 +5,16 @@ import java.util.Date;
 public class ExperimentFinishRecordView {
     //实验完成记录ID
     private int id;
+    //学生ID
+    private int studentId;
     //学生姓名
     private String studentName;
     //学生账号
     private String studentNumber;
+    //班级
+    private String clazzName;
     //实验ID
-    private int exprimentId;
+    private int experimentId;
     //实验编号
     private String experimentNumber;
     //实验名称
@@ -36,6 +40,30 @@ public class ExperimentFinishRecordView {
     //总成绩
     private int totalScore;
 
+    public void setExperimentId(int experimentId) {
+        this.experimentId = experimentId;
+    }
+
+    public int getExperimentId() {
+        return experimentId;
+    }
+
+    public void setClazzName(String clazzName) {
+        this.clazzName = clazzName;
+    }
+
+    public String getClazzName() {
+        return clazzName;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
@@ -54,10 +82,6 @@ public class ExperimentFinishRecordView {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setExprimentId(int exprimentId) {
-        this.exprimentId = exprimentId;
     }
 
     public void setExperimentNumber(String experimentNumber) {
@@ -126,10 +150,6 @@ public class ExperimentFinishRecordView {
 
     public int getId() {
         return id;
-    }
-
-    public int getExprimentId() {
-        return exprimentId;
     }
 
     public String getExperimentNumber() {

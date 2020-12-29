@@ -9,4 +9,6 @@ public class Constant {
     public static final String SECRET_KEY = "minioadmin";
     public static final String FILE_BUCKET = "system";
     public static final String DEFAULT_SUFFIX = ".docx";
+    public static final double PREVIE_SCORE_PROPORTION = 0.2;
+    public static final double REPORT_SCORE_PROPORTION = 0.8;
 }

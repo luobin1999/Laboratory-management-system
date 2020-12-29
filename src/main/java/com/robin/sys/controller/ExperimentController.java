@@ -132,7 +132,6 @@ public class ExperimentController {
     @RequestMapping("/detail/experiment")
     @ResponseBody
     public Result detailExperiment(@RequestParam("experimentId") int experimentId, User user) {
-        logger.info("experimentId：" + experimentId);
         PowerUtil.PowerCheck1(user);
         if (experimentService.finishRecordIsExist(experimentId, user.getId())) {
             return Result.success("信息已找到");
@@ -142,7 +141,6 @@ public class ExperimentController {
 
     @RequestMapping("/experiment/detail")
     public String detailExperimentInfo(@RequestParam("experimentId") int experimentId, Model model, User user) {
-        logger.info("experimentId：" + experimentId);
         if (user == null) {
             return "login";
         }

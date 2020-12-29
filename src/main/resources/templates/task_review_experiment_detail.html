@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>实验详情</title>
+    <title>学生实验详情</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>实验详情</h5>
+                <h5>学生实验详情</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -57,6 +57,12 @@
                         <label class="col-sm-3 control-label">学号：</label>
                         <div class="col-sm-8">
                             <input type="text" name="userNumber" id="userNumber" th:readonly="${finishRecords.getStudentNumber()}" th:value="${finishRecords.getStudentNumber()}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">班级：</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="clazzName" id="clazzName" th:readonly="${finishRecords.getClazzName()}" th:value="${finishRecords.getClazzName()}" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">

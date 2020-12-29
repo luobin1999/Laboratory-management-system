@@ -181,6 +181,10 @@ public class UserService {
         UserContext.setUser(user);
     }
 
+    public User getUserById(int id) {
+        return userDao.getUserById(id);
+    }
+
     @Transactional
     public void changePassword(PasswordVO passwordVO) {
         if (passwordVO == null) {

@@ -35,4 +35,6 @@ public interface UserDao {
     List<User> listStudent();
     @Delete("delete from user where id = #{id}")
     int deleteUserById(int id);
+    @Select("select * from user where id = #{id}")
+    User getUserById(int id);
 }
