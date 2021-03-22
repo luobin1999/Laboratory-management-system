@@ -183,4 +183,28 @@ public class ExperimentFinishRecordView {
     public int getTotalScore() {
         return totalScore;
     }
+
+    @Override
+    public String toString() {
+        return "ExperimentFinishRecordView{" +
+                "id=" + id +
+                ", studentId=" + studentId +
+                ", studentName='" + studentName + '\'' +
+                ", studentNumber='" + studentNumber + '\'' +
+                ", clazzName='" + clazzName + '\'' +
+                ", experimentId=" + experimentId +
+                ", experimentNumber='" + experimentNumber + '\'' +
+                ", experimentName='" + experimentName + '\'' +
+                ", experimentTask='" + experimentTask + '\'' +
+                ", createDate=" + createDate +
+                ", teacherName='" + teacherName + '\'' +
+                ", preview='" + preview + '\'' +
+                ", report='" + report + '\'' +
+                ", previewDate=" + previewDate +
+                ", reportDate=" + reportDate +
+                ", previewScore=" + previewScore +
+                ", reportScore=" + reportScore +
+                ", totalScore=" + totalScore +
+                '}';
+    }
 }

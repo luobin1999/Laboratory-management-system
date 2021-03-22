@@ -63,4 +63,16 @@ public class Experiment {
     public Date getCreateDate() {
         return createDate;
     }
+
+    @Override
+    public String toString() {
+        return "Experiment{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                ", task='" + task + '\'' +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

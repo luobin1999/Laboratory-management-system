@@ -109,7 +109,7 @@ public class ExperimentService {
                 res.setStudentName(experiment.getStudentName());
                 res.setStudentNumber(experiment.getStudentNumber());
                 res.setReportScore(experiment.getReportScore());
-                res.setPreviewScore(res.getPreviewScore());
+                res.setPreviewScore(experiment.getPreviewScore());
                 res.setPreview(experiment.getPreview());
                 res.setReport(experiment.getReport());
                 res.setTeacherName(experiment.getTeacherName());
