@@ -3,6 +3,7 @@ package com.robin.sys.dao;
 import com.robin.sys.domain.ExperimentRecord;
 import com.robin.sys.domain.view.ExperimentClazzView;
 import com.robin.sys.domain.view.ExperimentRecordView;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -19,4 +20,6 @@ public interface ExperimentRecordDao {
     List<ExperimentRecordView> listExperimentRecordView();
     @Select("select e.id,experiment_id,experiment_number,experiment_name,create_date,clazz_name,teacher_name,f.count from (select c.id,experiment_id,experiment_number,experiment_name,c.create_date,clazz_name,d.name as teacher_name from (select a.id,a.experiment_id,b.number as experiment_number,b.name as experiment_name,a.create_date,a.clazz_name,a.teacher_id from (select id,experiment_id,create_date,clazz_name,teacher_id from experiment_record where experiment_id = #{experimentId}) a left join experiment b on a.experiment_id = b.id ) c left join user d on c.teacher_id = d.id) e left join (select c.clazz as clazz,count(clazz) as count from (select c.clazz from user u right join class c on u.clazz = c.clazz) as c group by c.clazz) f on e.clazz_name = f.clazz order by clazz_name")
     List<ExperimentClazzView> listClazzForExperiment(int experimentId);
+    @Delete("delete from experiment_record where experiment_id = #{experimentId}")
+    void deleteExperimentRecord(int experimentId);
 }

@@ -2,10 +2,7 @@ package com.robin.sys.dao;
 
 import com.robin.sys.domain.ExperimentFinishRecord;
 import com.robin.sys.domain.view.ExperimentFinishRecordView;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -33,4 +30,6 @@ public interface ExperimentFinishRecordDao {
     void insertExperimentFinishRecordPreviewScore(ExperimentFinishRecord experimentFinishRecord);
     @Insert("insert into experiment_finish_record(student_id,experiment_id,experiment_record_id,report_score,total_score) values(#{studentId},#{experimentId},#{experimentRecordId},#{reportScore},#{totalScore})")
     void insertExperimentFinishRecordReportScore(ExperimentFinishRecord experimentFinishRecord);
+    @Delete("delete from experiment_finish_record where experiment_id = #{experimentId}")
+    void deleteExperimentFinishRecord(int experimentId);
 }

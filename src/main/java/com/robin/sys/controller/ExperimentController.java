@@ -4,7 +4,6 @@ import com.robin.sys.VO.clazz.ClazzVO;
 import com.robin.sys.VO.experiment.ExperimentFinishRecordViewVO;
 import com.robin.sys.VO.experiment.ExperimentVO;
 import com.robin.sys.VO.experiment.PreExperimentVO;
-import com.robin.sys.domain.Clazz;
 import com.robin.sys.domain.Experiment;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
