@@ -15,6 +15,8 @@ public interface ExperimentDao {
     void insertExperiment(Experiment experiment);
     @Select("select * from experiment where id = #{id}")
     Experiment getExperimentById(int id);
+    @Select("select * from experiment where name=#{name}")
+    Experiment getExperimentByName(String name);
     @Delete("delete from experiment where id = #{id}")
     void deleteExperimentById(int id);
     @Update("update experiment set name = #{name},number = #{number},content = #{content},task = #{task},nature = #{nature}  where id = #{id}")

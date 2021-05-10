@@ -57,7 +57,8 @@
                             <th>班级</th>
                             <th>班级总人数</th>
                             <th>指导教师</th>
-                            <th>作业完成情况</th>
+                            <th>是否已分组</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -68,11 +69,18 @@
                             <td th:text="${view.getClazzName()}"></td>
                             <td th:text="${view.getCount()}"></td>
                             <td th:text="${view.getTeacherName()}"></td>
+                            <td th:if="${view.getIsGroup() eq 0}" style="color: red">未分组</td>
+                            <td th:if="${view.getIsGroup() eq 1}" style="color: green">已分组</td>
                             <td>
                                 <form  method="post" action="/list/experiment/task/by_clazz" style="display: inline-block">
                                     <input type="hidden" name="experimentId" th:value="${view.getExperimentId()}">
                                     <input type="hidden" name="clazzName" th:value="${view.getClazzName()}">
                                     <button class="bg-info" type="submit">查看详情</button>
+                                </form>
+                                <form   method="post" action="/upload/experiment/group/info" style="display: inline-block">
+                                    <input type="hidden" name="experimentName" th:value="${view.getExperimentName()}">
+                                    <input type="hidden" name="clazzName" th:value="${view.getClazzName()}">
+                                    <button class="bg-success" type="submit">上传分组</button>
                                 </form>
                             </td>
                         </tr>
@@ -106,7 +114,6 @@
 
 <!-- Page-Level Scripts -->
 <script>
-
 </script>
 
 

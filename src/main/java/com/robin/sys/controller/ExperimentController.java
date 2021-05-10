@@ -130,7 +130,7 @@ public class ExperimentController {
 
     @RequestMapping("/detail/experiment")
     @ResponseBody
-    public Result detailExperiment(@RequestParam("experimentId") int experimentId, User user) {
+    public Result detailExperiment(@RequestParam("experimentId") Integer experimentId, User user) {
         PowerUtil.PowerCheck1(user);
         if (experimentService.finishRecordIsExist(experimentId, user.getId())) {
             return Result.success("信息已找到");
@@ -139,7 +139,7 @@ public class ExperimentController {
     }
 
     @RequestMapping("/experiment/detail")
-    public String detailExperimentInfo(@RequestParam("experimentId") int experimentId, Model model, User user) {
+    public String detailExperimentInfo(@RequestParam("experimentId") Integer experimentId, Model model, User user) {
         if (user == null) {
             return "login";
         }
@@ -151,7 +151,7 @@ public class ExperimentController {
     }
 
     @RequestMapping("/publish/experiment")
-    public String experimentPublish(@RequestParam("experimentId") int experimentId, Model model, User user) {
+    public String experimentPublish(@RequestParam("experimentId") Integer experimentId, Model model, User user) {
         if (user == null) {
             return "login";
         }
@@ -166,7 +166,7 @@ public class ExperimentController {
 
     @RequestMapping("/publish/experiment/publish")
     @ResponseBody
-    public Result publishExperiment(@RequestParam("experimentId") int experimentId,@RequestParam("clazzName") String clazzName, User user) {
+    public Result publishExperiment(@RequestParam("experimentId") Integer experimentId,@RequestParam("clazzName") String clazzName, User user) {
         PowerUtil.PowerCheck2(user);
         experimentService.publishExperimentForClazz(experimentId, clazzName, user);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 给班级："+ clazzName + "发布实验信息："+ experimentId);

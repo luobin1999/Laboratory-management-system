@@ -8,10 +8,7 @@ import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
 import com.robin.sys.result.Result;
-import com.robin.sys.service.ClazzService;
-import com.robin.sys.service.ExperimentService;
-import com.robin.sys.service.MinioService;
-import com.robin.sys.service.UserService;
+import com.robin.sys.service.*;
 import com.robin.sys.util.PowerUtil;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -36,9 +33,11 @@ public class TaskController {
     private ExperimentService experimentService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TaskService taskService;
 
     @RequestMapping("/review/experiment/detail")
-    public String detailExperiment(@RequestParam("experimentId") int experimentId,@RequestParam("clazzName") String clazzName,@RequestParam("studentId") int studentId, Model model, User user) {
+    public String detailExperiment(@RequestParam("experimentId") Integer experimentId,@RequestParam("clazzName") String clazzName,@RequestParam("studentId") Integer studentId, Model model, User user) {
         if (user == null) {
             return "login";
         }
@@ -51,8 +50,8 @@ public class TaskController {
 
     @RequestMapping("/review/experiment/preview/task/submit")
     @ResponseBody
-    public Result reviewExperimentPreviewTask(@RequestParam("studentId") int studentId,@RequestParam("experimentId") int experimentId,
-                                       @RequestParam("clazzName") String clazzName,@RequestParam("previewScore") int previewScore,
+    public Result reviewExperimentPreviewTask(@RequestParam("studentId") Integer studentId,@RequestParam("experimentId") Integer experimentId,
+                                       @RequestParam("clazzName") String clazzName,@RequestParam("previewScore") Integer previewScore,
                                        Model model, User user){
         PowerUtil.PowerCheck2(user);
         model.addAttribute("user", user);
@@ -63,8 +62,8 @@ public class TaskController {
 
     @RequestMapping("/review/experiment/report/task/submit")
     @ResponseBody
-    public Result reviewExperimentReportTask(@RequestParam("studentId") int studentId,@RequestParam("experimentId") int experimentId,
-                                       @RequestParam("clazzName") String clazzName,@RequestParam("previewScore") int previewScore,
+    public Result reviewExperimentReportTask(@RequestParam("studentId") Integer studentId,@RequestParam("experimentId") Integer experimentId,
+                                       @RequestParam("clazzName") String clazzName,@RequestParam("previewScore") Integer previewScore,
                                        Model model, User user){
         PowerUtil.PowerCheck2(user);
         model.addAttribute("user", user);
@@ -74,7 +73,7 @@ public class TaskController {
     }
 
     @RequestMapping("/review/experiment/preview/task")
-    public String experimentPreviewTaskReview(Model model, @RequestParam("studentId") int studentId,@RequestParam("experimentId") int experimentId, User user) {
+    public String experimentPreviewTaskReview(Model model, @RequestParam("studentId") Integer studentId,@RequestParam("experimentId") Integer experimentId, User user) {
         if (user == null) {
             return "login";
         }
@@ -91,7 +90,7 @@ public class TaskController {
     }
 
     @RequestMapping("/review/experiment/report/task")
-    public String experimentReportTaskReview(Model model, @RequestParam("studentId") int studentId,@RequestParam("experimentId") int experimentId, User user) {
+    public String experimentReportTaskReview(Model model, @RequestParam("studentId") Integer studentId,@RequestParam("experimentId") Integer experimentId, User user) {
         if (user == null) {
             return "login";
         }
@@ -108,7 +107,7 @@ public class TaskController {
     }
 
     @RequestMapping("/list/experiment/task/by_clazz")
-    public String listExperimentTaskByClazzName(@RequestParam("experimentId") int experimentId,@RequestParam("clazzName") String clazzName, Model model, User user) {
+    public String listExperimentTaskByClazzName(@RequestParam("experimentId") Integer experimentId,@RequestParam("clazzName") String clazzName, Model model, User user) {
         if (user == null) {
             return "login";
         }
@@ -120,7 +119,7 @@ public class TaskController {
     }
 
     @RequestMapping("/list/experiment/clazz")
-    public String listClazzByExperiment(int experimentId, Model model, User user) {
+    public String listClazzByExperiment(Integer experimentId, Model model, User user) {
         if (user == null) {
             return "login";
         }
@@ -131,8 +130,26 @@ public class TaskController {
         return "task_class_list";
     }
 
+    @RequestMapping("/upload/experiment/group/info")
+    public String uploadExperimentGroupInfo(String experimentName, String clazzName, User user, Model model){
+        PowerUtil.PowerCheck2(user);
+        model.addAttribute("experimentName", experimentName);
+        model.addAttribute("clazzName", clazzName);
+        model.addAttribute("user", user);
+        return "group_file_upload";
+    }
+
+    @RequestMapping("/update/group/info")
+    @ResponseBody
+    public Result updateGroupInfoForClassAndExperiment(@Param("gourpFile") MultipartFile groupFile, String experimentName, String clazzName, User user) {
+        PowerUtil.PowerCheck2(user);
+        taskService.updateGroupInfoForClassAndExperiment(groupFile, experimentName, clazzName);
+        Experiment experiment = experimentService.getExperimentByName(experimentName);
+        return Result.success(experiment.getId());
+    }
+
     @RequestMapping("/submit/experiment/preview")
-    public String previewSubmit(@Param("experimentId") int experimentId, Model model, User user) {
+    public String previewSubmit(@Param("experimentId") Integer experimentId, Model model, User user) {
         if (user == null) {
             return "login";
         }
@@ -161,7 +178,7 @@ public class TaskController {
 
     @RequestMapping("/submit/experiment/preview/submit")
     @ResponseBody
-    public Result submitPreview(@Param("previewFile") MultipartFile previewFile,@Param("experimentId") int experimentId, User user) {
+    public Result submitPreview(@Param("previewFile") MultipartFile previewFile,@Param("experimentId") Integer experimentId, User user) {
         PowerUtil.PowerCheck1(user);
         String name = minioService.upload(user.getNumber(), user.getName(), previewFile);
         experimentService.submitExperimentPreview(name, experimentId, user);
@@ -170,7 +187,7 @@ public class TaskController {
     }
 
     @RequestMapping("/submit/experiment/report")
-    public String reportSubmit(@Param("experimentId") int experimentId, Model model, User user) {
+    public String reportSubmit(@Param("experimentId") Integer experimentId, Model model, User user) {
         if (user == null) {
             return "login";
         }
@@ -183,7 +200,7 @@ public class TaskController {
 
     @RequestMapping("/submit/experiment/report/submit")
     @ResponseBody
-    public Result submitReport(@Param("reportFile") MultipartFile reportFile,@Param("experimentId") int experimentId, User user) {
+    public Result submitReport(@Param("reportFile") MultipartFile reportFile,@Param("experimentId") Integer experimentId, User user) {
         PowerUtil.PowerCheck1(user);
         String name = minioService.upload(user.getNumber(), user.getName(), reportFile);
         experimentService.submitExperimentReport(name, experimentId, user);

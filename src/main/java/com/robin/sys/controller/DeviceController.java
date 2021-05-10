@@ -50,7 +50,7 @@ public class DeviceController {
     }
 
     @RequestMapping("/update/device")
-    public String deviceUpdate(@Param("id") int id, Model model, User user){
+    public String deviceUpdate(@Param("id") Integer id, Model model, User user){
         if (user == null) {
             return "login";
         }
@@ -115,7 +115,7 @@ public class DeviceController {
 
     @RequestMapping("/delete/device")
     @ResponseBody
-    public Result deleteDevice(@Param("id") int id, User user){
+    public Result deleteDevice(@Param("id") Integer id, User user){
         if (user == null) {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
         }
@@ -128,7 +128,7 @@ public class DeviceController {
     }
 
     @RequestMapping("/check/device")
-    public String deviceCheck(@Param("id") int id, Model model, User user){
+    public String deviceCheck(@Param("id") Integer id, Model model, User user){
         if (user == null) {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
         }
@@ -156,7 +156,7 @@ public class DeviceController {
     }
 
     @RequestMapping("/borrow/device")
-    public String laboratoryBorrow(@Param("id") int id, Model model, User user){
+    public String laboratoryBorrow(@Param("id") Integer id, Model model, User user){
         if (user == null) {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
         }

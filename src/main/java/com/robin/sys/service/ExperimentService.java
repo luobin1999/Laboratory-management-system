@@ -402,8 +402,8 @@ public class ExperimentService {
     }
 
     @Transactional
-    public List<ExperimentClazzViewVO> listClazzForExperiment(int experimentId) {
-        if (experimentId <= 0) {
+    public List<ExperimentClazzViewVO> listClazzForExperiment(Integer experimentId) {
+        if (experimentId == null || experimentId <= 0) {
             throw new GlobalException(CodeMsg.CLIENT_ERROR);
         }
         List<ExperimentClazzView> views = experimentRecordDao.listClazzForExperiment(experimentId);
@@ -421,6 +421,8 @@ public class ExperimentService {
             viewVO.setExperimentName(view.getExperimentName());
             viewVO.setExperimentNumber(view.getExperimentNumber());
             viewVO.setTeacherName(view.getTeacherName());
+            //需要修改
+            viewVO.setIsGroup(view.getIsGroup());
             Date createDate = view.getCreateDate();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             viewVO.setCreateDate(sdf.format(createDate));
@@ -487,6 +489,10 @@ public class ExperimentService {
 
     public Experiment getExperimentById(int id) {
         return experimentDao.getExperimentById(id);
+    }
+
+    public Experiment getExperimentByName(String experimentName) {
+       return experimentDao.getExperimentByName(experimentName);
     }
 
     public boolean finishRecordIsExist(int experimentId, int studentId) {

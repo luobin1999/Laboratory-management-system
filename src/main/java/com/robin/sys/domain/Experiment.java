@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Experiment {
     //实验ID
-    private int id;
+    private Integer id;
     //实验编号
     private String number;
     //实验名称
@@ -26,7 +26,7 @@ public class Experiment {
         return nature;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,7 +50,7 @@ public class Experiment {
         this.createDate = createDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
