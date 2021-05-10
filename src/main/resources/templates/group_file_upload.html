@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>修改实验信息</title>
+    <title>提交实验分组</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>修改实验信息</h5>
+                <h5>提交实验分组</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -44,51 +44,41 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <form class="form-horizontal" id="experiment_add">
-                    <input type="hidden" name="id" id="id" th:value="${experiment.getId()}">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">实验编号：</label>
-
-                        <div class="col-sm-8">
-                            <input type="text" name="number" id="number" th:value="${experiment.getNumber()}" placeholder="请输入实验编号" class="form-control">
-                            <span class="help-block m-b-none">如：实验十九</span>
-                        </div>
-                    </div>
+                <div class="form-horizontal">
+                    <!--<form class="form-horizontal">-->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">实验名称：</label>
 
                         <div class="col-sm-8">
-                            <input type="text" name="name" id="name" th:value="${experiment.getName()}" placeholder="请输入实验名称" class="form-control">
+                            <input type="text" readonly="readonly" th:value="${experimentName}" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">实验性质：</label>
+                        <label class="col-sm-3 control-label">班级名称：</label>
 
                         <div class="col-sm-8">
-                            <input type="text" name="nature" id="nature" th:value="${experiment.getNature()}" placeholder="请输入实验性质" class="form-control">
+                            <input type="text"  readonly="readonly" th:value="${clazzName}" class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">实验简介：</label>
-
-                        <div class="col-sm-8">
-                            <input type="text" name="content" id="content" th:value="${experiment.getContent()}" placeholder="请输入实验简介" class="form-control">
+                    <!--<div class="form-group">-->
+                    <form id="upload_group_info">
+                        <input type="hidden" name="experimentName" id="experimentName" th:value="${experimentName}">
+                        <input type="hidden" name="clazzName" id="clazzName" th:value="${clazzName}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">实验分组：</label>
+                            <div class="col-sm-8">
+                                <input type="file" name="groupFile" id="groupFile" placeholder="请上传文件" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <input type="hidden" name="task" id="task" th:value="${experiment.getTask()}">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">实验任务书：</label>
-
-                        <div class="col-sm-8">
-                            <input type="file" name="file" id="file" placeholder="请上传文件" class="form-control">
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-8">
+                                <button class="btn btn-sm btn-info" type="button" onclick="submitGroupInfo()">提交分组信息</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-8">
-                            <button class="btn btn-sm btn-info" type="button" onclick="updateExperiment()">确认修改</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                    <!--</div>-->
+                    <!--</form>-->
+                </div>
             </div>
         </div>
     </div>
@@ -110,13 +100,13 @@
 <!-- common.js -->
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
 <script>
-    function updateExperiment(){
+    function submitGroupInfo(){
         g_showLoading();
 
-        var form = new FormData(document.getElementById("experiment_add"));
+        var form = new FormData(document.getElementById("upload_group_info"));
 
         $.ajax({
-            url: "/update/experiment/update",
+            url: "/update/group/info",
             type: "post",
             async: false,
             data:form,
@@ -125,8 +115,8 @@
             success:function(data){
                 layer.closeAll();
                 if(data.code == 0){
-                    layer.msg("添加成功！");
-                    window.location.href="/list/experiment";
+                    layer.msg("更新实验分组信息成功！");
+                    window.location.href="/list/experiment/clazz?experimentId="+data.data;
                 }else{
                     layer.msg(data.msg);
                 }

@@ -11,8 +11,18 @@ public class ExperimentVO {
     private String content;
     //实验任务书
     private String task;
+    //实验性质
+    private String nature;
     //实验创建时间
     private String createDate;
+
+    public void setNature(String nature) {
+        this.nature = nature;
+    }
+
+    public String getNature() {
+        return nature;
+    }
 
     public void setId(int id) {
         this.id = id;

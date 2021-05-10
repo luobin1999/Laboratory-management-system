@@ -62,7 +62,7 @@ public class LaboratoryController {
     }
 
     @RequestMapping("/update/laboratory")
-    public String updateLaboratory(@Param("id") int id, Model model, User user){
+    public String updateLaboratory(@Param("id") Integer id, Model model, User user){
         if (user == null) {
             return "login";
         }
@@ -91,7 +91,7 @@ public class LaboratoryController {
 
     @RequestMapping("/delete/laboratory")
     @ResponseBody
-    public Result deleteLaboratory(@Param("id") int id, User user) {
+    public Result deleteLaboratory(@Param("id") Integer id, User user) {
         if (user == null) {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
         }
@@ -104,7 +104,7 @@ public class LaboratoryController {
     }
 
     @RequestMapping("/borrow/laboratory")
-    public String borrowLaboratory(@Param("id") int id, Model model, User user){
+    public String borrowLaboratory(@Param("id") Integer id, Model model, User user){
         if (user == null) {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
         }

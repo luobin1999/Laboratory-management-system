@@ -41,7 +41,7 @@ public class AdminController {
 
     @RequestMapping("/delete/user")
     @ResponseBody
-    public Result deleteUser(int id, User user){
+    public Result deleteUser(Integer id, User user){
         if (user == null) {
             throw new GlobalException(CodeMsg.SESSION_ERROR);
         }

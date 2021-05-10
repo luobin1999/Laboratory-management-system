@@ -11,6 +11,16 @@ public class PreExperimentVO {
     private String content;
     //实验任务书
     private String task;
+    //实验性质
+    private String nature;
+
+    public void setNature(String nature) {
+        this.nature = nature;
+    }
+
+    public String getNature() {
+        return nature;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -60,6 +70,7 @@ public class PreExperimentVO {
                 ", name='" + name + '\'' +
                 ", content='" + content + '\'' +
                 ", task='" + task + '\'' +
+                ", nature='" + nature + '\'' +
                 '}';
     }
 }

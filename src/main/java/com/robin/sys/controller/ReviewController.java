@@ -94,7 +94,7 @@ public class ReviewController {
 
     @RequestMapping("borrow/device/return/finish")
     @ResponseBody
-    public Result returnDeviceFinish(@Param("id") int id, User user) {
+    public Result returnDeviceFinish(@Param("id") Integer id, User user) {
         powerCheack(user);
         reviewService.deviceReturnFinish(id);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 结束（完成）了预约流程："+id);
@@ -103,7 +103,7 @@ public class ReviewController {
 
     @RequestMapping("/review/device/pass")
     @ResponseBody
-    public Result reviewDevicePass(@Param("id") int id, User user) {
+    public Result reviewDevicePass(@Param("id") Integer id, User user) {
         powerCheack(user);
         reviewService.reviewDevicePass(id, user);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 通过了预约申请："+id);
@@ -112,7 +112,7 @@ public class ReviewController {
 
     @RequestMapping("/review/laboratory/pass")
     @ResponseBody
-    public Result reviewLaboratoryPass(@Param("id") int id, User user) {
+    public Result reviewLaboratoryPass(@Param("id") Integer id, User user) {
         powerCheack(user);
         reviewService.reviewLaboratoryPass(id, user);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 通过了预约申请："+id);
@@ -121,7 +121,7 @@ public class ReviewController {
 
     @RequestMapping("/review/device/no_pass")
     @ResponseBody
-    public Result reviewDeviceNoPass(@Param("id") int id, User user) {
+    public Result reviewDeviceNoPass(@Param("id") Integer id, User user) {
         powerCheack(user);
         reviewService.reviewDeviceNoPass(id, user);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 拒绝了预约申请："+id);
@@ -130,7 +130,7 @@ public class ReviewController {
 
     @RequestMapping("/review/laboratory/no_pass")
     @ResponseBody
-    public Result reviewLaboratoryNoPass(@Param("id") int id, User user) {
+    public Result reviewLaboratoryNoPass(@Param("id") Integer id, User user) {
         powerCheack(user);
         reviewService.reviewLaboratoryNoPass(id, user);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 拒绝了预约申请："+id);

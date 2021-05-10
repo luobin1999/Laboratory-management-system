@@ -49,7 +49,7 @@ public class ClazzController {
     }
 
     @RequestMapping("/update/clazz")
-    public String clazzUpdate(Model model, @Param("id") int id, User user) {
+    public String clazzUpdate(Model model, @Param("id") Integer id, User user) {
         if (user == null) {
             return "login";
         }
@@ -96,7 +96,7 @@ public class ClazzController {
 
     @RequestMapping("/delete/clazz")
     @ResponseBody
-    public Result deleteClazz(@Param("id") int id, User user) {
+    public Result deleteClazz(@Param("id") Integer id, User user) {
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }

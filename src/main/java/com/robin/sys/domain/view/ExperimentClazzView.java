@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class ExperimentClazzView {
     //experiment_record的主键ID
-    private int id;
+    private Integer id;
     //实验ID
-    private int experimentId;
+    private Integer experimentId;
     //实验编号
     private String experimentNumber;
     //实验名称
@@ -18,13 +18,23 @@ public class ExperimentClazzView {
     //指导教师
     private String teacherName;
     //班级人数
-    private int count;
+    private Integer count;
 
-    public void setId(int id) {
+    private Integer isGroup;
+
+    public Integer getIsGroup() {
+        return isGroup;
+    }
+
+    public void setIsGroup(Integer isGroup) {
+        this.isGroup = isGroup;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setExperimentId(int experimentId) {
+    public void setExperimentId(Integer experimentId) {
         this.experimentId = experimentId;
     }
 
@@ -48,15 +58,15 @@ public class ExperimentClazzView {
         this.teacherName = teacherName;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getExperimentId() {
+    public Integer getExperimentId() {
         return experimentId;
     }
 
@@ -80,7 +90,7 @@ public class ExperimentClazzView {
         return teacherName;
     }
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 }

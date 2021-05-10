@@ -48,6 +48,7 @@ public class ExperimentService {
             experimentVO.setNumber(experiment.getNumber());
             experimentVO.setContent(experiment.getContent());
             experimentVO.setTask(experiment.getTask());
+            experimentVO.setNature(experiment.getNature());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String createDate = sdf.format(experiment.getCreateDate());
             experimentVO.setCreateDate(createDate);
@@ -58,6 +59,7 @@ public class ExperimentService {
 
     @Transactional
     public List<ExperimentFinishRecordViewVO> listExperimentForStudent(User user) {
+        //需要改
         List<ExperimentFinishRecordView> experiments = finishRecordDao.listExperimentFinishRecordViewForStudent(user.getId(), user.getClazz());
         List<ExperimentFinishRecordViewVO> experimentVOS = new ArrayList<>();
         if (experiments == null) {
@@ -109,7 +111,7 @@ public class ExperimentService {
                 res.setStudentName(experiment.getStudentName());
                 res.setStudentNumber(experiment.getStudentNumber());
                 res.setReportScore(experiment.getReportScore());
-                res.setPreviewScore(res.getPreviewScore());
+                res.setPreviewScore(experiment.getPreviewScore());
                 res.setPreview(experiment.getPreview());
                 res.setReport(experiment.getReport());
                 res.setTeacherName(experiment.getTeacherName());
@@ -217,6 +219,7 @@ public class ExperimentService {
         String number = preExperimentVO.getNumber();
         String name = preExperimentVO.getName();
         String content = preExperimentVO.getContent();
+        String nature = preExperimentVO.getNature();
         if (number == null || number.length() < 1) {
             throw new GlobalException(CodeMsg.EXPERIMENT_NUMBER_EMPTY);
         }
@@ -226,11 +229,15 @@ public class ExperimentService {
         if (content == null || content.length() < 1) {
             throw new GlobalException(CodeMsg.EXPERIMENT_CONTENT_EMPTY);
         }
+        if (nature == null || nature.length() < 1) {
+            throw new GlobalException(CodeMsg.EXPERIMENT_NATURE_EMPTY);
+        }
         Experiment experiment = new Experiment();
         experiment.setName(name);
         experiment.setNumber(number);
         experiment.setContent(content);
         experiment.setTask(task);
+        experiment.setNature(nature);
         experiment.setCreateDate(new Date());
         experimentDao.insertExperiment(experiment);
     }
@@ -248,6 +255,7 @@ public class ExperimentService {
         String number = preExperimentVO.getNumber();
         String name = preExperimentVO.getName();
         String content = preExperimentVO.getContent();
+        String nature = preExperimentVO.getNature();
         int id = preExperimentVO.getId();
         if (id <= 1) {
             throw new GlobalException(CodeMsg.CLIENT_ERROR);
@@ -261,12 +269,16 @@ public class ExperimentService {
         if (content == null || content.length() < 1) {
             throw new GlobalException(CodeMsg.EXPERIMENT_CONTENT_EMPTY);
         }
+        if (nature == null || nature.length() < 1) {
+            throw new GlobalException(CodeMsg.EXPERIMENT_NATURE_EMPTY);
+        }
         Experiment experiment = new Experiment();
         experiment.setId(id);
         experiment.setName(name);
         experiment.setNumber(number);
         experiment.setContent(content);
         experiment.setTask(task);
+        experiment.setNature(nature);
         experimentDao.updateExperiment(experiment);
     }
 
@@ -278,6 +290,7 @@ public class ExperimentService {
         String number = preExperimentVO.getNumber();
         String name = preExperimentVO.getName();
         String content = preExperimentVO.getContent();
+        String nature = preExperimentVO.getNature();
         int id = preExperimentVO.getId();
         if (id <= 1) {
             throw new GlobalException(CodeMsg.CLIENT_ERROR);
@@ -291,11 +304,15 @@ public class ExperimentService {
         if (content == null || content.length() < 1) {
             throw new GlobalException(CodeMsg.EXPERIMENT_CONTENT_EMPTY);
         }
+        if (nature == null || nature.length() < 1) {
+            throw new GlobalException(CodeMsg.EXPERIMENT_NATURE_EMPTY);
+        }
         Experiment experiment = new Experiment();
         experiment.setId(id);
         experiment.setName(name);
         experiment.setNumber(number);
         experiment.setContent(content);
+        experiment.setNature(nature);
         experimentDao.updateExperimentNotTask(experiment);
     }
 
@@ -370,6 +387,8 @@ public class ExperimentService {
         Experiment experiment = experimentDao.getExperimentById(id);
         minioService.delete(experiment.getTask());
         experimentDao.deleteExperimentById(id);
+        experimentRecordDao.deleteExperimentRecord(id);
+        finishRecordDao.deleteExperimentFinishRecord(id);
     }
 
     @Transactional
@@ -383,8 +402,8 @@ public class ExperimentService {
     }
 
     @Transactional
-    public List<ExperimentClazzViewVO> listClazzForExperiment(int experimentId) {
-        if (experimentId <= 0) {
+    public List<ExperimentClazzViewVO> listClazzForExperiment(Integer experimentId) {
+        if (experimentId == null || experimentId <= 0) {
             throw new GlobalException(CodeMsg.CLIENT_ERROR);
         }
         List<ExperimentClazzView> views = experimentRecordDao.listClazzForExperiment(experimentId);
@@ -402,6 +421,8 @@ public class ExperimentService {
             viewVO.setExperimentName(view.getExperimentName());
             viewVO.setExperimentNumber(view.getExperimentNumber());
             viewVO.setTeacherName(view.getTeacherName());
+            //需要修改
+            viewVO.setIsGroup(view.getIsGroup());
             Date createDate = view.getCreateDate();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             viewVO.setCreateDate(sdf.format(createDate));
@@ -468,6 +489,10 @@ public class ExperimentService {
 
     public Experiment getExperimentById(int id) {
         return experimentDao.getExperimentById(id);
+    }
+
+    public Experiment getExperimentByName(String experimentName) {
+       return experimentDao.getExperimentByName(experimentName);
     }
 
     public boolean finishRecordIsExist(int experimentId, int studentId) {
