@@ -5,6 +5,7 @@ import com.robin.sys.VO.experiment.ExperimentFinishRecordViewVO;
 import com.robin.sys.VO.experiment.ExperimentVO;
 import com.robin.sys.VO.experiment.PreExperimentVO;
 import com.robin.sys.domain.Experiment;
+import com.robin.sys.domain.ExperimentRecord;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
@@ -132,6 +133,12 @@ public class ExperimentController {
     @ResponseBody
     public Result detailExperiment(@RequestParam("experimentId") Integer experimentId, User user) {
         PowerUtil.PowerCheck1(user);
+        //检查是否进行过实验分组
+        ExperimentRecord record = experimentService.getExperimentRecordByClazzNameAndExperimentId(user.getClazz(), experimentId);
+        if (record.getIsGroup() != 1) {
+            return Result.error(CodeMsg.NOT_GROUP_FOR_CLASS);
+        }
+        //检查是否有提交作业的记录
         if (experimentService.finishRecordIsExist(experimentId, user.getId())) {
             return Result.success("信息已找到");
         }

@@ -120,6 +120,7 @@ public class ExperimentService {
                 res.setExperimentNumber(experiment.getExperimentNumber());
                 res.setExperimentTask(experiment.getExperimentTask());
                 res.setExperimentId(experiment.getExperimentId());
+                res.setGroupId(experiment.getGroupId());
                 return res;
             }
         }
@@ -206,6 +207,8 @@ public class ExperimentService {
             if (reportDate != null) {
                 viewVO.setReportDate(sdf.format(reportDate));
             }
+            viewVO.setGroupId(view.getGroupId());
+            viewVO.setIsLeader(view.getIsLeader());
             viewVOS.add(viewVO);
         }
         return viewVOS;
@@ -493,6 +496,10 @@ public class ExperimentService {
 
     public Experiment getExperimentByName(String experimentName) {
        return experimentDao.getExperimentByName(experimentName);
+    }
+
+    public ExperimentRecord getExperimentRecordByClazzNameAndExperimentId(String clazzName, Integer experimentId) {
+        return experimentRecordDao.getExperimentRecordByClazzNameAndExperimentId(clazzName, experimentId);
     }
 
     public boolean finishRecordIsExist(int experimentId, int studentId) {
