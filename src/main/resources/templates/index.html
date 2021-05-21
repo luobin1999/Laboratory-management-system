@@ -52,6 +52,19 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#"><i class="fa fa-info-circle"></i> <span class="nav-label">工程认证</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="/engine/identity/zdh">自动化</a>
+                        </li>
+                        <li><a class="J_menuItem" href="/engine/identity/wdz">微电子</a>
+                        </li>
+                        <li><a class="J_menuItem" href="/engine/identity/dq">电气工程</a>
+                        </li>
+                        <li><a class="J_menuItem" href="/engine/identity/ck">测控</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">实验管理</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li th:if="${user.getPower() eq 2 || user.getPower() eq 3}"><a class="J_menuItem" href="/list/experiment">实验列表</a>
@@ -105,18 +118,6 @@
                                     <a class="J_menuItem" style="font-size: 6px" th:href="@{/list/experiment/clazz(experimentId=${view.getExperimentId()})}" th:text="${view.getViewName()}"></a>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li th:if="${user.power eq 2}">
-                    <a href="#">
-                        <i class="fa fa fa-bar-chart-o"></i>
-                        <span class="nav-label">考勤管理</span>
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a class="J_menuItem" href="">班级列表</a>
                         </li>
                     </ul>
                 </li>

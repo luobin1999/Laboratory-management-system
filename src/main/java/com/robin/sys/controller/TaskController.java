@@ -4,6 +4,7 @@ import com.robin.sys.VO.experiment.ExperimentClazzViewVO;
 import com.robin.sys.VO.experiment.ExperimentFinishRecordViewVO;
 import com.robin.sys.domain.Clazz;
 import com.robin.sys.domain.Experiment;
+import com.robin.sys.domain.ExperimentRecord;
 import com.robin.sys.domain.User;
 import com.robin.sys.exception.GlobalException;
 import com.robin.sys.result.CodeMsg;
@@ -113,6 +114,10 @@ public class TaskController {
         }
         PowerUtil.PowerCheck2(user);
         model.addAttribute("user", user);
+        ExperimentRecord record = experimentService.getExperimentRecordByClazzNameAndExperimentId(clazzName, experimentId);
+        if (record.getIsGroup() != 1) {
+            throw new GlobalException(CodeMsg.NOT_GROUP_FOR_CLASS);
+        }
         List<ExperimentFinishRecordViewVO> views = experimentService.listExperimentTaskByClazzName(experimentId, clazzName);
         model.addAttribute("views", views);
         return "task_clazz_experiment_list";
@@ -180,6 +185,10 @@ public class TaskController {
     @ResponseBody
     public Result submitPreview(@Param("previewFile") MultipartFile previewFile,@Param("experimentId") Integer experimentId, User user) {
         PowerUtil.PowerCheck1(user);
+        ExperimentRecord record = experimentService.getExperimentRecordByClazzNameAndExperimentId(user.getClazz(), experimentId);
+        if (record.getIsGroup() != 1) {
+            return Result.error(CodeMsg.NOT_GROUP_FOR_CLASS);
+        }
         String name = minioService.upload(user.getNumber(), user.getName(), previewFile);
         experimentService.submitExperimentPreview(name, experimentId, user);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 提交了实验："+experimentId+"的预习报告："+name);
@@ -202,6 +211,11 @@ public class TaskController {
     @ResponseBody
     public Result submitReport(@Param("reportFile") MultipartFile reportFile,@Param("experimentId") Integer experimentId, User user) {
         PowerUtil.PowerCheck1(user);
+        PowerUtil.PowerCheck1(user);
+        ExperimentRecord record = experimentService.getExperimentRecordByClazzNameAndExperimentId(user.getClazz(), experimentId);
+        if (record.getIsGroup() != 1) {
+            return Result.error(CodeMsg.NOT_GROUP_FOR_CLASS);
+        }
         String name = minioService.upload(user.getNumber(), user.getName(), reportFile);
         experimentService.submitExperimentReport(name, experimentId, user);
         logger.info("用户："+user.getName()+"，Number："+user.getNumber()+" 提交了实验："+experimentId+"的报告："+name);

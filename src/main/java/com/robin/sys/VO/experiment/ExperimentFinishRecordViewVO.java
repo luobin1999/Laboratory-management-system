@@ -37,6 +37,26 @@ public class ExperimentFinishRecordViewVO {
     private int reportScore;
     //总成绩
     private int totalScore;
+    //小组编号
+    private String groupId;
+    //是否是组长
+    private Integer isLeader;
+
+    public void setIsLeader(Integer isLeader) {
+        this.isLeader = isLeader;
+    }
+
+    public Integer getIsLeader() {
+        return isLeader;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
 
     public void setClazzName(String clazzName) {
         this.clazzName = clazzName;
@@ -203,6 +223,7 @@ public class ExperimentFinishRecordViewVO {
                 ", previewScore=" + previewScore +
                 ", reportScore=" + reportScore +
                 ", totalScore=" + totalScore +
+                ", groupId='" + groupId + '\'' +
                 '}';
     }
 }

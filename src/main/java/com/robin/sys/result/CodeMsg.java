@@ -59,6 +59,7 @@ public class CodeMsg {
     //作业模块
     public static CodeMsg PLEASE_SUBMIT_TASK_FIRST = new CodeMsg(600201, "请先完成作业");
     public static CodeMsg SCORE_ERROR = new CodeMsg(600202, "请在0-100之间打分");
+    public static CodeMsg NOT_GROUP_FOR_CLASS = new CodeMsg(600203,"未对该班级进行实验分组，请先进行实验分组");
 
     public CodeMsg fillArgs(Object... args) {
         int code = this.code;

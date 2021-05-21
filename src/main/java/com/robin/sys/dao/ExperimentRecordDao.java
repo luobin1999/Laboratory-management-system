@@ -21,4 +21,6 @@ public interface ExperimentRecordDao {
     void deleteExperimentRecord(int experimentId);
     @Update("update experiment_record set is_group=1 where experiment_id=#{experimentId} and clazz_name=#{clazzName}")
     void updateIsGroupStatus(Integer experimentId, String clazzName);
+    @Select("select * from experiment_record where  experiment_id=#{experimentId} and clazz_name=#{clazzName}")
+    ExperimentRecord getExperimentRecordByClazzNameAndExperimentId(String clazzName, Integer experimentId);
 }

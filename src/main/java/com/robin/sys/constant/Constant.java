@@ -11,4 +11,8 @@ public class Constant {
     public static final String DEFAULT_SUFFIX = ".docx";
     public static final double PREVIE_SCORE_PROPORTION = 0.2;
     public static final double REPORT_SCORE_PROPORTION = 0.8;
+    public static final String ENGINE_IDENTIFY_ZDH = "EngineIdentify/自动化工程认证.docx";
+    public static final String ENGINE_IDENTIFY_WDZ = "EngineIdentify/微电子工程认证.docx";
+    public static final String ENGINE_IDENTIFY_DQ = "EngineIdentify/电气工程认证.docx";
+    public static final String ENGINE_IDENTIFY_CK = "EngineIdentify/测控工程认证.docx";
 }

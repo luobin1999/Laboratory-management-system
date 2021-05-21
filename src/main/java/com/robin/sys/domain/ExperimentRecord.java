@@ -15,6 +15,16 @@ public class ExperimentRecord {
     private Date createDate;
     //是否完成
     private int isFinish;
+    //是否进行分组
+    private Integer isGroup;
+
+    public void setIsGroup(Integer isGroup) {
+        this.isGroup = isGroup;
+    }
+
+    public Integer getIsGroup() {
+        return isGroup;
+    }
 
     public void setIsFinish(int isFinish) {
         this.isFinish = isFinish;
